@@ -26,22 +26,15 @@ msgstr "Leesteken in volle/halve breedte"
 
 #: src/scim_table_imengine.cpp:188
 msgid "The status of the current input method. Click to change it."
-msgstr ""
-"De status van de nu gebruikte invoer-methode. Klik hierop om deze te "
-"veranderen."
+msgstr "De status van de nu gebruikte invoer-methode. Klik hierop om deze te veranderen."
 
 #: src/scim_table_imengine.cpp:189
 msgid "The input mode of the letters. Click to toggle between half and full."
-msgstr ""
-"Invoer-methode voor Latijnse letters. Klik hier om te wisselen tussen volle "
-"en halve letterbreedte."
+msgstr "Invoer-methode voor Latijnse letters. Klik hier om te wisselen tussen volle en halve letterbreedte."
 
 #: src/scim_table_imengine.cpp:190
-msgid ""
-"The input mode of the puncutations. Click to toggle between half and full."
-msgstr ""
-"Invoer-methode voor leestekens.Klik hier om te wisselen tussen volle en "
-"halve breedte."
+msgid "The input mode of the puncutations. Click to toggle between half and full."
+msgstr "Invoer-methode voor leestekens.Klik hier om te wisselen tussen volle en halve breedte."
 
 #: src/scim_table_imengine.cpp:302
 msgid ""
@@ -110,8 +103,7 @@ msgid ""
 msgstr ""
 "  Control+Down:\n"
 "    De opzoek-cursor naar de volgende kortere uitdrukking verplaatsen.\n"
-"    Alleen beschikbaar, wanneer \"lange uitdrukkingen eerst\" ingeschakeld "
-"is.\n"
+"    Alleen beschikbaar, wanneer \"lange uitdrukkingen eerst\" ingeschakeld is.\n"
 "\n"
 
 #: src/scim_table_imengine.cpp:315
@@ -123,8 +115,7 @@ msgid ""
 msgstr ""
 "  Control+up:\n"
 "    De opzoek-cursor naar de volgende vorige uitdrukking verplaatsen.\n"
-"    Alleen beschikbaar, wanneer \"lange uitdrukkingen eerst\" ingeschakeld "
-"is.\n"
+"    Alleen beschikbaar, wanneer \"lange uitdrukkingen eerst\" ingeschakeld is.\n"
 "\n"
 
 #: src/scim_table_imengine.cpp:317
@@ -151,11 +142,9 @@ msgid ""
 msgstr ""
 "Hoe een uitdrukking toevoegen:\n"
 "     Voer de uitdrukking in zoals normaal en druk dan op \n"
-"  de sneltoets. Een aanwijzing verschijnt, en een toets kan gekozen worden "
-"voor deze uitdrukking. \n"
+"  de sneltoets. Een aanwijzing verschijnt, en een toets kan gekozen worden voor deze uitdrukking. \n"
 "    Kies een toets en druk daarna op de spatiebalk.\n"
-"  Een aanwijzing verschijnt, om te melden, of de uitdrukking met succes is "
-"toegevoegd.\n"
+"  Een aanwijzing verschijnt, om te melden, of de uitdrukking met succes is toegevoegd.\n"
 
 #: src/scim_table_imengine.cpp:838
 msgid "En"
@@ -163,8 +152,7 @@ msgstr "NL"
 
 #: src/scim_table_imengine.cpp:1688
 msgid "Input a key string for phrase: "
-msgstr ""
-"Toets een toetsen-reeks die met deze uitdrukking verbonden moet worden: "
+msgstr "Toets een toetsen-reeks die met deze uitdrukking verbonden moet worden: "
 
 #: src/scim_table_imengine.cpp:1690
 msgid "Success."
@@ -198,8 +186,7 @@ msgstr ""
 "  -no\t\tbewaar de nieuwe tabel niet\n"
 "  -if ifreq\tlaad de frequenties van de uitdrukkingen van dit bestand\n"
 "  -of ofreq\tbewaar de frequenties van de uitdrukkingen naar dit bestand\n"
-"  -s file\tgeef de bron-bestand op waaruit de leeftijd van de uitdrukkingen "
-"gelezen worden.\n"
+"  -s file\tgeef de bron-bestand op waaruit de leeftijd van de uitdrukkingen gelezen worden.\n"
 
 #: src/scim_make_table.cpp:162
 msgid "option -no cannot be used with -o\n"
@@ -267,9 +254,7 @@ msgstr "Kies een toets-combinatie voor leetekens in volle breedte"
 msgid ""
 "The key events to switch full/half width punctuation input mode. Click on "
 "the button on the right to edit it."
-msgstr ""
-"Toets-combinatie, waarmee tussen de invoer van leestekens in volle en halve "
-"breedte gewisseld wordt. Klik om te veranderen op de rechter muisknop."
+msgstr "Toets-combinatie, waarmee tussen de invoer van leestekens in volle en halve breedte gewisseld wordt. Klik om te veranderen op de rechter muisknop."
 
 #: src/scim_table_imengine_setup.cpp:228
 msgid "Full width _letter:"
@@ -283,9 +268,7 @@ msgstr "Kies de toets-combinatie voor letters in volle breedte"
 msgid ""
 "The key events to switch full/half width letter input mode. Click on the "
 "button on the right to edit it."
-msgstr ""
-"Toets-combinatie, waarmee tussen de invoer van letters in volle en halve "
-"breedte gewisseld word. Klik om te veranderen op de rechter muisknop."
+msgstr "Toets-combinatie, waarmee tussen de invoer van letters in volle en halve breedte gewisseld word. Klik om te veranderen op de rechter muisknop."
 
 #: src/scim_table_imengine_setup.cpp:245
 msgid "_Mode switch:"
@@ -299,9 +282,7 @@ msgstr "Kies de toets-combinatie voor de modus-wissel"
 msgid ""
 "The key events to change current input mode. Click on the button on the "
 "right to edit it."
-msgstr ""
-"Toets-combinatie, waarmee de huidige invoer-mode wordt gewisseld. Klik om te "
-"veranderen op de rechter muisknop."
+msgstr "Toets-combinatie, waarmee de huidige invoer-mode wordt gewisseld. Klik om te veranderen op de rechter muisknop."
 
 #: src/scim_table_imengine_setup.cpp:265
 msgid "_Add phrase:"
@@ -315,9 +296,7 @@ msgstr "Kies de toets-combinatie voor het toevoegen van een uitdrukking."
 msgid ""
 "The key events to add a new user defined phrase. Click on the button on the "
 "right to edit it."
-msgstr ""
-"Toets-combinatie waarmee een nieuwe uitdrukking toegevoegd kan worden. Klik "
-"om te veranderen op de rechter muisknop."
+msgstr "Toets-combinatie waarmee een nieuwe uitdrukking toegevoegd kan worden. Klik om te veranderen op de rechter muisknop."
 
 #: src/scim_table_imengine_setup.cpp:283
 msgid "_Delete phrase:"
@@ -331,9 +310,7 @@ msgstr "Kies de toets-combinatie voor het verwijderen van een uitdrukking."
 msgid ""
 "The key events to delete a selected phrase. Click on the button on the right "
 "to edit it."
-msgstr ""
-"Toets-combinatie, waarmee de gekozen uitdrukking verwijderd wordt. Klik om "
-"te veranderen op de rechter muisknop."
+msgstr "Toets-combinatie, waarmee de gekozen uitdrukking verwijderd wordt. Klik om te veranderen op de rechter muisknop."
 
 #: src/scim_table_imengine_setup.cpp:414
 msgid "Show _prompt"
@@ -359,41 +336,31 @@ msgstr "_Lange uitdrukkingen eerst tonen"
 msgid ""
 "If this option is checked, the key prompt of the currently selected phrase "
 "will be shown."
-msgstr ""
-"Wanneer deze optie is gekozen, wordt de lettervolgorde van de gekozen "
-"uitdrukking getoond."
+msgstr "Wanneer deze optie is gekozen, wordt de lettervolgorde van de gekozen uitdrukking getoond."
 
 #: src/scim_table_imengine_setup.cpp:463
 msgid ""
 "If this option is checked, the remaining keystrokes of the phraseswill be "
 "shown on the lookup table."
-msgstr ""
-"Wanneer deze optie is gekozen, worden de overgebleven tekens van de "
-"uitdrukking in de opzoek-tabel getoond."
+msgstr "Wanneer deze optie is gekozen, worden de overgebleven tekens van de uitdrukking in de opzoek-tabel getoond."
 
 #: src/scim_table_imengine_setup.cpp:468
 msgid ""
 "If this option is checked, the user table will be stored with binary format, "
 "this will increase the loading speed."
-msgstr ""
-"Wanneer deze optie is gekozen, wordt de gebruikers-tabel in binair-formaat "
-"opgeslagen, dit verhoogt de laad-snelheid."
+msgstr "Wanneer deze optie is gekozen, wordt de gebruikers-tabel in binair-formaat opgeslagen, dit verhoogt de laad-snelheid."
 
 #: src/scim_table_imengine_setup.cpp:473
 msgid ""
 "If this option is checked, the user defined phrases will be shown in front "
 "of others. "
-msgstr ""
-"Wanneer deze optie is gekozen, worden de door de gebruiker opgegeven "
-"uitdrukkingen eerst getoond."
+msgstr "Wanneer deze optie is gekozen, worden de door de gebruiker opgegeven uitdrukkingen eerst getoond."
 
 #: src/scim_table_imengine_setup.cpp:478
 msgid ""
 "If this option is checked, the longer phrase will be shown in front of "
 "others. "
-msgstr ""
-"Wanneer deze optie is gekozen, worden de langere uitdrukkingen eerst "
-"getoond. "
+msgstr "Wanneer deze optie is gekozen, worden de langere uitdrukkingen eerst getoond. "
 
 #: src/scim_table_imengine_setup.cpp:573
 msgid "The installed tables:"
@@ -469,9 +436,7 @@ msgstr "Kieshet tabel-bestand om te installeren."
 
 #: src/scim_table_imengine_setup.cpp:1273
 msgid "Failed to install the table! It's already in table file directory."
-msgstr ""
-"Installatie van de tabel is mislukt! Deze is al in de map met tabel-"
-"bestanden."
+msgstr "Installatie van de tabel is mislukt! Deze is al in de map met tabel-bestanden."
 
 #: src/scim_table_imengine_setup.cpp:1292
 msgid "Failed to load the table file!"
@@ -481,33 +446,25 @@ msgstr "Het laden van de tabel-bestand is mislukt!"
 msgid ""
 "Failed to install the table! Another version of this table was already "
 "installed."
-msgstr ""
-"Installatie van de tabel is mislukt! Een andere versie van deze tabel is al "
-"geïnstalleerd."
+msgstr "Installatie van de tabel is mislukt! Een andere versie van deze tabel is al geïnstalleerd."
 
 #: src/scim_table_imengine_setup.cpp:1326
 msgid ""
 "Another version of this table was already installed. Do you want to replace "
 "it with the new one?"
-msgstr ""
-"Een andere versie van deze tabel is al geïnstalleerd.Wilt U deze vervangen "
-"door de nieuwe tabel?"
+msgstr "Een andere versie van deze tabel is al geïnstalleerd.Wilt U deze vervangen door de nieuwe tabel?"
 
 #: src/scim_table_imengine_setup.cpp:1352
 msgid ""
 "Failed to install the table! A table with the same file name was already "
 "installed."
-msgstr ""
-"Installatie van de tabel is mislukt! Een tabel met dezelfde bestandsnaam is "
-"al geïnstalleerd."
+msgstr "Installatie van de tabel is mislukt! Een tabel met dezelfde bestandsnaam is al geïnstalleerd."
 
 #: src/scim_table_imengine_setup.cpp:1366
 msgid ""
 "A table with the same file name was already installed. Do you want to "
 "overwrite it?"
-msgstr ""
-"Een tabel met dezelfde bestandsnaam is al geïnstalleerd. Wilt U deze "
-"overschrijven?"
+msgstr "Een tabel met dezelfde bestandsnaam is al geïnstalleerd. Wilt U deze overschrijven?"
 
 #: src/scim_table_imengine_setup.cpp:1385
 #, c-format
@@ -562,9 +519,7 @@ msgstr "Doorgeef-toetsen:"
 
 #: src/scim_table_imengine_setup.cpp:1517
 msgid "The key strokes to commit converted result to client."
-msgstr ""
-"Toetscombinatie om het geconverteerde resultaat door te geven aan het "
-"programma."
+msgstr "Toetscombinatie om het geconverteerde resultaat door te geven aan het programma."
 
 #: src/scim_table_imengine_setup.cpp:1523
 #: src/scim_table_imengine_setup.cpp:1524
@@ -573,9 +528,7 @@ msgstr "Toetscombinatie voor direkte doorgave aan programma:"
 
 #: src/scim_table_imengine_setup.cpp:1525
 msgid "The key strokes to forward inputted string to client."
-msgstr ""
-"Toetscombinatie om de tekenreeks zonder omzetting door te geven aan het "
-"programma."
+msgstr "Toetscombinatie om de tekenreeks zonder omzetting door te geven aan het programma."
 
 #: src/scim_table_imengine_setup.cpp:1531
 #: src/scim_table_imengine_setup.cpp:1532
@@ -684,9 +637,7 @@ msgstr "Multi jokerteken:"
 msgid ""
 "The multi wildcard chars of this table. These chars can be used to match one "
 "or more arbitrary chars."
-msgstr ""
-"Tekens, die als jokerteken in deze tabel gebruikt kunnen worden, deze tekens "
-"kunnen gebruikt worden om een willekeurige teken te laten overeenkomen."
+msgstr "Tekens, die als jokerteken in deze tabel gebruikt kunnen worden, deze tekens kunnen gebruikt worden om een willekeurige teken te laten overeenkomen."
 
 #: src/scim_table_imengine_setup.cpp:1780
 msgid "Single Wildcard Char:"
@@ -716,9 +667,7 @@ msgstr "Toon de lettervolgorde:"
 
 #: src/scim_table_imengine_setup.cpp:1870
 msgid "If true then the key prompts will be shown instead of the raw keys."
-msgstr ""
-"Wanneer deze optie is gekozen, wordt de lettervolgorde getoond en niet als "
-"ruwe invoer-data."
+msgstr "Wanneer deze optie is gekozen, wordt de lettervolgorde getoond en niet als ruwe invoer-data."
 
 #: src/scim_table_imengine_setup.cpp:1875
 msgid "Auto Select:"
@@ -728,9 +677,7 @@ msgstr "Automatisch selecteren:"
 msgid ""
 "If true then the first candidate phrase will be selected automatically when "
 "inputing the next key."
-msgstr ""
-"Wanneer deze optie is gekozen, wordt de eerst mogelijke uitdrukking "
-"automatisch gekozen, wanneer de volgende toets wordt ingedrukt."
+msgstr "Wanneer deze optie is gekozen, wordt de eerst mogelijke uitdrukking automatisch gekozen, wanneer de volgende toets wordt ingedrukt."
 
 #: src/scim_table_imengine_setup.cpp:1899
 msgid "Auto Wildcard:"
@@ -740,9 +687,7 @@ msgstr "Automatische Jokerteken:"
 msgid ""
 "If true then a multi wildcard char will be append to the end of inputted key "
 "string when searching phrases."
-msgstr ""
-"Indien waar, wordt automatisch een multi-jokerteken aan het eind van de "
-"ingetoetste-reeks toegevoegd, wanneer een passende uitdrukking gezocht wordt."
+msgstr "Indien waar, wordt automatisch een multi-jokerteken aan het eind van de ingetoetste-reeks toegevoegd, wanneer een passende uitdrukking gezocht wordt."
 
 #: src/scim_table_imengine_setup.cpp:1923
 msgid "Auto Commit:"
@@ -752,9 +697,7 @@ msgstr "Automatisch doorgeven:"
 msgid ""
 "If true then the converted result string will be committed to client "
 "automatically."
-msgstr ""
-"Indien gekozen, wordt de geconverteerde resultaat automatisch aan het "
-"programma doorgegeven."
+msgstr "Indien gekozen, wordt de geconverteerde resultaat automatisch aan het programma doorgegeven."
 
 #: src/scim_table_imengine_setup.cpp:1947
 msgid "Auto Split:"
@@ -764,9 +707,7 @@ msgstr "Automatisch delen:"
 msgid ""
 "If true then the inputted key string will be splitted automatically when "
 "necessary."
-msgstr ""
-"Indien gekozen, wordt de ingevoerde tekenreeks (indien nodig) automatisch "
-"gedeeld om een geschikte oplossing te vinden."
+msgstr "Indien gekozen, wordt de ingevoerde tekenreeks (indien nodig) automatisch gedeeld om een geschikte oplossing te vinden."
 
 #: src/scim_table_imengine_setup.cpp:1971
 msgid "Discard Invalid Key:"
@@ -777,9 +718,8 @@ msgid ""
 "If true then the invalid key will be discarded automatically.This option is "
 "only valid when Auto Select and Auto Commit is true."
 msgstr ""
-"Wanneer deze optie is gekozen, worden ongeldige toets-aanslagen automatisch "
-"verwijderd. Deze optie wordt alleen uitgevoerd, wanneer »automatisch kiezen« "
-"en »Automatische doorgave« gekozen zijn."
+"Wanneer deze optie is gekozen, worden ongeldige toets-aanslagen automatisch verwijderd. Deze optie wordt alleen uitgevoerd, wanneer »automatisch kiezen« en »Automatische doorgave« "
+"gekozen zijn."
 
 #: src/scim_table_imengine_setup.cpp:1995
 msgid "Dynamic Adjust:"
@@ -787,9 +727,7 @@ msgstr "Dynamisch aanpassen:"
 
 #: src/scim_table_imengine_setup.cpp:2013
 msgid "If true then the phrases' frequencies will be adjusted dynamically."
-msgstr ""
-"Wanneer deze optie is gekozen, worden de gebruiks-frequenties van de "
-"uitdrukkingen automatisch aangepast."
+msgstr "Wanneer deze optie is gekozen, worden de gebruiks-frequenties van de uitdrukkingen automatisch aangepast."
 
 #: src/scim_table_imengine_setup.cpp:2019
 msgid "Auto Fill Preedit Area:"
@@ -799,10 +737,7 @@ msgstr "Automatisch aanvullen:"
 msgid ""
 "If true then the preedit string will be filled up with the current candiate "
 "phrase automatically.This option is only valid when Auto Select is TRUE."
-msgstr ""
-"Wanneer deze optie is gekozen, wordt de uitgekozen uitdrukking automatisch "
-"bij de cursor getoond. Dit is alleen mogelijk, wanneer »automatisch kiezen« "
-"ingeschakeld is."
+msgstr "Wanneer deze optie is gekozen, wordt de uitgekozen uitdrukking automatisch bij de cursor getoond. Dit is alleen mogelijk, wanneer »automatisch kiezen« ingeschakeld is."
 
 #: src/scim_table_imengine_setup.cpp:2044
 msgid "Always Show Lookup Table:"
@@ -815,11 +750,8 @@ msgid ""
 "If Auto Fill is false, then this option will be no effect, and always be "
 "true."
 msgstr ""
-"Wanneer deze optie is gekozen, wordt de opzoek-tabel altijd getoond, wanneer "
-"een geschikte uitdrukking beschikbaar is. Anders wordt de opzoek-tabel "
-"alleen getoond wanneer het nodig is.\n"
-"Als »automatisch aanvullen« uitgeschakeld is, kan deze optie niet "
-"uitgeschakeld worden."
+"Wanneer deze optie is gekozen, wordt de opzoek-tabel altijd getoond, wanneer een geschikte uitdrukking beschikbaar is. Anders wordt de opzoek-tabel alleen getoond wanneer het nodig is.\n"
+"Als »automatisch aanvullen« uitgeschakeld is, kan deze optie niet uitgeschakeld worden."
 
 #: src/scim_table_imengine_setup.cpp:2071
 msgid "Default Full Width Punct:"
@@ -827,9 +759,7 @@ msgstr "Leestekens in volle breedte als standaard:"
 
 #: src/scim_table_imengine_setup.cpp:2089
 msgid "If true then full width punctuations will be inputted by default."
-msgstr ""
-"Wanneer deze optie is gekozen, worden de leestekens standaard in volle "
-"breedte ingevoerd."
+msgstr "Wanneer deze optie is gekozen, worden de leestekens standaard in volle breedte ingevoerd."
 
 #: src/scim_table_imengine_setup.cpp:2094
 msgid "Default Full Width Letter:"
@@ -837,9 +767,7 @@ msgstr "Letters in volle breedte als standaard:"
 
 #: src/scim_table_imengine_setup.cpp:2112
 msgid "If true then full width letters will be inputted by default."
-msgstr ""
-"Wanneer deze optie is gekozen, worden letters standaard in volle breedte "
-"ingevoerd."
+msgstr "Wanneer deze optie is gekozen, worden letters standaard in volle breedte ingevoerd."
 
 #: src/scim_table_imengine_setup.cpp:2262
 msgid "Invalid icon file."
