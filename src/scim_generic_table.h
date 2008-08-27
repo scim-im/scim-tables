@@ -33,6 +33,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <cstring>
 #include <stdio.h>
 
 #define SCIM_GT_MAX_KEY_LENGTH           63
