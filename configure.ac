@@ -173,6 +173,7 @@ AC_CONFIG_FILES([Makefile  intl/Makefile po/Makefile.in m4/Makefile
 		 tables/ru/Makefile
 		 tables/ru/Yawerty.txt
 		 tables/ru/Translit.txt
+		 tables/ru/RussianTraditional.txt
 		 tables/uk/Makefile
 		 tables/uk/Ukrainian-Translit.txt
 		 tables/additional/Makefile
