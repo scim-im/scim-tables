@@ -1,3 +1,6 @@
+2008-09-15      12:28   yurivict
+	* skim/bootstrap: -replaced cvs->svn in admin directory checkout
+
 2008-02-24 01:17  ryo-dairiki
 
 	* Makefile.am, configure.ac, po/.cvsignore, po/nl.po,
