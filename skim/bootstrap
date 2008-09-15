@@ -11,7 +11,7 @@ if [ ! -d "admin" ]; then
 fi
 
 if [ ! -d "admin" ]; then
-  echo -e "ERROR: missing admin directory\n       please see README on how to bootstrap from CVS"
+  echo -e "ERROR: missing admin directory\n       please see README on how to bootstrap from SVN"
   exit
 fi
 
