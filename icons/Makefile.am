@@ -53,6 +53,7 @@ INST_ICONS		= table.png	\
 			  Punjabi-inscript.png	\
 			  Punjabi-jhelum.png	\
 			  Punjabi-phonetic.png	\
+			  RussianTraditional.png        \
 			  Simplex.png   \
 			  Tamil-inscript.png	\
 			  Tamil-phonetic.png	\

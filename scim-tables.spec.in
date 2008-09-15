@@ -224,11 +224,13 @@ rm -f $RPM_BUILD_ROOT/@KDEDIR@/lib/kde*/*.{a,la}
 @SCIM_TABLEDIR@/Punjabi-inscript.bin
 @SCIM_TABLEDIR@/Punjabi-jhelum.bin
 @SCIM_TABLEDIR@/Punjabi-phonetic.bin
+@SCIM_TABLEDIR@/RussianTraditional.bin
 @SCIM_TABLEDIR@/Tamil-inscript.bin
 @SCIM_TABLEDIR@/Tamil-phonetic.bin
 @SCIM_TABLEDIR@/Tamil-remington.bin
 @SCIM_TABLEDIR@/Telugu-inscript.bin
 @SCIM_TABLEDIR@/Thai.bin
+@SCIM_TABLEDIR@/Translit.bin
 @SCIM_TABLEDIR@/Viqr.bin
 @SCIM_TABLEDIR@/Yawerty.bin
 
@@ -249,6 +251,7 @@ rm -f $RPM_BUILD_ROOT/@KDEDIR@/lib/kde*/*.{a,la}
 @SCIM_ICONDIR@/Punjabi-inscript.png
 @SCIM_ICONDIR@/Punjabi-jhelum.png
 @SCIM_ICONDIR@/Punjabi-phonetic.png
+@SCIM_ICONDIR@/RussianTraditional.png
 @SCIM_ICONDIR@/Tamil-inscript.png
 @SCIM_ICONDIR@/Tamil-phonetic.png
 @SCIM_ICONDIR@/Tamil-remington.png

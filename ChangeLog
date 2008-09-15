@@ -1,3 +1,8 @@
+2008-09-15      14:29   yurivict
+	* icons/RussianTraditional.png, tables/ru/RussianTraditional.txt.in,
+	  tables/ru/Makefile.ac, configure.ac, scim-tables.spec.in:
+	  - added RussianTraditional -- same as RussianTypewriter -- keyboard.
+
 2008-09-15      12:28   yurivict
 	* skim/bootstrap: -replaced cvs->svn in admin directory checkout
 
