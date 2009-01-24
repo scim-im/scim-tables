@@ -1,3 +1,18 @@
+2008-12-22 14:59  ryo-dairiki
+
+	* po/ko.po, po/nl.po, tables/zh/Cantonese.txt.in: - Update the
+	  order of characters in zh/Cantonese.txt.in.
+
+2008-12-20 04:19  ryo-dairiki
+
+	* ChangeLog, configure.ac, skim/configure.in.in: - Update
+	  ChangeLog.
+
+2008-12-20 04:13  ryo-dairiki
+
+	* tables/ml/Malayalam-inscript.txt.in: - Fix "scim-Bugs-2418435",
+	  Malayalam inscript layout problem.
+
 2008-09-15 21:44  yurivict
 
 	* ChangeLog, configure.ac, icons/Makefile.am,
