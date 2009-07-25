@@ -18,5 +18,5 @@
 MAINTAINERCLEANFILES 	= Makefile.in
 CLEANFILES		= *.bak 
 
-SUBDIRS 		= additional am ar bn gu hi ja kn ko ml ne pa ru ta te th vi zh uk
+SUBDIRS 		= additional am ar bn gr gu he hi ja kn ko ml mr ne pa ru ta te th vi zh uk
 
