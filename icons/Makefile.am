@@ -38,6 +38,7 @@ INST_ICONS		= table.png	\
 			  Hanja.png     \
 			  Hindi-inscript.png	\
 			  Hindi-phonetic.png	\
+			  Hindi-remington.png   \
 			  HIRAGANA.png  \
 			  IPA-X-SAMPA.png  \
 			  Jyutping.png  \
@@ -47,11 +48,13 @@ INST_ICONS		= table.png	\
 			  LaTeX.png     \
 			  Malayalam-inscript.png	\
 			  Malayalam-phonetic.png	\
+			  Marathi-remington.png   \
 			  Nepali.png    \
 			  Nippon.png    \
 			  Punjabi-inscript.png	\
 			  Punjabi-jhelum.png	\
 			  Punjabi-phonetic.png	\
+			  Punjabi-remington.png \
 			  Quick.png	\
 			  RussianTraditional.png        \
 			  Simplex.png   \
@@ -60,9 +63,11 @@ INST_ICONS		= table.png	\
 			  Tamil-phonetic.png	\
 			  Tamil-remington.png   \
 			  Telugu-inscript.png	\
+			  Tamil-tamil99.png
 			  Thai.png	\
 			  Translit.png	\
 			  Ukrainian-Translit.png	\
+			  Uyghur.png	\
 			  Viqr.png      \
 			  Wu.png        \
 			  Wubi.png      \
