@@ -58,12 +58,13 @@ INST_ICONS		= table.png	\
 			  Quick.png	\
 			  RussianTraditional.png        \
 			  Simplex.png   \
+			  SmartCangJie6.png    \
 			  Stroke5.png	\
 			  Tamil-inscript.png	\
 			  Tamil-phonetic.png	\
 			  Tamil-remington.png   \
 			  Telugu-inscript.png	\
-			  Tamil-tamil99.png
+			  Tamil-tamil99.png   \
 			  Thai.png	\
 			  Translit.png	\
 			  Ukrainian-Translit.png	\
