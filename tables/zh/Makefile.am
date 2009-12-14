@@ -22,6 +22,7 @@ scim_tables_source = \
 		CangJie.txt.in		\
 		CangJie3.txt.in		\
 		CangJie5.txt.in		\
+		SmartCangJie6.txt.in	\
 		Cantonese.txt.in	\
 		CantonHK.txt.in		\
 		CNS11643.txt.in		\
@@ -44,6 +45,7 @@ scim_tables = \
 		CangJie.txt		\
 		CangJie3.txt		\
 		CangJie5.txt		\
+		SmartCangJie6.txt	\
 		Cantonese.txt		\
 		CantonHK.txt		\
 		CNS11643.txt		\
@@ -67,6 +69,7 @@ scim_tables_bin_DATA = \
 		CangJie.bin	\
 		CangJie3.bin	\
 		CangJie5.bin	\
+		SmartCangJie6.bin\
 		Cantonese.bin	\
 		CantonHK.bin	\
 		CNS11643.bin	\
