@@ -55,11 +55,11 @@ UUID = 27d7c6f0-b552-4dd1-89ee-c0e651558e93
 ### A unique number indicates the version of this file.
 ### For example the last modified date of this file.
 ### This number must be less than 2^32.
-SERIAL_NUMBER = 20091212
+SERIAL_NUMBER = 20091220
 
-### ICON = @SCIM_ICONDIR@/SmartCangJie6.png
-ICON = /usr/share/scim/icons/SmartCangJie6.png
-### ICON = scj6.svg
+ICON = @SCIM_ICONDIR@/SmartCangJie6.png
+### ICON = /usr/share/scim/icons/SmartCangJie6.png
+### ICON = scj6.svg 
 
 ### The default name of this table
 NAME = Smart CangJie 6
