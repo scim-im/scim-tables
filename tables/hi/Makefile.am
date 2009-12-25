@@ -27,7 +27,7 @@ scim_tables	     = Hindi-inscript.txt\
 scim_tables_bindir = $(SCIM_TABLEDIR)
 scim_tables_bin_DATA = Hindi-inscript.bin\
 			Hindi-phonetic.bin\
-			Hindi-remington.BIN
+			Hindi-remington.bin
 
 
 EXTRA_DIST = $(scim_tables_source)
