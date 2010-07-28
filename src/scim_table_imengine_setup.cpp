@@ -461,7 +461,7 @@ create_generic_page ()
 
     gtk_tooltips_set_tip (__widget_tooltips, __widget_show_key_hint,
                           _("If this option is checked, "
-                            "the remaining keystrokes of the phrases"
+                           "the remaining keystrokes of the phrases "
                             "will be shown on the lookup table."), NULL);
 
     gtk_tooltips_set_tip (__widget_tooltips, __widget_user_table_binary,
@@ -1914,8 +1914,8 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
                           0);
  
         gtk_tooltips_set_tip (tooltips, toggle_auto_wildcard,
-                              _("If true then a multi wildcard char will be append to "
-                                "the end of inputted key string when searching phrases."), NULL);
+                             _("If true then a multi wildcard char will be appended to "
+                                "the end of the inputted key string when searching phrases."), NULL);
 
         ++ row;
 
@@ -1963,7 +1963,7 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
  
         gtk_tooltips_set_tip (tooltips, toggle_auto_split,
                               _("If true then the inputted key string will be "
-                                "splitted automatically when necessary."), NULL);
+                                "split automatically when necessary."), NULL);
 
         ++ row;
 

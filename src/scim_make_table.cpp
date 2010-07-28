@@ -135,7 +135,7 @@ int main (int argc, char * argv [])
         scim_get_locale_encoding (scim_get_current_locale ()).c_str ());
 
     if (argc < 2) {
-        std::cerr    << _("Too few argument!\n"
+        std::cerr    << _("Too few arguments!\n"
                 "Usage:\n"
                 "  scim-make-table <table_file> [options]\n\n"
                 "  table_file\tthe table file for table module\n"
