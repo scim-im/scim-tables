@@ -17,12 +17,12 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Viqr.txt.in
+scim_tables_source	= Viqr.txt.in
 
-scim_tables          = Viqr.txt
+scim_tables		= Viqr.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Viqr.bin
+scim_tables_bin_DATA	= Viqr.bin
 
 
 EXTRA_DIST = $(scim_tables_source)
