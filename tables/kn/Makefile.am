@@ -17,12 +17,14 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Kannada-inscript.txt.in Kannada-kgp.txt.in
-scim_tables	     = Kannada-inscript.txt Kannada-kgp.txt
+scim_tables_source	= Kannada-inscript.txt.in\
+			Kannada-kgp.txt.in
+scim_tables		= Kannada-inscript.txt\
+			Kannada-kgp.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Kannada-inscript.bin Kannada-kgp.bin
-
+scim_tables_bin_DATA	= Kannada-inscript.bin\
+			Kannada-kgp.bin
 
 EXTRA_DIST = $(scim_tables_source)
 CLEANFILES = $(scim_tables_bin_DATA) *.bak

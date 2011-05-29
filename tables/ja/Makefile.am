@@ -17,11 +17,17 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source = HIRAGANA.txt.in KATAKANA.txt.in Nippon.txt.in
-scim_tables = HIRAGANA.txt KATAKANA.txt Nippon.txt
+scim_tables_source	= HIRAGANA.txt.in\
+			KATAKANA.txt.in\
+			Nippon.txt.in
+scim_tables		= HIRAGANA.txt\
+			KATAKANA.txt\
+			Nippon.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = HIRAGANA.bin KATAKANA.bin Nippon.bin
+scim_tables_bin_DATA 	= HIRAGANA.bin\
+			KATAKANA.bin\
+			Nippon.bin
 
 EXTRA_DIST = $(scim_tables_source) kanjidic_doc.html kanjidic_licence.html kanjidic-permission-to-use-for-scim
 CLEANFILES = $(scim_tables_bin_DATA) *.bak

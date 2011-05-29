@@ -17,8 +17,8 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = greekpoly.txt.in
-scim_tables	     = greekpoly.txt
+scim_tables_source	= greekpoly.txt.in
+scim_tables		= greekpoly.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
 scim_tables_bin_DATA = greekpoly.bin

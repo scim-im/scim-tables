@@ -17,10 +17,10 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Hindi-inscript.txt.in\
+scim_tables_source	= Hindi-inscript.txt.in\
 			Hindi-phonetic.txt.in\
 			Hindi-remington.txt.in
-scim_tables	     = Hindi-inscript.txt\
+scim_tables		= Hindi-inscript.txt\
 			Hindi-phonetic.txt\
 			Hindi-remington.txt
 

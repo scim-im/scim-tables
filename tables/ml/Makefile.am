@@ -17,11 +17,14 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Malayalam-inscript.txt.in Malayalam-phonetic.txt.in
-scim_tables	     = Malayalam-inscript.txt Malayalam-phonetic.txt
+scim_tables_source	= Malayalam-inscript.txt.in\
+			Malayalam-phonetic.txt.in
+scim_tables		= Malayalam-inscript.txt\
+			Malayalam-phonetic.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Malayalam-inscript.bin Malayalam-phonetic.bin
+scim_tables_bin_DATA	= Malayalam-inscript.bin\
+			Malayalam-phonetic.bin
 
 
 EXTRA_DIST = $(scim_tables_source)

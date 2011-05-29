@@ -17,9 +17,9 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Arabic.txt.in
+scim_tables_source	= Arabic.txt.in
 
-scim_tables          = Arabic.txt
+scim_tables		= Arabic.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
 scim_tables_bin_DATA = Arabic.bin
@@ -31,5 +31,5 @@ CLEANFILES = $(scim_tables_bin_DATA) *.bak
 DISTCLEANFILES = $(scim_tables)
 
 .txt.bin:
-	$(SCIM_MAKE_TABLE) $< -b -o $@
+		$(SCIM_MAKE_TABLE) $< -b -o $@
 

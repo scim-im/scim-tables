@@ -17,12 +17,12 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Thai.txt.in
+scim_tables_source	= Thai.txt.in
 
-scim_tables          = Thai.txt
+scim_tables		= Thai.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Thai.bin
+scim_tables_bin_DATA	= Thai.bin
 
 
 EXTRA_DIST = $(scim_tables_source)

@@ -15,8 +15,8 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-MAINTAINERCLEANFILES 	= Makefile.in
+MAINTAINERCLEANFILES	= Makefile.in
 CLEANFILES		= *.bak 
 
-SUBDIRS 		= additional am ar bn gr gu he hi ja kn ko ml mr ne pa ru ta te th vi zh ug uk
+SUBDIRS			= additional am ar bn gr gu he hi ja kn ko ml mr ne pa ru ta te th vi zh ug uk
 

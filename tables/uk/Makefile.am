@@ -17,12 +17,12 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Ukrainian-Translit.txt.in
+scim_tables_source	= Ukrainian-Translit.txt.in
 
-scim_tables          = Ukrainian-Translit.txt
+scim_tables		= Ukrainian-Translit.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Ukrainian-Translit.bin
+scim_tables_bin_DATA	= Ukrainian-Translit.bin
 
 
 EXTRA_DIST = $(scim_tables_source)

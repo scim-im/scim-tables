@@ -17,8 +17,8 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Bengali-probhat.txt.in Bengali-inscript.txt.in
-scim_tables	     = Bengali-probhat.txt Bengali-inscript.txt
+scim_tables_source	= Bengali-probhat.txt.in Bengali-inscript.txt.in
+scim_tables		= Bengali-probhat.txt Bengali-inscript.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
 scim_tables_bin_DATA = Bengali-probhat.bin Bengali-inscript.bin

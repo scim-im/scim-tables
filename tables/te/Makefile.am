@@ -17,11 +17,11 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Telugu-inscript.txt.in
-scim_tables	     = Telugu-inscript.txt
+scim_tables_source	= Telugu-inscript.txt.in
+scim_tables		= Telugu-inscript.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Telugu-inscript.bin
+scim_tables_bin_DATA	= Telugu-inscript.bin
 
 
 EXTRA_DIST = $(scim_tables_source)

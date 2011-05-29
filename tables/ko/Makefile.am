@@ -17,11 +17,17 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source = Hangul.txt.in HangulRomaja.txt.in Hanja.txt.in
-scim_tables = Hangul.txt HangulRomaja.txt Hanja.txt
+scim_tables_source	= Hangul.txt.in\
+			HangulRomaja.txt.in\
+			Hanja.txt.in
+scim_tables		= Hangul.txt\
+			HangulRomaja.txt\
+			Hanja.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Hangul.bin HangulRomaja.bin Hanja.bin
+scim_tables_bin_DATA	= Hangul.bin\
+			HangulRomaja.bin\
+			Hanja.bin
 
 
 EXTRA_DIST = $(scim_tables_source)

@@ -17,8 +17,8 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Gujarati-inscript.txt.in Gujarati-phonetic.txt.in
-scim_tables	     = Gujarati-inscript.txt Gujarati-phonetic.txt
+scim_tables_source	= Gujarati-inscript.txt.in Gujarati-phonetic.txt.in
+scim_tables		= Gujarati-inscript.txt Gujarati-phonetic.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
 scim_tables_bin_DATA = Gujarati-inscript.bin Gujarati-phonetic.bin

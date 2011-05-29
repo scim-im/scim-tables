@@ -17,11 +17,14 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Nepali_Rom.txt.in Nepali_Trad.txt.in
-scim_tables	     = Nepali_Rom.txt Nepali_Trad.txt
+scim_tables_source	= Nepali_Rom.txt.in\
+			Nepali_Trad.txt.in
+scim_tables		= Nepali_Rom.txt\
+			Nepali_Trad.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Nepali_Rom.bin Nepali_Trad.bin
+scim_tables_bin_DATA	= Nepali_Rom.bin\
+			Nepali_Trad.bin
 
 
 EXTRA_DIST = $(scim_tables_source)

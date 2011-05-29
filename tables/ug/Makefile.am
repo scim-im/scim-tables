@@ -17,13 +17,13 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Uyghur-Romanized.txt.in\
+scim_tables_source	= Uyghur-Romanized.txt.in\
 			Uyghur-Standard.txt.in
-scim_tables	     = Uyghur-Romanized.txt\
+scim_tables		= Uyghur-Romanized.txt\
 			Uyghur-Standard.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Uyghur-Romanized.bin\
+scim_tables_bin_DATA	= Uyghur-Romanized.bin\
 			Uyghur-Standard.bin
 
 

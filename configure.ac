@@ -1,8 +1,8 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(scim-tables, 0.5.9, suzhe@tsinghua.org.cn) #do not forget to edit skim/configure.in.in to change the version
+AC_INIT(scim-tables, 0.5.10, suzhe@tsinghua.org.cn) #do not forget to edit skim/configure.in.in to change the version
 AC_CONFIG_SRCDIR([src/scim_table_imengine.h])
 
-SCIM_VERSION=1.4.0
+SCIM_VERSION=1.4.9
 
 AC_SUBST(SCIM_VERSION)
 
@@ -120,6 +120,7 @@ AC_CONFIG_FILES([Makefile  intl/Makefile po/Makefile.in m4/Makefile
 		 tables/gr/greekpoly.txt
 		 tables/gu/Gujarati-inscript.txt
 		 tables/gu/Gujarati-phonetic.txt
+		 tables/gu/Makefile
 		 tables/he/Makefile
 		 tables/he/classicalhebrew.txt
 		 tables/hi/Hindi-inscript.txt

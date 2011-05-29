@@ -17,11 +17,20 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = Punjabi-inscript.txt.in Punjabi-jhelum.txt.in Punjabi-phonetic.txt.in Punjabi-remington.txt.in
-scim_tables	     = Punjabi-inscript.txt Punjabi-jhelum.txt Punjabi-phonetic.txt Punjabi-remington.txt
+scim_tables_source	= Punjabi-inscript.txt.in\
+			Punjabi-jhelum.txt.in\
+			Punjabi-phonetic.txt.in\
+			Punjabi-remington.txt.in
+scim_tables		= Punjabi-inscript.txt\
+			Punjabi-jhelum.txt\
+			Punjabi-phonetic.txt\
+			Punjabi-remington.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = Punjabi-inscript.bin Punjabi-jhelum.bin Punjabi-phonetic.bin Punjabi-remington.bin
+scim_tables_bin_DATA	= Punjabi-inscript.bin\
+			Punjabi-jhelum.bin\
+			Punjabi-phonetic.bin\
+			Punjabi-remington.bin
 
 
 EXTRA_DIST = $(scim_tables_source)

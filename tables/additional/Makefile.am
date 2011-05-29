@@ -17,18 +17,18 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source   = LaTeX.txt.in	\
-		       IPA-X-SAMPA.txt.in	\
-		       IPA-Kirshenbaum.txt.in
+scim_tables_source	= LaTeX.txt.in	\
+			IPA-X-SAMPA.txt.in	\
+			IPA-Kirshenbaum.txt.in
 
-scim_tables          = LaTeX.txt	\
-		       IPA-X-SAMPA.txt	\
-		       IPA-Kirshenbaum.txt 
+scim_tables		= LaTeX.txt	\
+			IPA-X-SAMPA.txt	\
+			IPA-Kirshenbaum.txt 
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
 scim_tables_bin_DATA = LaTeX.bin	\
-		       IPA-X-SAMPA.bin	\
-		       IPA-Kirshenbaum.bin
+			IPA-X-SAMPA.bin	\
+			IPA-Kirshenbaum.bin
 
 
 EXTRA_DIST = $(scim_tables_source)
@@ -37,5 +37,5 @@ CLEANFILES = $(scim_tables_bin_DATA) *.bak
 DISTCLEANFILES = $(scim_tables)
 
 .txt.bin:
-	$(SCIM_MAKE_TABLE) $< -b -o $@
+			$(SCIM_MAKE_TABLE) $< -b -o $@
 
