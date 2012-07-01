@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: http://sourceforge.net/projects/scim\n"
-"POT-Creation-Date: 2006-01-12 17:11+0800\n"
+"POT-Creation-Date: 2012-07-02 02:05+0800\n"
 "PO-Revision-Date: 2007-06-04 21:29+0200\n"
 "Last-Translator: Ronald Stroethoff <stroet43@zonnet.nl>\n"
 "Language-Team: Nederlands\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -175,8 +176,9 @@ msgid "Failed."
 msgstr "Mislukt."
 
 #: src/scim_make_table.cpp:138
+#, fuzzy
 msgid ""
-"Too few argument!\n"
+"Too few arguments!\n"
 "Usage:\n"
 "  scim-make-table <table_file> [options]\n"
 "\n"
@@ -255,15 +257,15 @@ msgstr "Algemene tabel"
 msgid "An IMEngine Module which uses generic table input method file."
 msgstr "Een module voor invoer-methodes, die algemene tabellen gebruikt."
 
-#: src/scim_table_imengine_setup.cpp:211
+#: src/scim_table_imengine_setup.cpp:214
 msgid "Full width _punctuation:"
 msgstr "Leesteken in volle breedte:"
 
-#: src/scim_table_imengine_setup.cpp:213
+#: src/scim_table_imengine_setup.cpp:216
 msgid "Select full width puncutation keys"
 msgstr "Kies een toets-combinatie voor leetekens in volle breedte"
 
-#: src/scim_table_imengine_setup.cpp:215
+#: src/scim_table_imengine_setup.cpp:218
 msgid ""
 "The key events to switch full/half width punctuation input mode. Click on "
 "the button on the right to edit it."
@@ -271,15 +273,15 @@ msgstr ""
 "Toets-combinatie, waarmee tussen de invoer van leestekens in volle en halve "
 "breedte gewisseld wordt. Klik om te veranderen op de rechter muisknop."
 
-#: src/scim_table_imengine_setup.cpp:228
+#: src/scim_table_imengine_setup.cpp:231
 msgid "Full width _letter:"
 msgstr "Letters in volle breedte:"
 
-#: src/scim_table_imengine_setup.cpp:230
+#: src/scim_table_imengine_setup.cpp:233
 msgid "Select full width letter keys"
 msgstr "Kies de toets-combinatie voor letters in volle breedte"
 
-#: src/scim_table_imengine_setup.cpp:232
+#: src/scim_table_imengine_setup.cpp:235
 msgid ""
 "The key events to switch full/half width letter input mode. Click on the "
 "button on the right to edit it."
@@ -287,15 +289,15 @@ msgstr ""
 "Toets-combinatie, waarmee tussen de invoer van letters in volle en halve "
 "breedte gewisseld word. Klik om te veranderen op de rechter muisknop."
 
-#: src/scim_table_imengine_setup.cpp:245
+#: src/scim_table_imengine_setup.cpp:248
 msgid "_Mode switch:"
 msgstr "_Moduswissel:"
 
-#: src/scim_table_imengine_setup.cpp:247
+#: src/scim_table_imengine_setup.cpp:250
 msgid "Select mode switch keys"
 msgstr "Kies de toets-combinatie voor de modus-wissel"
 
-#: src/scim_table_imengine_setup.cpp:249
+#: src/scim_table_imengine_setup.cpp:252
 msgid ""
 "The key events to change current input mode. Click on the button on the "
 "right to edit it."
@@ -303,15 +305,15 @@ msgstr ""
 "Toets-combinatie, waarmee de huidige invoer-mode wordt gewisseld. Klik om te "
 "veranderen op de rechter muisknop."
 
-#: src/scim_table_imengine_setup.cpp:265
+#: src/scim_table_imengine_setup.cpp:268
 msgid "_Add phrase:"
 msgstr "Uitdrukking toevoegen:"
 
-#: src/scim_table_imengine_setup.cpp:267
+#: src/scim_table_imengine_setup.cpp:270
 msgid "Select add phrase keys."
 msgstr "Kies de toets-combinatie voor het toevoegen van een uitdrukking."
 
-#: src/scim_table_imengine_setup.cpp:269
+#: src/scim_table_imengine_setup.cpp:272
 msgid ""
 "The key events to add a new user defined phrase. Click on the button on the "
 "right to edit it."
@@ -319,15 +321,15 @@ msgstr ""
 "Toets-combinatie waarmee een nieuwe uitdrukking toegevoegd kan worden. Klik "
 "om te veranderen op de rechter muisknop."
 
-#: src/scim_table_imengine_setup.cpp:283
+#: src/scim_table_imengine_setup.cpp:286
 msgid "_Delete phrase:"
 msgstr "Uitdrukking verwijderen:"
 
-#: src/scim_table_imengine_setup.cpp:285
+#: src/scim_table_imengine_setup.cpp:288
 msgid "Select delete phrase keys."
 msgstr "Kies de toets-combinatie voor het verwijderen van een uitdrukking."
 
-#: src/scim_table_imengine_setup.cpp:287
+#: src/scim_table_imengine_setup.cpp:290
 msgid ""
 "The key events to delete a selected phrase. Click on the button on the right "
 "to edit it."
@@ -335,27 +337,27 @@ msgstr ""
 "Toets-combinatie, waarmee de gekozen uitdrukking verwijderd wordt. Klik om "
 "te veranderen op de rechter muisknop."
 
-#: src/scim_table_imengine_setup.cpp:414
+#: src/scim_table_imengine_setup.cpp:417
 msgid "Show _prompt"
 msgstr "_prompt tonen"
 
-#: src/scim_table_imengine_setup.cpp:419
+#: src/scim_table_imengine_setup.cpp:422
 msgid "Show key _hint"
 msgstr "_Toon toets-aanwijzing"
 
-#: src/scim_table_imengine_setup.cpp:424
+#: src/scim_table_imengine_setup.cpp:427
 msgid "Save _user table in binary format"
 msgstr "Gebruikers-tabel in _Binairformaat opslaan"
 
-#: src/scim_table_imengine_setup.cpp:429
+#: src/scim_table_imengine_setup.cpp:432
 msgid "Show the u_ser defined phrases first"
 msgstr "Eigen uitdrukkingen eerst tonen"
 
-#: src/scim_table_imengine_setup.cpp:434
+#: src/scim_table_imengine_setup.cpp:437
 msgid "Show the _longer phrases first"
 msgstr "_Lange uitdrukkingen eerst tonen"
 
-#: src/scim_table_imengine_setup.cpp:458
+#: src/scim_table_imengine_setup.cpp:462 src/scim_table_imengine_setup.cpp:487
 msgid ""
 "If this option is checked, the key prompt of the currently selected phrase "
 "will be shown."
@@ -363,15 +365,16 @@ msgstr ""
 "Wanneer deze optie is gekozen, wordt de lettervolgorde van de gekozen "
 "uitdrukking getoond."
 
-#: src/scim_table_imengine_setup.cpp:463
+#: src/scim_table_imengine_setup.cpp:467 src/scim_table_imengine_setup.cpp:492
+#, fuzzy
 msgid ""
-"If this option is checked, the remaining keystrokes of the phraseswill be "
+"If this option is checked, the remaining keystrokes of the phrases will be "
 "shown on the lookup table."
 msgstr ""
 "Wanneer deze optie is gekozen, worden de overgebleven tekens van de "
 "uitdrukking in de opzoek-tabel getoond."
 
-#: src/scim_table_imengine_setup.cpp:468
+#: src/scim_table_imengine_setup.cpp:472 src/scim_table_imengine_setup.cpp:497
 msgid ""
 "If this option is checked, the user table will be stored with binary format, "
 "this will increase the loading speed."
@@ -379,7 +382,7 @@ msgstr ""
 "Wanneer deze optie is gekozen, wordt de gebruikers-tabel in binair-formaat "
 "opgeslagen, dit verhoogt de laad-snelheid."
 
-#: src/scim_table_imengine_setup.cpp:473
+#: src/scim_table_imengine_setup.cpp:477 src/scim_table_imengine_setup.cpp:502
 msgid ""
 "If this option is checked, the user defined phrases will be shown in front "
 "of others. "
@@ -387,7 +390,7 @@ msgstr ""
 "Wanneer deze optie is gekozen, worden de door de gebruiker opgegeven "
 "uitdrukkingen eerst getoond."
 
-#: src/scim_table_imengine_setup.cpp:478
+#: src/scim_table_imengine_setup.cpp:482 src/scim_table_imengine_setup.cpp:507
 msgid ""
 "If this option is checked, the longer phrase will be shown in front of "
 "others. "
@@ -395,89 +398,91 @@ msgstr ""
 "Wanneer deze optie is gekozen, worden de langere uitdrukkingen eerst "
 "getoond. "
 
-#: src/scim_table_imengine_setup.cpp:573
+#: src/scim_table_imengine_setup.cpp:611
 msgid "The installed tables:"
 msgstr "Geïnstalleerde tabellen:"
 
-#: src/scim_table_imengine_setup.cpp:604
+#: src/scim_table_imengine_setup.cpp:642
 msgid "Name"
 msgstr "Naam"
 
-#: src/scim_table_imengine_setup.cpp:625
+#: src/scim_table_imengine_setup.cpp:663
 msgid "Language"
 msgstr "Taal"
 
-#: src/scim_table_imengine_setup.cpp:641
+#: src/scim_table_imengine_setup.cpp:679
 msgid "Type"
 msgstr "Type"
 
-#: src/scim_table_imengine_setup.cpp:657
+#: src/scim_table_imengine_setup.cpp:695
 msgid "File"
 msgstr "Bestand"
 
-#: src/scim_table_imengine_setup.cpp:679
+#: src/scim_table_imengine_setup.cpp:717
 msgid "_Install"
 msgstr "_Installeren"
 
-#: src/scim_table_imengine_setup.cpp:683
+#: src/scim_table_imengine_setup.cpp:722 src/scim_table_imengine_setup.cpp:724
 msgid "Install a new table."
 msgstr "Nieuwe tabel installeren."
 
-#: src/scim_table_imengine_setup.cpp:689
+#: src/scim_table_imengine_setup.cpp:731
 msgid "_Delete"
 msgstr "_Verwijderen"
 
-#: src/scim_table_imengine_setup.cpp:693
+#: src/scim_table_imengine_setup.cpp:736 src/scim_table_imengine_setup.cpp:738
 msgid "Delete the selected table."
 msgstr "Gekozen tabel verwijderen."
 
-#: src/scim_table_imengine_setup.cpp:699
+#: src/scim_table_imengine_setup.cpp:745
 msgid "_Properties"
 msgstr "_Eigenschappen"
 
-#: src/scim_table_imengine_setup.cpp:703
+#: src/scim_table_imengine_setup.cpp:750 src/scim_table_imengine_setup.cpp:752
 msgid "Edit the properties of the selected table."
 msgstr "De eigenschappen van de gekozen tabel bewerken."
 
-#: src/scim_table_imengine_setup.cpp:733
+#: src/scim_table_imengine_setup.cpp:786
 msgid "Generic"
 msgstr "Algemeen"
 
-#: src/scim_table_imengine_setup.cpp:741
+#: src/scim_table_imengine_setup.cpp:794
 msgid "Keyboard"
 msgstr "Toetsenbord"
 
-#: src/scim_table_imengine_setup.cpp:751
+#: src/scim_table_imengine_setup.cpp:804
 msgid "Table Management"
 msgstr "Tabellen beheer"
 
-#: src/scim_table_imengine_setup.cpp:953
+#: src/scim_table_imengine_setup.cpp:1008
+#: src/scim_table_imengine_setup.cpp:1015
 msgid "Select an icon file"
 msgstr "Kies een icoon"
 
-#: src/scim_table_imengine_setup.cpp:1077
+#: src/scim_table_imengine_setup.cpp:1145
 msgid "User"
 msgstr "Gebruiker"
 
-#: src/scim_table_imengine_setup.cpp:1077
+#: src/scim_table_imengine_setup.cpp:1145
 msgid "System"
 msgstr "Systeem"
 
-#: src/scim_table_imengine_setup.cpp:1245
+#: src/scim_table_imengine_setup.cpp:1315
+#: src/scim_table_imengine_setup.cpp:1322
 msgid "Please select the table file to be installed."
 msgstr "Kieshet tabel-bestand om te installeren."
 
-#: src/scim_table_imengine_setup.cpp:1273
+#: src/scim_table_imengine_setup.cpp:1355
 msgid "Failed to install the table! It's already in table file directory."
 msgstr ""
 "Installatie van de tabel is mislukt! Deze is al in de map met tabel-"
 "bestanden."
 
-#: src/scim_table_imengine_setup.cpp:1292
+#: src/scim_table_imengine_setup.cpp:1374
 msgid "Failed to load the table file!"
 msgstr "Het laden van de tabel-bestand is mislukt!"
 
-#: src/scim_table_imengine_setup.cpp:1312
+#: src/scim_table_imengine_setup.cpp:1394
 msgid ""
 "Failed to install the table! Another version of this table was already "
 "installed."
@@ -485,7 +490,7 @@ msgstr ""
 "Installatie van de tabel is mislukt! Een andere versie van deze tabel is al "
 "geïnstalleerd."
 
-#: src/scim_table_imengine_setup.cpp:1326
+#: src/scim_table_imengine_setup.cpp:1408
 msgid ""
 "Another version of this table was already installed. Do you want to replace "
 "it with the new one?"
@@ -493,7 +498,7 @@ msgstr ""
 "Een andere versie van deze tabel is al geïnstalleerd.Wilt U deze vervangen "
 "door de nieuwe tabel?"
 
-#: src/scim_table_imengine_setup.cpp:1352
+#: src/scim_table_imengine_setup.cpp:1434
 msgid ""
 "Failed to install the table! A table with the same file name was already "
 "installed."
@@ -501,7 +506,7 @@ msgstr ""
 "Installatie van de tabel is mislukt! Een tabel met dezelfde bestandsnaam is "
 "al geïnstalleerd."
 
-#: src/scim_table_imengine_setup.cpp:1366
+#: src/scim_table_imengine_setup.cpp:1448
 msgid ""
 "A table with the same file name was already installed. Do you want to "
 "overwrite it?"
@@ -509,178 +514,187 @@ msgstr ""
 "Een tabel met dezelfde bestandsnaam is al geïnstalleerd. Wilt U deze "
 "overschrijven?"
 
-#: src/scim_table_imengine_setup.cpp:1385
+#: src/scim_table_imengine_setup.cpp:1467
 #, c-format
 msgid "Failed to install the table to %s!"
 msgstr "Installatie van de tabel naar %s is mislukt!"
 
-#: src/scim_table_imengine_setup.cpp:1422
+#: src/scim_table_imengine_setup.cpp:1504
 #, c-format
 msgid "Can not delete the file %s!"
 msgstr "Het bestand %s kon niet verwijderd worden!"
 
-#: src/scim_table_imengine_setup.cpp:1433
+#: src/scim_table_imengine_setup.cpp:1515
 msgid "Are you sure to delete this table file?"
 msgstr "Weet U zeker, dat deze tabel-bestand verwijderd moet worden?"
 
-#: src/scim_table_imengine_setup.cpp:1446
+#: src/scim_table_imengine_setup.cpp:1528
 msgid "Failed to delete the table file!"
 msgstr "De tabel-bestand kon niet verwijderd worden!"
 
-#: src/scim_table_imengine_setup.cpp:1461
-#: src/scim_table_imengine_setup.cpp:1859
-#: src/scim_table_imengine_setup.cpp:1882
-#: src/scim_table_imengine_setup.cpp:1906
-#: src/scim_table_imengine_setup.cpp:1930
-#: src/scim_table_imengine_setup.cpp:1954
-#: src/scim_table_imengine_setup.cpp:1978
-#: src/scim_table_imengine_setup.cpp:2002
-#: src/scim_table_imengine_setup.cpp:2026
-#: src/scim_table_imengine_setup.cpp:2051
-#: src/scim_table_imengine_setup.cpp:2078
-#: src/scim_table_imengine_setup.cpp:2101
+#: src/scim_table_imengine_setup.cpp:1543
+#: src/scim_table_imengine_setup.cpp:2015
+#: src/scim_table_imengine_setup.cpp:2044
+#: src/scim_table_imengine_setup.cpp:2074
+#: src/scim_table_imengine_setup.cpp:2104
+#: src/scim_table_imengine_setup.cpp:2134
+#: src/scim_table_imengine_setup.cpp:2164
+#: src/scim_table_imengine_setup.cpp:2194
+#: src/scim_table_imengine_setup.cpp:2224
+#: src/scim_table_imengine_setup.cpp:2256
+#: src/scim_table_imengine_setup.cpp:2292
+#: src/scim_table_imengine_setup.cpp:2320
 msgid "True"
 msgstr "Waar"
 
-#: src/scim_table_imengine_setup.cpp:1463
+#: src/scim_table_imengine_setup.cpp:1545
 msgid "False"
 msgstr "Onwaar"
 
-#: src/scim_table_imengine_setup.cpp:1507
-#: src/scim_table_imengine_setup.cpp:1508
+#: src/scim_table_imengine_setup.cpp:1592
+#: src/scim_table_imengine_setup.cpp:1593
 msgid "Split Keys:"
 msgstr "Toetscombinatie voor delen:"
 
-#: src/scim_table_imengine_setup.cpp:1509
+#: src/scim_table_imengine_setup.cpp:1594
 msgid "The key strokes to split inputted string."
 msgstr "Toetscombinatie, voor het delen van de opgegeven zin."
 
-#: src/scim_table_imengine_setup.cpp:1515
-#: src/scim_table_imengine_setup.cpp:1516
+#: src/scim_table_imengine_setup.cpp:1600
+#: src/scim_table_imengine_setup.cpp:1601
 msgid "Commit Keys:"
 msgstr "Doorgeef-toetsen:"
 
-#: src/scim_table_imengine_setup.cpp:1517
+#: src/scim_table_imengine_setup.cpp:1602
 msgid "The key strokes to commit converted result to client."
 msgstr ""
 "Toetscombinatie om het geconverteerde resultaat door te geven aan het "
 "programma."
 
-#: src/scim_table_imengine_setup.cpp:1523
-#: src/scim_table_imengine_setup.cpp:1524
+#: src/scim_table_imengine_setup.cpp:1608
+#: src/scim_table_imengine_setup.cpp:1609
 msgid "Forward Keys:"
 msgstr "Toetscombinatie voor direkte doorgave aan programma:"
 
-#: src/scim_table_imengine_setup.cpp:1525
+#: src/scim_table_imengine_setup.cpp:1610
 msgid "The key strokes to forward inputted string to client."
 msgstr ""
 "Toetscombinatie om de tekenreeks zonder omzetting door te geven aan het "
 "programma."
 
-#: src/scim_table_imengine_setup.cpp:1531
-#: src/scim_table_imengine_setup.cpp:1532
+#: src/scim_table_imengine_setup.cpp:1616
+#: src/scim_table_imengine_setup.cpp:1617
 msgid "Select Keys:"
 msgstr "Markeer-toets:"
 
-#: src/scim_table_imengine_setup.cpp:1533
+#: src/scim_table_imengine_setup.cpp:1618
 msgid "The key strokes to select candidate phrases in lookup table."
 msgstr "Toetscombinatie, om de uitdrukking in de opzoek-tabel te kiezen."
 
-#: src/scim_table_imengine_setup.cpp:1539
-#: src/scim_table_imengine_setup.cpp:1540
+#: src/scim_table_imengine_setup.cpp:1624
+#: src/scim_table_imengine_setup.cpp:1625
 msgid "Page Up Keys:"
 msgstr "Page Up toets:"
 
-#: src/scim_table_imengine_setup.cpp:1541
+#: src/scim_table_imengine_setup.cpp:1626
 msgid "The lookup table page up keys"
 msgstr "Toetscombinatie, om de vorige pagina van de opzoek-tabel te tonen"
 
-#: src/scim_table_imengine_setup.cpp:1547
-#: src/scim_table_imengine_setup.cpp:1548
+#: src/scim_table_imengine_setup.cpp:1632
+#: src/scim_table_imengine_setup.cpp:1633
 msgid "Page Down Keys:"
 msgstr "Page Down toets:"
 
-#: src/scim_table_imengine_setup.cpp:1549
+#: src/scim_table_imengine_setup.cpp:1634
 msgid "The lookup table page down keys"
 msgstr "Toetscombinatie, om de volgende pagina van de opzoek-tabel te tonen"
 
-#: src/scim_table_imengine_setup.cpp:1572
+#: src/scim_table_imengine_setup.cpp:1660
 msgid "Table Properties"
 msgstr "Eigenschappen van de tabel"
 
-#: src/scim_table_imengine_setup.cpp:1596
+#: src/scim_table_imengine_setup.cpp:1692
 msgid "Name:"
 msgstr "Naam:"
 
-#: src/scim_table_imengine_setup.cpp:1610
+#: src/scim_table_imengine_setup.cpp:1706
+#: src/scim_table_imengine_setup.cpp:1709
 msgid "The name of this table."
 msgstr "De naam van deze tabel."
 
-#: src/scim_table_imengine_setup.cpp:1615
+#: src/scim_table_imengine_setup.cpp:1715
 msgid "Author:"
 msgstr "Auteur:"
 
-#: src/scim_table_imengine_setup.cpp:1629
+#: src/scim_table_imengine_setup.cpp:1730
+#: src/scim_table_imengine_setup.cpp:1733
 msgid "The author of this table."
 msgstr "De auteur van deze tabel."
 
-#: src/scim_table_imengine_setup.cpp:1634
+#: src/scim_table_imengine_setup.cpp:1739
 msgid "UUID:"
 msgstr "UUID:"
 
-#: src/scim_table_imengine_setup.cpp:1648
+#: src/scim_table_imengine_setup.cpp:1754
+#: src/scim_table_imengine_setup.cpp:1757
 msgid "The unique ID of this table."
 msgstr "De ID van deze tabel."
 
-#: src/scim_table_imengine_setup.cpp:1653
+#: src/scim_table_imengine_setup.cpp:1763
 msgid "Serial Number:"
 msgstr "Serienummer:"
 
-#: src/scim_table_imengine_setup.cpp:1667
+#: src/scim_table_imengine_setup.cpp:1778
+#: src/scim_table_imengine_setup.cpp:1781
 msgid "The serial number of this table."
 msgstr "Het serienummer van deze tabel."
 
-#: src/scim_table_imengine_setup.cpp:1672
+#: src/scim_table_imengine_setup.cpp:1787
 msgid "Icon File:"
 msgstr "Pictogram-bestand:"
 
-#: src/scim_table_imengine_setup.cpp:1689
+#: src/scim_table_imengine_setup.cpp:1804
 msgid "Browse"
 msgstr "Bladeren"
 
-#: src/scim_table_imengine_setup.cpp:1698
+#: src/scim_table_imengine_setup.cpp:1814
+#: src/scim_table_imengine_setup.cpp:1817
 msgid "The icon file of this table."
 msgstr "Pictogram-bestand voor deze tabel."
 
-#: src/scim_table_imengine_setup.cpp:1703
+#: src/scim_table_imengine_setup.cpp:1823
 msgid "Supported Languages:"
 msgstr "Ondersteunde talen:"
 
-#: src/scim_table_imengine_setup.cpp:1717
+#: src/scim_table_imengine_setup.cpp:1838
+#: src/scim_table_imengine_setup.cpp:1841
 msgid "The languages supported by this table."
 msgstr "De talen, die door deze tabel ondersteund worden."
 
-#: src/scim_table_imengine_setup.cpp:1722
+#: src/scim_table_imengine_setup.cpp:1847
 msgid "Status Prompt:"
 msgstr "Status Prompt:"
 
-#: src/scim_table_imengine_setup.cpp:1736
+#: src/scim_table_imengine_setup.cpp:1862
+#: src/scim_table_imengine_setup.cpp:1865
 msgid "A prompt string to be shown in status area."
 msgstr "Mededeling, die in de status-area getoond wordt."
 
-#: src/scim_table_imengine_setup.cpp:1741
+#: src/scim_table_imengine_setup.cpp:1871
 msgid "Valid Input Chars:"
 msgstr "Geldige invoer-karakters:"
 
-#: src/scim_table_imengine_setup.cpp:1755
+#: src/scim_table_imengine_setup.cpp:1886
+#: src/scim_table_imengine_setup.cpp:1889
 msgid "The valid input chars of this table."
 msgstr "De tekens, waarmee een keuze uit deze tabel gekozen kan worden."
 
-#: src/scim_table_imengine_setup.cpp:1760
+#: src/scim_table_imengine_setup.cpp:1895
 msgid "Multi Wildcard Char:"
 msgstr "Multi jokerteken:"
 
-#: src/scim_table_imengine_setup.cpp:1774
+#: src/scim_table_imengine_setup.cpp:1910
+#: src/scim_table_imengine_setup.cpp:1914
 msgid ""
 "The multi wildcard chars of this table. These chars can be used to match one "
 "or more arbitrary chars."
@@ -688,43 +702,47 @@ msgstr ""
 "Tekens, die als jokerteken in deze tabel gebruikt kunnen worden, deze tekens "
 "kunnen gebruikt worden om een willekeurige teken te laten overeenkomen."
 
-#: src/scim_table_imengine_setup.cpp:1780
+#: src/scim_table_imengine_setup.cpp:1921
 msgid "Single Wildcard Char:"
 msgstr "Enkele jokerteken:"
 
-#: src/scim_table_imengine_setup.cpp:1794
+#: src/scim_table_imengine_setup.cpp:1936
+#: src/scim_table_imengine_setup.cpp:1940
 msgid ""
 "The single wildcard chars of this table.These chars can be used to match one "
 "arbitrary char."
 msgstr "Teken, die als jokerteken op precies een enkele invoerteken passen."
 
-#: src/scim_table_imengine_setup.cpp:1818
+#: src/scim_table_imengine_setup.cpp:1965
 msgid "..."
 msgstr "..."
 
-#: src/scim_table_imengine_setup.cpp:1832
+#: src/scim_table_imengine_setup.cpp:1983
 msgid "Max Key Length:"
 msgstr "Maximale tekenreeks-lengte:"
 
-#: src/scim_table_imengine_setup.cpp:1847
+#: src/scim_table_imengine_setup.cpp:1999
+#: src/scim_table_imengine_setup.cpp:2002
 msgid "The maxmium length of key strings."
 msgstr "De maximale lengte van een tekenreeks."
 
-#: src/scim_table_imengine_setup.cpp:1852
+#: src/scim_table_imengine_setup.cpp:2008
 msgid "Show Key Prompt:"
 msgstr "Toon de lettervolgorde:"
 
-#: src/scim_table_imengine_setup.cpp:1870
+#: src/scim_table_imengine_setup.cpp:2027
+#: src/scim_table_imengine_setup.cpp:2031
 msgid "If true then the key prompts will be shown instead of the raw keys."
 msgstr ""
 "Wanneer deze optie is gekozen, wordt de lettervolgorde getoond en niet als "
 "ruwe invoer-data."
 
-#: src/scim_table_imengine_setup.cpp:1875
+#: src/scim_table_imengine_setup.cpp:2037
 msgid "Auto Select:"
 msgstr "Automatisch selecteren:"
 
-#: src/scim_table_imengine_setup.cpp:1893
+#: src/scim_table_imengine_setup.cpp:2056
+#: src/scim_table_imengine_setup.cpp:2060
 msgid ""
 "If true then the first candidate phrase will be selected automatically when "
 "inputing the next key."
@@ -732,23 +750,26 @@ msgstr ""
 "Wanneer deze optie is gekozen, wordt de eerst mogelijke uitdrukking "
 "automatisch gekozen, wanneer de volgende toets wordt ingedrukt."
 
-#: src/scim_table_imengine_setup.cpp:1899
+#: src/scim_table_imengine_setup.cpp:2067
 msgid "Auto Wildcard:"
 msgstr "Automatische Jokerteken:"
 
-#: src/scim_table_imengine_setup.cpp:1917
+#: src/scim_table_imengine_setup.cpp:2086
+#: src/scim_table_imengine_setup.cpp:2090
+#, fuzzy
 msgid ""
-"If true then a multi wildcard char will be append to the end of inputted key "
-"string when searching phrases."
+"If true then a multi wildcard char will be appended to the end of the "
+"inputted key string when searching phrases."
 msgstr ""
 "Indien waar, wordt automatisch een multi-jokerteken aan het eind van de "
 "ingetoetste-reeks toegevoegd, wanneer een passende uitdrukking gezocht wordt."
 
-#: src/scim_table_imengine_setup.cpp:1923
+#: src/scim_table_imengine_setup.cpp:2097
 msgid "Auto Commit:"
 msgstr "Automatisch doorgeven:"
 
-#: src/scim_table_imengine_setup.cpp:1941
+#: src/scim_table_imengine_setup.cpp:2116
+#: src/scim_table_imengine_setup.cpp:2120
 msgid ""
 "If true then the converted result string will be committed to client "
 "automatically."
@@ -756,23 +777,26 @@ msgstr ""
 "Indien gekozen, wordt de geconverteerde resultaat automatisch aan het "
 "programma doorgegeven."
 
-#: src/scim_table_imengine_setup.cpp:1947
+#: src/scim_table_imengine_setup.cpp:2127
 msgid "Auto Split:"
 msgstr "Automatisch delen:"
 
-#: src/scim_table_imengine_setup.cpp:1965
+#: src/scim_table_imengine_setup.cpp:2146
+#: src/scim_table_imengine_setup.cpp:2150
+#, fuzzy
 msgid ""
-"If true then the inputted key string will be splitted automatically when "
+"If true then the inputted key string will be split automatically when "
 "necessary."
 msgstr ""
 "Indien gekozen, wordt de ingevoerde tekenreeks (indien nodig) automatisch "
 "gedeeld om een geschikte oplossing te vinden."
 
-#: src/scim_table_imengine_setup.cpp:1971
+#: src/scim_table_imengine_setup.cpp:2157
 msgid "Discard Invalid Key:"
 msgstr "Ongeldige toetsaanslag verwijderen:"
 
-#: src/scim_table_imengine_setup.cpp:1989
+#: src/scim_table_imengine_setup.cpp:2176
+#: src/scim_table_imengine_setup.cpp:2180
 msgid ""
 "If true then the invalid key will be discarded automatically.This option is "
 "only valid when Auto Select and Auto Commit is true."
@@ -781,21 +805,23 @@ msgstr ""
 "verwijderd. Deze optie wordt alleen uitgevoerd, wanneer »automatisch kiezen« "
 "en »Automatische doorgave« gekozen zijn."
 
-#: src/scim_table_imengine_setup.cpp:1995
+#: src/scim_table_imengine_setup.cpp:2187
 msgid "Dynamic Adjust:"
 msgstr "Dynamisch aanpassen:"
 
-#: src/scim_table_imengine_setup.cpp:2013
+#: src/scim_table_imengine_setup.cpp:2206
+#: src/scim_table_imengine_setup.cpp:2210
 msgid "If true then the phrases' frequencies will be adjusted dynamically."
 msgstr ""
 "Wanneer deze optie is gekozen, worden de gebruiks-frequenties van de "
 "uitdrukkingen automatisch aangepast."
 
-#: src/scim_table_imengine_setup.cpp:2019
+#: src/scim_table_imengine_setup.cpp:2217
 msgid "Auto Fill Preedit Area:"
 msgstr "Automatisch aanvullen:"
 
-#: src/scim_table_imengine_setup.cpp:2037
+#: src/scim_table_imengine_setup.cpp:2236
+#: src/scim_table_imengine_setup.cpp:2241
 msgid ""
 "If true then the preedit string will be filled up with the current candiate "
 "phrase automatically.This option is only valid when Auto Select is TRUE."
@@ -804,11 +830,12 @@ msgstr ""
 "bij de cursor getoond. Dit is alleen mogelijk, wanneer »automatisch kiezen« "
 "ingeschakeld is."
 
-#: src/scim_table_imengine_setup.cpp:2044
+#: src/scim_table_imengine_setup.cpp:2249
 msgid "Always Show Lookup Table:"
 msgstr "Opzoek-tabel altijd tonen:"
 
-#: src/scim_table_imengine_setup.cpp:2062
+#: src/scim_table_imengine_setup.cpp:2268
+#: src/scim_table_imengine_setup.cpp:2275
 msgid ""
 "If true then the lookup table will always be shown when any candidate phrase "
 "is available. Otherwise the lookup table will only be shown when necessary.\n"
@@ -821,67 +848,69 @@ msgstr ""
 "Als »automatisch aanvullen« uitgeschakeld is, kan deze optie niet "
 "uitgeschakeld worden."
 
-#: src/scim_table_imengine_setup.cpp:2071
+#: src/scim_table_imengine_setup.cpp:2285
 msgid "Default Full Width Punct:"
 msgstr "Leestekens in volle breedte als standaard:"
 
-#: src/scim_table_imengine_setup.cpp:2089
+#: src/scim_table_imengine_setup.cpp:2304
+#: src/scim_table_imengine_setup.cpp:2307
 msgid "If true then full width punctuations will be inputted by default."
 msgstr ""
 "Wanneer deze optie is gekozen, worden de leestekens standaard in volle "
 "breedte ingevoerd."
 
-#: src/scim_table_imengine_setup.cpp:2094
+#: src/scim_table_imengine_setup.cpp:2313
 msgid "Default Full Width Letter:"
 msgstr "Letters in volle breedte als standaard:"
 
-#: src/scim_table_imengine_setup.cpp:2112
+#: src/scim_table_imengine_setup.cpp:2332
+#: src/scim_table_imengine_setup.cpp:2335
 msgid "If true then full width letters will be inputted by default."
 msgstr ""
 "Wanneer deze optie is gekozen, worden letters standaard in volle breedte "
 "ingevoerd."
 
-#: src/scim_table_imengine_setup.cpp:2262
+#: src/scim_table_imengine_setup.cpp:2524
 msgid "Invalid icon file."
 msgstr "Ongeldige pictogram-bestand."
 
-#: src/scim_table_imengine_setup.cpp:2267
+#: src/scim_table_imengine_setup.cpp:2529
 msgid "Invalid languages."
 msgstr "Ongeldige taal."
 
-#: src/scim_table_imengine_setup.cpp:2272
+#: src/scim_table_imengine_setup.cpp:2534
 msgid "Invalid status prompt."
 msgstr "Ongeldige status prompt."
 
-#: src/scim_table_imengine_setup.cpp:2280
+#: src/scim_table_imengine_setup.cpp:2542
 msgid "Invalid multi wildcard chars."
 msgstr "Ongeldige multi jokerteken."
 
-#: src/scim_table_imengine_setup.cpp:2292
+#: src/scim_table_imengine_setup.cpp:2554
 msgid "Invalid single wildcard chars."
 msgstr "Ongeldige enkele jokerteken."
 
-#: src/scim_table_imengine_setup.cpp:2300
+#: src/scim_table_imengine_setup.cpp:2562
 msgid "Invalid commit keys."
 msgstr "Ongeldige doorgeef-toetsen."
 
-#: src/scim_table_imengine_setup.cpp:2305
+#: src/scim_table_imengine_setup.cpp:2567
 msgid "Invalid select keys."
 msgstr "Ongeldige keuzetoets."
 
-#: src/scim_table_imengine_setup.cpp:2310
+#: src/scim_table_imengine_setup.cpp:2572
 msgid "Invalid page up keys."
 msgstr "Ongeldig page up- toets."
 
-#: src/scim_table_imengine_setup.cpp:2315
+#: src/scim_table_imengine_setup.cpp:2577
 msgid "Invalid page down keys."
 msgstr "Ongeldige page down-toets."
 
-#: src/scim_table_imengine_setup.cpp:2321
+#: src/scim_table_imengine_setup.cpp:2583
 msgid "Invalid max key length."
 msgstr "Ongeldige maximale tekenreeks-lengte."
 
-#: src/scim_table_imengine_setup.cpp:2520
+#: src/scim_table_imengine_setup.cpp:2782
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "Tabel %s kon niet opgeslagen worden!"

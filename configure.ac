@@ -16,7 +16,8 @@ AM_CONFIG_HEADER([config.h])
 
 # Init gettext
 ALL_LINGUAS="zh_CN zh_TW ja ko de fr it pa nl"
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION(0.14)
 
 AC_LIBTOOL_WIN32_DLL
 AC_LIBTOOL_DLOPEN
@@ -99,7 +100,8 @@ SCIM_TABLEDIR=$SCIM_DATADIR/tables
 
 AC_SUBST(SCIM_TABLEDIR)
 
-AC_CONFIG_FILES([Makefile  intl/Makefile po/Makefile.in m4/Makefile 
+AC_CONFIG_FILES([Makefile  
+		 po/Makefile.in 
 		 docs/Makefile
 		 icons/Makefile
 		 src/Makefile

@@ -9,10 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SCIM\n"
 "Report-Msgid-Bugs-To: http://sourceforge.net/projects/scim\n"
-"POT-Creation-Date: 2006-01-12 17:11+0800\n"
+"POT-Creation-Date: 2012-07-02 02:05+0800\n"
 "PO-Revision-Date: 2004-08-25 00:43+0800\n"
 "Last-Translator: Kitae <kitae@spymac..com>\n"
 "Language-Team: Korean <en@li.org>\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -167,8 +168,9 @@ msgid "Failed."
 msgstr "실패."
 
 #: src/scim_make_table.cpp:138
+#, fuzzy
 msgid ""
-"Too few argument!\n"
+"Too few arguments!\n"
 "Usage:\n"
 "  scim-make-table <table_file> [options]\n"
 "\n"
@@ -246,15 +248,15 @@ msgstr "일반 테이블"
 msgid "An IMEngine Module which uses generic table input method file."
 msgstr "일반 테이블 입력 방법."
 
-#: src/scim_table_imengine_setup.cpp:211
+#: src/scim_table_imengine_setup.cpp:214
 msgid "Full width _punctuation:"
 msgstr "전각 구두점(_p):"
 
-#: src/scim_table_imengine_setup.cpp:213
+#: src/scim_table_imengine_setup.cpp:216
 msgid "Select full width puncutation keys"
 msgstr "전각 구두점 키 선택"
 
-#: src/scim_table_imengine_setup.cpp:215
+#: src/scim_table_imengine_setup.cpp:218
 msgid ""
 "The key events to switch full/half width punctuation input mode. Click on "
 "the button on the right to edit it."
@@ -262,15 +264,15 @@ msgstr ""
 "전/반각 구두점 입력 모드 전환을 위한 키 설정. 수정을 위해 오른쪽 단추를 선택"
 "하세요."
 
-#: src/scim_table_imengine_setup.cpp:228
+#: src/scim_table_imengine_setup.cpp:231
 msgid "Full width _letter:"
 msgstr "전각 문자(_l):"
 
-#: src/scim_table_imengine_setup.cpp:230
+#: src/scim_table_imengine_setup.cpp:233
 msgid "Select full width letter keys"
 msgstr "전각 문자 키를 선택"
 
-#: src/scim_table_imengine_setup.cpp:232
+#: src/scim_table_imengine_setup.cpp:235
 msgid ""
 "The key events to switch full/half width letter input mode. Click on the "
 "button on the right to edit it."
@@ -278,87 +280,88 @@ msgstr ""
 "전/반각 문자 입력 모드 전환을 위한 키 설정. 수정을 위해 오른쪽 단추를 선택하"
 "세요."
 
-#: src/scim_table_imengine_setup.cpp:245
+#: src/scim_table_imengine_setup.cpp:248
 msgid "_Mode switch:"
 msgstr "모드변환(_M):"
 
-#: src/scim_table_imengine_setup.cpp:247
+#: src/scim_table_imengine_setup.cpp:250
 msgid "Select mode switch keys"
 msgstr "모드변환 키 선택"
 
-#: src/scim_table_imengine_setup.cpp:249
+#: src/scim_table_imengine_setup.cpp:252
 msgid ""
 "The key events to change current input mode. Click on the button on the "
 "right to edit it."
 msgstr ""
 "현재 입력 모드 전환을 위한 키 설정. 수정을 위해 오른쪽 단추를 선택하세요."
 
-#: src/scim_table_imengine_setup.cpp:265
+#: src/scim_table_imengine_setup.cpp:268
 msgid "_Add phrase:"
 msgstr "문절 더하기(_A):"
 
-#: src/scim_table_imengine_setup.cpp:267
+#: src/scim_table_imengine_setup.cpp:270
 msgid "Select add phrase keys."
 msgstr "문절 더하기 키를 선택."
 
-#: src/scim_table_imengine_setup.cpp:269
+#: src/scim_table_imengine_setup.cpp:272
 msgid ""
 "The key events to add a new user defined phrase. Click on the button on the "
 "right to edit it."
 msgstr ""
 "새로운 사용자 정의 문절 더하기 키 설정. 수정을 위해 오른쪽 단추를 선택하세요."
 
-#: src/scim_table_imengine_setup.cpp:283
+#: src/scim_table_imengine_setup.cpp:286
 msgid "_Delete phrase:"
 msgstr "문절 지우기(_D):"
 
-#: src/scim_table_imengine_setup.cpp:285
+#: src/scim_table_imengine_setup.cpp:288
 msgid "Select delete phrase keys."
 msgstr "문절 지우기 키를 선택."
 
-#: src/scim_table_imengine_setup.cpp:287
+#: src/scim_table_imengine_setup.cpp:290
 msgid ""
 "The key events to delete a selected phrase. Click on the button on the right "
 "to edit it."
 msgstr ""
 "선택된 문절을 지우기 위한 키 설정. 수정을 위해 오른쪽 단추를 선택하세요."
 
-#: src/scim_table_imengine_setup.cpp:414
+#: src/scim_table_imengine_setup.cpp:417
 msgid "Show _prompt"
 msgstr "상태 보이기(_p)"
 
-#: src/scim_table_imengine_setup.cpp:419
+#: src/scim_table_imengine_setup.cpp:422
 msgid "Show key _hint"
 msgstr "힌트 보이기(_h)"
 
-#: src/scim_table_imengine_setup.cpp:424
+#: src/scim_table_imengine_setup.cpp:427
 msgid "Save _user table in binary format"
 msgstr "사용자 테이블을 바이너리 파일로 저장(_u)"
 
-#: src/scim_table_imengine_setup.cpp:429
+#: src/scim_table_imengine_setup.cpp:432
 msgid "Show the u_ser defined phrases first"
 msgstr "사용자 정의 문절 먼저 보이기(_s)"
 
-#: src/scim_table_imengine_setup.cpp:434
+#: src/scim_table_imengine_setup.cpp:437
 msgid "Show the _longer phrases first"
 msgstr "긴 문절을 먼저 보이기(_l)"
 
-#: src/scim_table_imengine_setup.cpp:458
+#: src/scim_table_imengine_setup.cpp:462 src/scim_table_imengine_setup.cpp:487
 msgid ""
 "If this option is checked, the key prompt of the currently selected phrase "
 "will be shown."
 msgstr ""
 "만약 이 설정이 선택되어 있으면, 현재 선택된 문절의 키 상태를 보여줄것입니다."
 
-#: src/scim_table_imengine_setup.cpp:463
+#: src/scim_table_imengine_setup.cpp:467 src/scim_table_imengine_setup.cpp:492
+#, fuzzy
 msgid ""
-"If this option is checked, the remaining keystrokes of the phraseswill be "
+"If this option is checked, the remaining keystrokes of the phrases will be "
 "shown on the lookup table."
 msgstr ""
 "만약 이 설정이 선택되어 있으면 문절의 나머지 부분을 완성하기위한 미리보기 테"
 "이블을 줄것입니다."
 
-#: src/scim_table_imengine_setup.cpp:468
+#: src/scim_table_imengine_setup.cpp:472 src/scim_table_imengine_setup.cpp:497
 msgid ""
 "If this option is checked, the user table will be stored with binary format, "
 "this will increase the loading speed."
@@ -366,7 +369,7 @@ msgstr ""
 "만약 이 설정이 선택되어 있으면, 사용자 테이블은 불러들이기 속도를 증가시키는"
 "바이러니 형식으로 저정 될것입니다."
 
-#: src/scim_table_imengine_setup.cpp:473
+#: src/scim_table_imengine_setup.cpp:477 src/scim_table_imengine_setup.cpp:502
 msgid ""
 "If this option is checked, the user defined phrases will be shown in front "
 "of others. "
@@ -374,95 +377,97 @@ msgstr ""
 "만약 이 설정이 선택되어 있으면, 사용자 정의 문절이 다른 것보다 먼저 보여 질것"
 "입니다."
 
-#: src/scim_table_imengine_setup.cpp:478
+#: src/scim_table_imengine_setup.cpp:482 src/scim_table_imengine_setup.cpp:507
 msgid ""
 "If this option is checked, the longer phrase will be shown in front of "
 "others. "
 msgstr ""
 "만약 이 설정이 체크 되어 있으면, 다른 부분보다 긴문절이 먼저 보여질것입니다."
 
-#: src/scim_table_imengine_setup.cpp:573
+#: src/scim_table_imengine_setup.cpp:611
 msgid "The installed tables:"
 msgstr "설치된 테이블들:"
 
-#: src/scim_table_imengine_setup.cpp:604
+#: src/scim_table_imengine_setup.cpp:642
 msgid "Name"
 msgstr "이름"
 
-#: src/scim_table_imengine_setup.cpp:625
+#: src/scim_table_imengine_setup.cpp:663
 msgid "Language"
 msgstr "언어"
 
-#: src/scim_table_imengine_setup.cpp:641
+#: src/scim_table_imengine_setup.cpp:679
 msgid "Type"
 msgstr "종류"
 
-#: src/scim_table_imengine_setup.cpp:657
+#: src/scim_table_imengine_setup.cpp:695
 msgid "File"
 msgstr "파일"
 
-#: src/scim_table_imengine_setup.cpp:679
+#: src/scim_table_imengine_setup.cpp:717
 msgid "_Install"
 msgstr "설치(_I)"
 
-#: src/scim_table_imengine_setup.cpp:683
+#: src/scim_table_imengine_setup.cpp:722 src/scim_table_imengine_setup.cpp:724
 msgid "Install a new table."
 msgstr "새 테이블 설치."
 
-#: src/scim_table_imengine_setup.cpp:689
+#: src/scim_table_imengine_setup.cpp:731
 msgid "_Delete"
 msgstr "지우기(_D)"
 
-#: src/scim_table_imengine_setup.cpp:693
+#: src/scim_table_imengine_setup.cpp:736 src/scim_table_imengine_setup.cpp:738
 msgid "Delete the selected table."
 msgstr "선택된 테이블 지우기."
 
-#: src/scim_table_imengine_setup.cpp:699
+#: src/scim_table_imengine_setup.cpp:745
 msgid "_Properties"
 msgstr "등록 정보(_P)"
 
-#: src/scim_table_imengine_setup.cpp:703
+#: src/scim_table_imengine_setup.cpp:750 src/scim_table_imengine_setup.cpp:752
 msgid "Edit the properties of the selected table."
 msgstr "선택된 테이블 바꾸기."
 
-#: src/scim_table_imengine_setup.cpp:733
+#: src/scim_table_imengine_setup.cpp:786
 msgid "Generic"
 msgstr "일반"
 
-#: src/scim_table_imengine_setup.cpp:741
+#: src/scim_table_imengine_setup.cpp:794
 msgid "Keyboard"
 msgstr "키보드"
 
-#: src/scim_table_imengine_setup.cpp:751
+#: src/scim_table_imengine_setup.cpp:804
 msgid "Table Management"
 msgstr "테이블 관리"
 
-#: src/scim_table_imengine_setup.cpp:953
+#: src/scim_table_imengine_setup.cpp:1008
+#: src/scim_table_imengine_setup.cpp:1015
 msgid "Select an icon file"
 msgstr "아이콘 파일 선택"
 
-#: src/scim_table_imengine_setup.cpp:1077
+#: src/scim_table_imengine_setup.cpp:1145
 msgid "User"
 msgstr "사용자"
 
-#: src/scim_table_imengine_setup.cpp:1077
+#: src/scim_table_imengine_setup.cpp:1145
 msgid "System"
 msgstr "시스템"
 
-#: src/scim_table_imengine_setup.cpp:1245
+#: src/scim_table_imengine_setup.cpp:1315
+#: src/scim_table_imengine_setup.cpp:1322
 msgid "Please select the table file to be installed."
 msgstr "설치할 테이블 파일을 선택하세요."
 
-#: src/scim_table_imengine_setup.cpp:1273
+#: src/scim_table_imengine_setup.cpp:1355
 msgid "Failed to install the table! It's already in table file directory."
 msgstr ""
 "테이블을 설치하는데 실패했습니다. 이미 디렉토리에 테이블 파일이 존재합니다."
 
-#: src/scim_table_imengine_setup.cpp:1292
+#: src/scim_table_imengine_setup.cpp:1374
 msgid "Failed to load the table file!"
 msgstr "테이블 파일을 불러들이는데 실패했습니다!"
 
-#: src/scim_table_imengine_setup.cpp:1312
+#: src/scim_table_imengine_setup.cpp:1394
 msgid ""
 "Failed to install the table! Another version of this table was already "
 "installed."
@@ -470,7 +475,7 @@ msgstr ""
 "테이블 파일을 설치하는데 실패했습니다. 기존에 다른 버전의 테이블 파일이 이미 "
 "설치 되어 있습니다."
 
-#: src/scim_table_imengine_setup.cpp:1326
+#: src/scim_table_imengine_setup.cpp:1408
 msgid ""
 "Another version of this table was already installed. Do you want to replace "
 "it with the new one?"
@@ -478,14 +483,14 @@ msgstr ""
 "다른 버전의 테이블 파일이 이미 설치 되어 있습니다. 새 파일로 덥어 쓰기를 하겠"
 "습니까?"
 
-#: src/scim_table_imengine_setup.cpp:1352
+#: src/scim_table_imengine_setup.cpp:1434
 msgid ""
 "Failed to install the table! A table with the same file name was already "
 "installed."
 msgstr ""
 "테이블 파일을 설치하는데 실패했습니다! 똑같은 파일이 이미 설치 되어 있습니다."
 
-#: src/scim_table_imengine_setup.cpp:1366
+#: src/scim_table_imengine_setup.cpp:1448
 msgid ""
 "A table with the same file name was already installed. Do you want to "
 "overwrite it?"
@@ -493,174 +498,183 @@ msgstr ""
 "테이블이 이미 설치되어 같은 이름의 테이블 파일이 있습니다. 덮어 쓰기를 하겠습"
 "니까?"
 
-#: src/scim_table_imengine_setup.cpp:1385
+#: src/scim_table_imengine_setup.cpp:1467
 #, c-format
 msgid "Failed to install the table to %s!"
 msgstr "%s 테이블을 설치하는데 실패했습니다!"
 
-#: src/scim_table_imengine_setup.cpp:1422
+#: src/scim_table_imengine_setup.cpp:1504
 #, c-format
 msgid "Can not delete the file %s!"
 msgstr "%s 파일을 지울 수 없습니다."
 
-#: src/scim_table_imengine_setup.cpp:1433
+#: src/scim_table_imengine_setup.cpp:1515
 msgid "Are you sure to delete this table file?"
 msgstr "이 테이블을 지울려고 하는게 확실합니까?"
 
-#: src/scim_table_imengine_setup.cpp:1446
+#: src/scim_table_imengine_setup.cpp:1528
 msgid "Failed to delete the table file!"
 msgstr "테이블 파일을 지우는데 실패했습니다!"
 
-#: src/scim_table_imengine_setup.cpp:1461
-#: src/scim_table_imengine_setup.cpp:1859
-#: src/scim_table_imengine_setup.cpp:1882
-#: src/scim_table_imengine_setup.cpp:1906
-#: src/scim_table_imengine_setup.cpp:1930
-#: src/scim_table_imengine_setup.cpp:1954
-#: src/scim_table_imengine_setup.cpp:1978
-#: src/scim_table_imengine_setup.cpp:2002
-#: src/scim_table_imengine_setup.cpp:2026
-#: src/scim_table_imengine_setup.cpp:2051
-#: src/scim_table_imengine_setup.cpp:2078
-#: src/scim_table_imengine_setup.cpp:2101
+#: src/scim_table_imengine_setup.cpp:1543
+#: src/scim_table_imengine_setup.cpp:2015
+#: src/scim_table_imengine_setup.cpp:2044
+#: src/scim_table_imengine_setup.cpp:2074
+#: src/scim_table_imengine_setup.cpp:2104
+#: src/scim_table_imengine_setup.cpp:2134
+#: src/scim_table_imengine_setup.cpp:2164
+#: src/scim_table_imengine_setup.cpp:2194
+#: src/scim_table_imengine_setup.cpp:2224
+#: src/scim_table_imengine_setup.cpp:2256
+#: src/scim_table_imengine_setup.cpp:2292
+#: src/scim_table_imengine_setup.cpp:2320
 msgid "True"
 msgstr "참"
 
-#: src/scim_table_imengine_setup.cpp:1463
+#: src/scim_table_imengine_setup.cpp:1545
 msgid "False"
 msgstr "거짓"
 
-#: src/scim_table_imengine_setup.cpp:1507
-#: src/scim_table_imengine_setup.cpp:1508
+#: src/scim_table_imengine_setup.cpp:1592
+#: src/scim_table_imengine_setup.cpp:1593
 msgid "Split Keys:"
 msgstr "분할 키들:"
 
-#: src/scim_table_imengine_setup.cpp:1509
+#: src/scim_table_imengine_setup.cpp:1594
 msgid "The key strokes to split inputted string."
 msgstr "키입력은 입력된 문자열을 나눈것입니다."
 
-#: src/scim_table_imengine_setup.cpp:1515
-#: src/scim_table_imengine_setup.cpp:1516
+#: src/scim_table_imengine_setup.cpp:1600
+#: src/scim_table_imengine_setup.cpp:1601
 msgid "Commit Keys:"
 msgstr "응답 키들:"
 
-#: src/scim_table_imengine_setup.cpp:1517
+#: src/scim_table_imengine_setup.cpp:1602
 msgid "The key strokes to commit converted result to client."
 msgstr "키입력은 클라이언트에 결과를 전달할것입니다."
 
-#: src/scim_table_imengine_setup.cpp:1523
-#: src/scim_table_imengine_setup.cpp:1524
+#: src/scim_table_imengine_setup.cpp:1608
+#: src/scim_table_imengine_setup.cpp:1609
 msgid "Forward Keys:"
 msgstr "이전 키:"
 
-#: src/scim_table_imengine_setup.cpp:1525
+#: src/scim_table_imengine_setup.cpp:1610
 msgid "The key strokes to forward inputted string to client."
 msgstr "키 입력은 입력된 문자열을 클라이언트에거 전달한다."
 
-#: src/scim_table_imengine_setup.cpp:1531
-#: src/scim_table_imengine_setup.cpp:1532
+#: src/scim_table_imengine_setup.cpp:1616
+#: src/scim_table_imengine_setup.cpp:1617
 msgid "Select Keys:"
 msgstr "선택 키:"
 
-#: src/scim_table_imengine_setup.cpp:1533
+#: src/scim_table_imengine_setup.cpp:1618
 msgid "The key strokes to select candidate phrases in lookup table."
 msgstr "이 키 입력이 미리보기 테이블에서 추천되는 단어를 선택하게 한다."
 
-#: src/scim_table_imengine_setup.cpp:1539
-#: src/scim_table_imengine_setup.cpp:1540
+#: src/scim_table_imengine_setup.cpp:1624
+#: src/scim_table_imengine_setup.cpp:1625
 msgid "Page Up Keys:"
 msgstr "위 페이지로 키:"
 
-#: src/scim_table_imengine_setup.cpp:1541
+#: src/scim_table_imengine_setup.cpp:1626
 msgid "The lookup table page up keys"
 msgstr "미리보기 테이블을 이전페이지로 이동키"
 
-#: src/scim_table_imengine_setup.cpp:1547
-#: src/scim_table_imengine_setup.cpp:1548
+#: src/scim_table_imengine_setup.cpp:1632
+#: src/scim_table_imengine_setup.cpp:1633
 msgid "Page Down Keys:"
 msgstr "아래 페이지로 키:"
 
-#: src/scim_table_imengine_setup.cpp:1549
+#: src/scim_table_imengine_setup.cpp:1634
 msgid "The lookup table page down keys"
 msgstr "미리보기 테이블 다음 페이지로 이동 키"
 
-#: src/scim_table_imengine_setup.cpp:1572
+#: src/scim_table_imengine_setup.cpp:1660
 msgid "Table Properties"
 msgstr "테이블 설정"
 
-#: src/scim_table_imengine_setup.cpp:1596
+#: src/scim_table_imengine_setup.cpp:1692
 msgid "Name:"
 msgstr "이름:"
 
-#: src/scim_table_imengine_setup.cpp:1610
+#: src/scim_table_imengine_setup.cpp:1706
+#: src/scim_table_imengine_setup.cpp:1709
 msgid "The name of this table."
 msgstr "테이블 이름."
 
-#: src/scim_table_imengine_setup.cpp:1615
+#: src/scim_table_imengine_setup.cpp:1715
 msgid "Author:"
 msgstr "작성자:"
 
-#: src/scim_table_imengine_setup.cpp:1629
+#: src/scim_table_imengine_setup.cpp:1730
+#: src/scim_table_imengine_setup.cpp:1733
 msgid "The author of this table."
 msgstr "테이블 작성자."
 
-#: src/scim_table_imengine_setup.cpp:1634
+#: src/scim_table_imengine_setup.cpp:1739
 msgid "UUID:"
 msgstr "UUID:"
 
-#: src/scim_table_imengine_setup.cpp:1648
+#: src/scim_table_imengine_setup.cpp:1754
+#: src/scim_table_imengine_setup.cpp:1757
 msgid "The unique ID of this table."
 msgstr "테이블 고유 번호."
 
-#: src/scim_table_imengine_setup.cpp:1653
+#: src/scim_table_imengine_setup.cpp:1763
 msgid "Serial Number:"
 msgstr "시리얼 번호:"
 
-#: src/scim_table_imengine_setup.cpp:1667
+#: src/scim_table_imengine_setup.cpp:1778
+#: src/scim_table_imengine_setup.cpp:1781
 msgid "The serial number of this table."
 msgstr "테이블의 시리얼번호."
 
-#: src/scim_table_imengine_setup.cpp:1672
+#: src/scim_table_imengine_setup.cpp:1787
 msgid "Icon File:"
 msgstr "아이콘 파일:"
 
-#: src/scim_table_imengine_setup.cpp:1689
+#: src/scim_table_imengine_setup.cpp:1804
 msgid "Browse"
 msgstr "찾아보기"
 
-#: src/scim_table_imengine_setup.cpp:1698
+#: src/scim_table_imengine_setup.cpp:1814
+#: src/scim_table_imengine_setup.cpp:1817
 msgid "The icon file of this table."
 msgstr "테이블의 아이콘 파일."
 
-#: src/scim_table_imengine_setup.cpp:1703
+#: src/scim_table_imengine_setup.cpp:1823
 msgid "Supported Languages:"
 msgstr "지원 언어:"
 
-#: src/scim_table_imengine_setup.cpp:1717
+#: src/scim_table_imengine_setup.cpp:1838
+#: src/scim_table_imengine_setup.cpp:1841
 msgid "The languages supported by this table."
 msgstr "이 테이블이 지원하는 언어들."
 
-#: src/scim_table_imengine_setup.cpp:1722
+#: src/scim_table_imengine_setup.cpp:1847
 msgid "Status Prompt:"
 msgstr "상태 프롬프트:"
 
-#: src/scim_table_imengine_setup.cpp:1736
+#: src/scim_table_imengine_setup.cpp:1862
+#: src/scim_table_imengine_setup.cpp:1865
 msgid "A prompt string to be shown in status area."
 msgstr "문자열 프롬프트가 상태장 내에서 보여짐."
 
-#: src/scim_table_imengine_setup.cpp:1741
+#: src/scim_table_imengine_setup.cpp:1871
 msgid "Valid Input Chars:"
 msgstr "정확한 입력 문자:"
 
-#: src/scim_table_imengine_setup.cpp:1755
+#: src/scim_table_imengine_setup.cpp:1886
+#: src/scim_table_imengine_setup.cpp:1889
 msgid "The valid input chars of this table."
 msgstr "이 테이블에 재대로된 입력 문자."
 
-#: src/scim_table_imengine_setup.cpp:1760
+#: src/scim_table_imengine_setup.cpp:1895
 msgid "Multi Wildcard Char:"
 msgstr "멀티 와일드카드 문자:"
 
-#: src/scim_table_imengine_setup.cpp:1774
+#: src/scim_table_imengine_setup.cpp:1910
+#: src/scim_table_imengine_setup.cpp:1914
 msgid ""
 "The multi wildcard chars of this table. These chars can be used to match one "
 "or more arbitrary chars."
@@ -668,11 +682,12 @@ msgstr ""
 "이 테이블의 멀티 와일드카드 문자들은 하나 또는 그 이상의 임의의 문자를 비교하"
 "는데 사용 될수 있습니다."
 
-#: src/scim_table_imengine_setup.cpp:1780
+#: src/scim_table_imengine_setup.cpp:1921
 msgid "Single Wildcard Char:"
 msgstr "단일 와일드카드 문자:"
 
-#: src/scim_table_imengine_setup.cpp:1794
+#: src/scim_table_imengine_setup.cpp:1936
+#: src/scim_table_imengine_setup.cpp:1940
 msgid ""
 "The single wildcard chars of this table.These chars can be used to match one "
 "arbitrary char."
@@ -680,74 +695,83 @@ msgstr ""
 "이 테이블의 단일 와일드카드 문자들은 하나의 임의의 문자를 비교하는데사용 될"
 "수 있다."
 
-#: src/scim_table_imengine_setup.cpp:1818
+#: src/scim_table_imengine_setup.cpp:1965
 msgid "..."
 msgstr "..."
 
-#: src/scim_table_imengine_setup.cpp:1832
+#: src/scim_table_imengine_setup.cpp:1983
 msgid "Max Key Length:"
 msgstr "최대 키 길이:"
 
-#: src/scim_table_imengine_setup.cpp:1847
+#: src/scim_table_imengine_setup.cpp:1999
+#: src/scim_table_imengine_setup.cpp:2002
 msgid "The maxmium length of key strings."
 msgstr "키 문자열의 최대 길이."
 
-#: src/scim_table_imengine_setup.cpp:1852
+#: src/scim_table_imengine_setup.cpp:2008
 msgid "Show Key Prompt:"
 msgstr "키 상태 보임:"
 
-#: src/scim_table_imengine_setup.cpp:1870
+#: src/scim_table_imengine_setup.cpp:2027
+#: src/scim_table_imengine_setup.cpp:2031
 msgid "If true then the key prompts will be shown instead of the raw keys."
 msgstr "만약 참이면 키상태가 로키 상태 되신 보여 줄것입니다."
 
-#: src/scim_table_imengine_setup.cpp:1875
+#: src/scim_table_imengine_setup.cpp:2037
 msgid "Auto Select:"
 msgstr "자동 선택:"
 
-#: src/scim_table_imengine_setup.cpp:1893
+#: src/scim_table_imengine_setup.cpp:2056
+#: src/scim_table_imengine_setup.cpp:2060
 msgid ""
 "If true then the first candidate phrase will be selected automatically when "
 "inputing the next key."
 msgstr ""
 "만약 참이면 다음 키를 넣을때 첫번째 후보 문구가 자동으로 선택될것입니다."
 
-#: src/scim_table_imengine_setup.cpp:1899
+#: src/scim_table_imengine_setup.cpp:2067
 msgid "Auto Wildcard:"
 msgstr "자동 와일드카드:"
 
-#: src/scim_table_imengine_setup.cpp:1917
+#: src/scim_table_imengine_setup.cpp:2086
+#: src/scim_table_imengine_setup.cpp:2090
+#, fuzzy
 msgid ""
-"If true then a multi wildcard char will be append to the end of inputted key "
-"string when searching phrases."
+"If true then a multi wildcard char will be appended to the end of the "
+"inputted key string when searching phrases."
 msgstr ""
 "만약 참이면 절 을 찾을 때 멀티 와일드카드 문자가 자동으로 입력하는 문자열 키"
 "에 추가로 붙습니다."
 
-#: src/scim_table_imengine_setup.cpp:1923
+#: src/scim_table_imengine_setup.cpp:2097
 msgid "Auto Commit:"
 msgstr "자동 응답:"
 
-#: src/scim_table_imengine_setup.cpp:1941
+#: src/scim_table_imengine_setup.cpp:2116
+#: src/scim_table_imengine_setup.cpp:2120
 msgid ""
 "If true then the converted result string will be committed to client "
 "automatically."
 msgstr "만약 참이면 변환된 문자열이 자동으로 클라이언터에게 전달 됩니다."
 
-#: src/scim_table_imengine_setup.cpp:1947
+#: src/scim_table_imengine_setup.cpp:2127
 msgid "Auto Split:"
 msgstr "자동 분할:"
 
-#: src/scim_table_imengine_setup.cpp:1965
+#: src/scim_table_imengine_setup.cpp:2146
+#: src/scim_table_imengine_setup.cpp:2150
+#, fuzzy
 msgid ""
-"If true then the inputted key string will be splitted automatically when "
+"If true then the inputted key string will be split automatically when "
 "necessary."
 msgstr "만약 참이면 입력하는 문자열이 필요에 따라 자동으로 나뉘어 집니다."
 
-#: src/scim_table_imengine_setup.cpp:1971
+#: src/scim_table_imengine_setup.cpp:2157
 msgid "Discard Invalid Key:"
 msgstr "잘못된 키 버리기:"
 
-#: src/scim_table_imengine_setup.cpp:1989
+#: src/scim_table_imengine_setup.cpp:2176
+#: src/scim_table_imengine_setup.cpp:2180
 msgid ""
 "If true then the invalid key will be discarded automatically.This option is "
 "only valid when Auto Select and Auto Commit is true."
@@ -755,19 +779,21 @@ msgstr ""
 "만약 참이 아니고 잘못된 키라면 자동으로 버려집니다. 이 옵션은 자동선택과 자동"
 "응답이 참일때만 작동합니다."
 
-#: src/scim_table_imengine_setup.cpp:1995
+#: src/scim_table_imengine_setup.cpp:2187
 msgid "Dynamic Adjust:"
 msgstr "동적 조정:"
 
-#: src/scim_table_imengine_setup.cpp:2013
+#: src/scim_table_imengine_setup.cpp:2206
+#: src/scim_table_imengine_setup.cpp:2210
 msgid "If true then the phrases' frequencies will be adjusted dynamically."
 msgstr "만약 참이면 절이 능동적으로 적용됩니다."
 
-#: src/scim_table_imengine_setup.cpp:2019
+#: src/scim_table_imengine_setup.cpp:2217
 msgid "Auto Fill Preedit Area:"
 msgstr "자동 Preedit 영역 채움:"
 
-#: src/scim_table_imengine_setup.cpp:2037
+#: src/scim_table_imengine_setup.cpp:2236
+#: src/scim_table_imengine_setup.cpp:2241
 msgid ""
 "If true then the preedit string will be filled up with the current candiate "
 "phrase automatically.This option is only valid when Auto Select is TRUE."
@@ -775,11 +801,12 @@ msgstr ""
 "만약 참이면 미리 입력된 문자열이 현재 추천되는 절로 자동으로 채워져질것 입니"
 "다. 이 옵션은 자동선택이 참일때만 작동합니다."
 
-#: src/scim_table_imengine_setup.cpp:2044
+#: src/scim_table_imengine_setup.cpp:2249
 msgid "Always Show Lookup Table:"
 msgstr "미리보기 테이블 항상 보임:"
 
-#: src/scim_table_imengine_setup.cpp:2062
+#: src/scim_table_imengine_setup.cpp:2268
+#: src/scim_table_imengine_setup.cpp:2275
 msgid ""
 "If true then the lookup table will always be shown when any candidate phrase "
 "is available. Otherwise the lookup table will only be shown when necessary.\n"
@@ -790,63 +817,65 @@ msgstr ""
 "지 않다면 미리보기태이블은 필요할 때만 보여집니다.\n"
 "만약 자동 체우기가 거짓이면 이 설정은 아무 효과 없이 항상 참이 된다."
 
-#: src/scim_table_imengine_setup.cpp:2071
+#: src/scim_table_imengine_setup.cpp:2285
 msgid "Default Full Width Punct:"
 msgstr "기본 전각 구두점:"
 
-#: src/scim_table_imengine_setup.cpp:2089
+#: src/scim_table_imengine_setup.cpp:2304
+#: src/scim_table_imengine_setup.cpp:2307
 msgid "If true then full width punctuations will be inputted by default."
 msgstr "만약 참이면 전각 구두점 이 기본으로 입력됩니다."
 
-#: src/scim_table_imengine_setup.cpp:2094
+#: src/scim_table_imengine_setup.cpp:2313
 msgid "Default Full Width Letter:"
 msgstr "기본 전각 문자:"
 
-#: src/scim_table_imengine_setup.cpp:2112
+#: src/scim_table_imengine_setup.cpp:2332
+#: src/scim_table_imengine_setup.cpp:2335
 msgid "If true then full width letters will be inputted by default."
 msgstr "만약 참이면 전각 문자가 기본으로 입력됩니다."
 
-#: src/scim_table_imengine_setup.cpp:2262
+#: src/scim_table_imengine_setup.cpp:2524
 msgid "Invalid icon file."
 msgstr "잘못된 아이콘 파일."
 
-#: src/scim_table_imengine_setup.cpp:2267
+#: src/scim_table_imengine_setup.cpp:2529
 msgid "Invalid languages."
 msgstr "잘못된 언어."
 
-#: src/scim_table_imengine_setup.cpp:2272
+#: src/scim_table_imengine_setup.cpp:2534
 msgid "Invalid status prompt."
 msgstr "잘못된 상태 프롬프트."
 
-#: src/scim_table_imengine_setup.cpp:2280
+#: src/scim_table_imengine_setup.cpp:2542
 msgid "Invalid multi wildcard chars."
 msgstr "잘못된 멀티 와일드카드 문자."
 
-#: src/scim_table_imengine_setup.cpp:2292
+#: src/scim_table_imengine_setup.cpp:2554
 msgid "Invalid single wildcard chars."
 msgstr "잘못된 단일 와일드 카드 문자."
 
-#: src/scim_table_imengine_setup.cpp:2300
+#: src/scim_table_imengine_setup.cpp:2562
 msgid "Invalid commit keys."
 msgstr "잘못된 응답 키."
 
-#: src/scim_table_imengine_setup.cpp:2305
+#: src/scim_table_imengine_setup.cpp:2567
 msgid "Invalid select keys."
 msgstr "잘못된 선택 키."
 
-#: src/scim_table_imengine_setup.cpp:2310
+#: src/scim_table_imengine_setup.cpp:2572
 msgid "Invalid page up keys."
 msgstr "잘못된 위페이지로 이동키."
 
-#: src/scim_table_imengine_setup.cpp:2315
+#: src/scim_table_imengine_setup.cpp:2577
 msgid "Invalid page down keys."
 msgstr "잘못된 아래 페이지로 이동키."
 
-#: src/scim_table_imengine_setup.cpp:2321
+#: src/scim_table_imengine_setup.cpp:2583
 msgid "Invalid max key length."
 msgstr "잘못된 최대화 키 길이."
 
-#: src/scim_table_imengine_setup.cpp:2520
+#: src/scim_table_imengine_setup.cpp:2782
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "%s 테이블을 저장하는데 실패했습니다."

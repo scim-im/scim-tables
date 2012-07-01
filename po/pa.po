@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scim-tables\n"
 "Report-Msgid-Bugs-To: http://sourceforge.net/projects/scim\n"
-"POT-Creation-Date: 2006-01-12 17:11+0800\n"
+"POT-Creation-Date: 2012-07-02 02:05+0800\n"
 "PO-Revision-Date: 2005-09-07 12:41+0530\n"
 "Last-Translator: Amanpreet Singh Brar <amanpreetalam@yahoo.com>\n"
 "Language-Team: Punjabi <fedora-trans-pa@redhat.com>\n"
+"Language: pa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -136,7 +137,7 @@ msgstr "ਅਸਫ਼ਲ ਹੈ।"
 
 #: src/scim_make_table.cpp:138
 msgid ""
-"Too few argument!\n"
+"Too few arguments!\n"
 "Usage:\n"
 "  scim-make-table <table_file> [options]\n"
 "\n"
@@ -203,507 +204,529 @@ msgstr "ਸਧਾਰਨ ਸਾਰਣੀ"
 msgid "An IMEngine Module which uses generic table input method file."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:211
+#: src/scim_table_imengine_setup.cpp:214
 msgid "Full width _punctuation:"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:213
+#: src/scim_table_imengine_setup.cpp:216
 msgid "Select full width puncutation keys"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:215
+#: src/scim_table_imengine_setup.cpp:218
 msgid ""
 "The key events to switch full/half width punctuation input mode. Click on "
 "the button on the right to edit it."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:228
+#: src/scim_table_imengine_setup.cpp:231
 msgid "Full width _letter:"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:230
+#: src/scim_table_imengine_setup.cpp:233
 msgid "Select full width letter keys"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:232
+#: src/scim_table_imengine_setup.cpp:235
 msgid ""
 "The key events to switch full/half width letter input mode. Click on the "
 "button on the right to edit it."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:245
+#: src/scim_table_imengine_setup.cpp:248
 msgid "_Mode switch:"
 msgstr "ਢੰਗ ਸ਼ੈਲੀ(_M):"
 
-#: src/scim_table_imengine_setup.cpp:247
+#: src/scim_table_imengine_setup.cpp:250
 msgid "Select mode switch keys"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:249
+#: src/scim_table_imengine_setup.cpp:252
 msgid ""
 "The key events to change current input mode. Click on the button on the "
 "right to edit it."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:265
+#: src/scim_table_imengine_setup.cpp:268
 msgid "_Add phrase:"
 msgstr "ਪੈਰਾ ਸ਼ਾਮਲ(_A):"
 
-#: src/scim_table_imengine_setup.cpp:267
+#: src/scim_table_imengine_setup.cpp:270
 msgid "Select add phrase keys."
 msgstr "ਜੋੜਨ ਲਈ ਪੈਰਾ ਸਵਿੱਚ ਚੁਣੋ:"
 
-#: src/scim_table_imengine_setup.cpp:269
+#: src/scim_table_imengine_setup.cpp:272
 msgid ""
 "The key events to add a new user defined phrase. Click on the button on the "
 "right to edit it."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:283
+#: src/scim_table_imengine_setup.cpp:286
 msgid "_Delete phrase:"
 msgstr "ਪੈਰਾ ਹਟਾਓ(_D):"
 
-#: src/scim_table_imengine_setup.cpp:285
+#: src/scim_table_imengine_setup.cpp:288
 msgid "Select delete phrase keys."
 msgstr "ਪੈਰਾ ਸਵਿੱਚ ਹਟਾਉਣ ਲਈ ਚੁਣੋ।"
 
-#: src/scim_table_imengine_setup.cpp:287
+#: src/scim_table_imengine_setup.cpp:290
 msgid ""
 "The key events to delete a selected phrase. Click on the button on the right "
 "to edit it."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:414
+#: src/scim_table_imengine_setup.cpp:417
 msgid "Show _prompt"
 msgstr "ਪਰਾਉਟ ਵੇਖਾਓ(_p)"
 
-#: src/scim_table_imengine_setup.cpp:419
+#: src/scim_table_imengine_setup.cpp:422
 msgid "Show key _hint"
 msgstr "ਸਵਿੱਚ ਸੰਕੇਤ ਵੇਖਾਓ(_h)"
 
-#: src/scim_table_imengine_setup.cpp:424
+#: src/scim_table_imengine_setup.cpp:427
 msgid "Save _user table in binary format"
 msgstr "ਉਪਭੋਗੀ ਸਾਰਣੀ ਬਾਈਨਰੀ ਫਾਰਮਿਟ ਵਿੱਚ ਸੰਭਾਲੋ(_u)"
 
-#: src/scim_table_imengine_setup.cpp:429
+#: src/scim_table_imengine_setup.cpp:432
 msgid "Show the u_ser defined phrases first"
 msgstr "ਉਪਭੋਗੀ ਪਰਿਭਾਸ਼ਤ ਪਹਿਲਾਂ ਵੇਖਾਓ(_s)"
 
-#: src/scim_table_imengine_setup.cpp:434
+#: src/scim_table_imengine_setup.cpp:437
 msgid "Show the _longer phrases first"
 msgstr "ਲੰਮਾ ਪੈਰਾ ਪਹਿਲਾਂ ਵੇਖਾਓ(_l)"
 
-#: src/scim_table_imengine_setup.cpp:458
+#: src/scim_table_imengine_setup.cpp:462 src/scim_table_imengine_setup.cpp:487
 msgid ""
 "If this option is checked, the key prompt of the currently selected phrase "
 "will be shown."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:463
+#: src/scim_table_imengine_setup.cpp:467 src/scim_table_imengine_setup.cpp:492
 msgid ""
-"If this option is checked, the remaining keystrokes of the phraseswill be "
+"If this option is checked, the remaining keystrokes of the phrases will be "
 "shown on the lookup table."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:468
+#: src/scim_table_imengine_setup.cpp:472 src/scim_table_imengine_setup.cpp:497
 msgid ""
 "If this option is checked, the user table will be stored with binary format, "
 "this will increase the loading speed."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:473
+#: src/scim_table_imengine_setup.cpp:477 src/scim_table_imengine_setup.cpp:502
 msgid ""
 "If this option is checked, the user defined phrases will be shown in front "
 "of others. "
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:478
+#: src/scim_table_imengine_setup.cpp:482 src/scim_table_imengine_setup.cpp:507
 msgid ""
 "If this option is checked, the longer phrase will be shown in front of "
 "others. "
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:573
+#: src/scim_table_imengine_setup.cpp:611
 msgid "The installed tables:"
 msgstr "ਇੰਸਟਾਲ ਹੋਈ ਸਾਰਣੀ:"
 
-#: src/scim_table_imengine_setup.cpp:604
+#: src/scim_table_imengine_setup.cpp:642
 msgid "Name"
 msgstr "ਨਾਂ"
 
-#: src/scim_table_imengine_setup.cpp:625
+#: src/scim_table_imengine_setup.cpp:663
 msgid "Language"
 msgstr "ਭਾਸ਼ਾ"
 
-#: src/scim_table_imengine_setup.cpp:641
+#: src/scim_table_imengine_setup.cpp:679
 msgid "Type"
 msgstr "ਕਿਸਮ"
 
-#: src/scim_table_imengine_setup.cpp:657
+#: src/scim_table_imengine_setup.cpp:695
 msgid "File"
 msgstr "ਫਾਇਲ"
 
-#: src/scim_table_imengine_setup.cpp:679
+#: src/scim_table_imengine_setup.cpp:717
 msgid "_Install"
 msgstr "ਇੰਸਟਾਲ(_I)"
 
-#: src/scim_table_imengine_setup.cpp:683
+#: src/scim_table_imengine_setup.cpp:722 src/scim_table_imengine_setup.cpp:724
 msgid "Install a new table."
 msgstr "ਨਵੀਂ ਸਾਰਣੀ ਇੰਸਟਾਲ ਕਰੋ।"
 
-#: src/scim_table_imengine_setup.cpp:689
+#: src/scim_table_imengine_setup.cpp:731
 msgid "_Delete"
 msgstr "ਹਟਾਓ(_D)"
 
-#: src/scim_table_imengine_setup.cpp:693
+#: src/scim_table_imengine_setup.cpp:736 src/scim_table_imengine_setup.cpp:738
 msgid "Delete the selected table."
 msgstr "ਚੁਣੀ ਸਾਰਣੀ ਹਟਾਓ।"
 
-#: src/scim_table_imengine_setup.cpp:699
+#: src/scim_table_imengine_setup.cpp:745
 msgid "_Properties"
 msgstr "ਵਿਸ਼ੇਸਤਾ(_P)"
 
-#: src/scim_table_imengine_setup.cpp:703
+#: src/scim_table_imengine_setup.cpp:750 src/scim_table_imengine_setup.cpp:752
 msgid "Edit the properties of the selected table."
 msgstr "ਚੁਣੀ ਸਾਰਣੀ ਦੀ ਵਿਸ਼ੇਸਤਾ ਸੋਧ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:733
+#: src/scim_table_imengine_setup.cpp:786
 msgid "Generic"
 msgstr "ਵਿਆਪਕ"
 
-#: src/scim_table_imengine_setup.cpp:741
+#: src/scim_table_imengine_setup.cpp:794
 msgid "Keyboard"
 msgstr "ਕੀਬੋਰਡ"
 
-#: src/scim_table_imengine_setup.cpp:751
+#: src/scim_table_imengine_setup.cpp:804
 msgid "Table Management"
 msgstr "ਸਾਰਣੀ ਪਰਬੰਧਨ"
 
-#: src/scim_table_imengine_setup.cpp:953
+#: src/scim_table_imengine_setup.cpp:1008
+#: src/scim_table_imengine_setup.cpp:1015
 msgid "Select an icon file"
 msgstr "ਇੱਕ ਆਈਕਾਨ ਫਾਇਲ ਚੁਣੋ"
 
-#: src/scim_table_imengine_setup.cpp:1077
+#: src/scim_table_imengine_setup.cpp:1145
 msgid "User"
 msgstr "ਉਪਭੋਗੀ"
 
-#: src/scim_table_imengine_setup.cpp:1077
+#: src/scim_table_imengine_setup.cpp:1145
 msgid "System"
 msgstr "ਸਿਸਟਮ"
 
-#: src/scim_table_imengine_setup.cpp:1245
+#: src/scim_table_imengine_setup.cpp:1315
+#: src/scim_table_imengine_setup.cpp:1322
 msgid "Please select the table file to be installed."
 msgstr "ਕਿਰਪਾ ਕਰਕੇ ਸਾਰਣੀ ਫਾਇਲ ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਚੁਣੋ।"
 
-#: src/scim_table_imengine_setup.cpp:1273
+#: src/scim_table_imengine_setup.cpp:1355
 msgid "Failed to install the table! It's already in table file directory."
 msgstr "ਸਾਰਣੀ ਨੂੰ ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਅਸਫ਼ਲ ਹੈ! ਇਹ ਪਹਿਲਾਂ ਹੀ ਸਾਰਣੀ ਫਾਇਲ ਡਾਈਰੈਕਟਰੀ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:1292
+#: src/scim_table_imengine_setup.cpp:1374
 msgid "Failed to load the table file!"
 msgstr "ਸਾਰਣੀ ਫਾਇਲ ਲੋਡ ਕਰਨ ਲਈ ਅਸਫ਼ਲ ਹੈ!"
 
-#: src/scim_table_imengine_setup.cpp:1312
+#: src/scim_table_imengine_setup.cpp:1394
 msgid ""
 "Failed to install the table! Another version of this table was already "
 "installed."
 msgstr "ਸਾਰਣੀ ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਅਸਫ਼ਲ! ਇਸ ਸਾਰਣੀ ਦਾ ਇੱਕ ਵਰਜਨ ਪਹਿਲਾਂ ਹੀ ਇੰਸਟਾਲ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:1326
+#: src/scim_table_imengine_setup.cpp:1408
 msgid ""
 "Another version of this table was already installed. Do you want to replace "
 "it with the new one?"
 msgstr ""
 "ਇਸ ਸਾਰਣੀ ਦਾ ਇੱਕ ਵਰਜਨ ਪਹਿਲਾਂ ਹੀ ਇੰਸਟਾਲ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਨਵੇਂ ਨਾਲ ਤਬਦੀਲ ਕਰਨ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: src/scim_table_imengine_setup.cpp:1352
+#: src/scim_table_imengine_setup.cpp:1434
 msgid ""
 "Failed to install the table! A table with the same file name was already "
 "installed."
 msgstr "ਸਾਰਣੀ ਇੰਸਟਾਲ ਕਰਨ ਲਈ ਅਸਫ਼ਲ ਹੈ! ਇਸ ਨਾਂ ਨਾਲ ਪਹਿਲਾਂ ਹੀ ਇੱਕ ਫਾਇਲ ਇੰਸਟਾਲ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:1366
+#: src/scim_table_imengine_setup.cpp:1448
 msgid ""
 "A table with the same file name was already installed. Do you want to "
 "overwrite it?"
 msgstr "ਇਸ ਨਾਂ ਨਾਲ ਇੱਕ ਸਾਰਣੀ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਉਸ ਉੱਪਰ ਹੀ ਲਿਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: src/scim_table_imengine_setup.cpp:1385
+#: src/scim_table_imengine_setup.cpp:1467
 #, c-format
 msgid "Failed to install the table to %s!"
 msgstr "ਸਾਰਣੀ %s ਨੂੰ ਇੰਸਟਾਲ ਲਈ ਅਸਫ਼ਲ ਹੈ!"
 
-#: src/scim_table_imengine_setup.cpp:1422
+#: src/scim_table_imengine_setup.cpp:1504
 #, c-format
 msgid "Can not delete the file %s!"
 msgstr "ਫਾਇਲ %s ਨੂੰ ਹਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ!"
 
-#: src/scim_table_imengine_setup.cpp:1433
+#: src/scim_table_imengine_setup.cpp:1515
 msgid "Are you sure to delete this table file?"
 msgstr "ਕੀ ਤੁਸੀਂ ਇਹ ਸਾਰਣੀ ਹਟਾਉਣੀ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: src/scim_table_imengine_setup.cpp:1446
+#: src/scim_table_imengine_setup.cpp:1528
 msgid "Failed to delete the table file!"
 msgstr "ਸਾਰਣੀ ਫਾਇਲ ਹਟਾਉਣ ਲਈ ਅਸਫ਼ਲ ਹੈ!"
 
-#: src/scim_table_imengine_setup.cpp:1461
-#: src/scim_table_imengine_setup.cpp:1859
-#: src/scim_table_imengine_setup.cpp:1882
-#: src/scim_table_imengine_setup.cpp:1906
-#: src/scim_table_imengine_setup.cpp:1930
-#: src/scim_table_imengine_setup.cpp:1954
-#: src/scim_table_imengine_setup.cpp:1978
-#: src/scim_table_imengine_setup.cpp:2002
-#: src/scim_table_imengine_setup.cpp:2026
-#: src/scim_table_imengine_setup.cpp:2051
-#: src/scim_table_imengine_setup.cpp:2078
-#: src/scim_table_imengine_setup.cpp:2101
+#: src/scim_table_imengine_setup.cpp:1543
+#: src/scim_table_imengine_setup.cpp:2015
+#: src/scim_table_imengine_setup.cpp:2044
+#: src/scim_table_imengine_setup.cpp:2074
+#: src/scim_table_imengine_setup.cpp:2104
+#: src/scim_table_imengine_setup.cpp:2134
+#: src/scim_table_imengine_setup.cpp:2164
+#: src/scim_table_imengine_setup.cpp:2194
+#: src/scim_table_imengine_setup.cpp:2224
+#: src/scim_table_imengine_setup.cpp:2256
+#: src/scim_table_imengine_setup.cpp:2292
+#: src/scim_table_imengine_setup.cpp:2320
 msgid "True"
 msgstr "ਸੱਚ"
 
-#: src/scim_table_imengine_setup.cpp:1463
+#: src/scim_table_imengine_setup.cpp:1545
 msgid "False"
 msgstr "ਝੂਠ"
 
-#: src/scim_table_imengine_setup.cpp:1507
-#: src/scim_table_imengine_setup.cpp:1508
+#: src/scim_table_imengine_setup.cpp:1592
+#: src/scim_table_imengine_setup.cpp:1593
 msgid "Split Keys:"
 msgstr "ਵੰਡਣ ਸਵਿੱਚਾਂ:"
 
-#: src/scim_table_imengine_setup.cpp:1509
+#: src/scim_table_imengine_setup.cpp:1594
 msgid "The key strokes to split inputted string."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1515
-#: src/scim_table_imengine_setup.cpp:1516
+#: src/scim_table_imengine_setup.cpp:1600
+#: src/scim_table_imengine_setup.cpp:1601
 msgid "Commit Keys:"
 msgstr "ਕਮਿਟ ਸਵਿੱਚਾਂ:"
 
-#: src/scim_table_imengine_setup.cpp:1517
+#: src/scim_table_imengine_setup.cpp:1602
 msgid "The key strokes to commit converted result to client."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1523
-#: src/scim_table_imengine_setup.cpp:1524
+#: src/scim_table_imengine_setup.cpp:1608
+#: src/scim_table_imengine_setup.cpp:1609
 msgid "Forward Keys:"
 msgstr "ਅੱਗੇ ਸਵਿੱਚਾਂ:"
 
-#: src/scim_table_imengine_setup.cpp:1525
+#: src/scim_table_imengine_setup.cpp:1610
 msgid "The key strokes to forward inputted string to client."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1531
-#: src/scim_table_imengine_setup.cpp:1532
+#: src/scim_table_imengine_setup.cpp:1616
+#: src/scim_table_imengine_setup.cpp:1617
 msgid "Select Keys:"
 msgstr "ਸਵਿੱਚਾਂ ਚੁਣੋ:"
 
-#: src/scim_table_imengine_setup.cpp:1533
+#: src/scim_table_imengine_setup.cpp:1618
 msgid "The key strokes to select candidate phrases in lookup table."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1539
-#: src/scim_table_imengine_setup.cpp:1540
+#: src/scim_table_imengine_setup.cpp:1624
+#: src/scim_table_imengine_setup.cpp:1625
 msgid "Page Up Keys:"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1541
+#: src/scim_table_imengine_setup.cpp:1626
 msgid "The lookup table page up keys"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1547
-#: src/scim_table_imengine_setup.cpp:1548
+#: src/scim_table_imengine_setup.cpp:1632
+#: src/scim_table_imengine_setup.cpp:1633
 msgid "Page Down Keys:"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1549
+#: src/scim_table_imengine_setup.cpp:1634
 msgid "The lookup table page down keys"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1572
+#: src/scim_table_imengine_setup.cpp:1660
 msgid "Table Properties"
 msgstr "ਸਾਰਣੀ ਵਿਸ਼ੇਸਤਾ"
 
-#: src/scim_table_imengine_setup.cpp:1596
+#: src/scim_table_imengine_setup.cpp:1692
 msgid "Name:"
 msgstr "ਨਾਂ:"
 
-#: src/scim_table_imengine_setup.cpp:1610
+#: src/scim_table_imengine_setup.cpp:1706
+#: src/scim_table_imengine_setup.cpp:1709
 msgid "The name of this table."
 msgstr "ਇਸ ਸਾਰਣੀ ਦਾ ਨਾਂ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:1615
+#: src/scim_table_imengine_setup.cpp:1715
 msgid "Author:"
 msgstr "ਲੇਖਕ:"
 
-#: src/scim_table_imengine_setup.cpp:1629
+#: src/scim_table_imengine_setup.cpp:1730
+#: src/scim_table_imengine_setup.cpp:1733
 msgid "The author of this table."
 msgstr "ਇਸ ਸਾਰਣੀ ਦਾ ਲੇਖਕ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:1634
+#: src/scim_table_imengine_setup.cpp:1739
 msgid "UUID:"
 msgstr "UUID:"
 
-#: src/scim_table_imengine_setup.cpp:1648
+#: src/scim_table_imengine_setup.cpp:1754
+#: src/scim_table_imengine_setup.cpp:1757
 msgid "The unique ID of this table."
 msgstr "ਇਸ ਸਾਰਣੀ ਦਾ ਵਿੱਲਖਣ ID ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:1653
+#: src/scim_table_imengine_setup.cpp:1763
 msgid "Serial Number:"
 msgstr "ਕ੍ਰਮ ਨੰਬਰ:"
 
-#: src/scim_table_imengine_setup.cpp:1667
+#: src/scim_table_imengine_setup.cpp:1778
+#: src/scim_table_imengine_setup.cpp:1781
 msgid "The serial number of this table."
 msgstr "ਇਸ ਸਾਰਣੀ ਦਾ ਲੜੀ ਨੰਬਰ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:1672
+#: src/scim_table_imengine_setup.cpp:1787
 msgid "Icon File:"
 msgstr "ਆਈਕਾਨ ਫਾਇਲ:"
 
-#: src/scim_table_imengine_setup.cpp:1689
+#: src/scim_table_imengine_setup.cpp:1804
 msgid "Browse"
 msgstr "ਝਲਕ"
 
-#: src/scim_table_imengine_setup.cpp:1698
+#: src/scim_table_imengine_setup.cpp:1814
+#: src/scim_table_imengine_setup.cpp:1817
 msgid "The icon file of this table."
 msgstr "ਇਸ ਸਾਰਣੀ ਦਾ ਆਈਕਾਨ ਫਾਇਲ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:1703
+#: src/scim_table_imengine_setup.cpp:1823
 msgid "Supported Languages:"
 msgstr "ਸਹਿਯੋਗੀ ਭਾਸ਼ਾਵਾਂ:"
 
-#: src/scim_table_imengine_setup.cpp:1717
+#: src/scim_table_imengine_setup.cpp:1838
+#: src/scim_table_imengine_setup.cpp:1841
 msgid "The languages supported by this table."
 msgstr "ਇਸ ਸਾਰਣੀ ਰਾਹੀ ਸਹਾਇਕ ਭਾਸ਼ਾਵਾਂ ਹਨ।"
 
-#: src/scim_table_imengine_setup.cpp:1722
+#: src/scim_table_imengine_setup.cpp:1847
 msgid "Status Prompt:"
 msgstr "ਹਾਲਤ ਪਰਾਉਟ:"
 
-#: src/scim_table_imengine_setup.cpp:1736
+#: src/scim_table_imengine_setup.cpp:1862
+#: src/scim_table_imengine_setup.cpp:1865
 msgid "A prompt string to be shown in status area."
 msgstr "ਹਾਲਤ ਖੇਤਰ ਵਿੱਚ ਇੱਕ ਪਰਾਉਟ ਸਤਰ ਵੇਖਾਈ ਜਾਵੇਗੀ।"
 
-#: src/scim_table_imengine_setup.cpp:1741
+#: src/scim_table_imengine_setup.cpp:1871
 msgid "Valid Input Chars:"
 msgstr "ਗਲਤ ਇੰਪੁੱਟ ਅੱਖਰ:"
 
-#: src/scim_table_imengine_setup.cpp:1755
+#: src/scim_table_imengine_setup.cpp:1886
+#: src/scim_table_imengine_setup.cpp:1889
 msgid "The valid input chars of this table."
 msgstr "ਇਸ ਸਾਰਣੀ ਵਿੱਚ ਗਲਤ ਇੰਪੁੱਟ ਅੱਖਰ ਹਨ।"
 
-#: src/scim_table_imengine_setup.cpp:1760
+#: src/scim_table_imengine_setup.cpp:1895
 msgid "Multi Wildcard Char:"
 msgstr "ਬਹੁ ਵਾਇਲਡ-ਕਾਰਡ ਅੱਖਰ:"
 
-#: src/scim_table_imengine_setup.cpp:1774
+#: src/scim_table_imengine_setup.cpp:1910
+#: src/scim_table_imengine_setup.cpp:1914
 msgid ""
 "The multi wildcard chars of this table. These chars can be used to match one "
 "or more arbitrary chars."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1780
+#: src/scim_table_imengine_setup.cpp:1921
 msgid "Single Wildcard Char:"
 msgstr "ਇੱਕਲਾ ਵਾਇਲਡ ਕਾਰਡ ਅੱਖਰ:"
 
-#: src/scim_table_imengine_setup.cpp:1794
+#: src/scim_table_imengine_setup.cpp:1936
+#: src/scim_table_imengine_setup.cpp:1940
 msgid ""
 "The single wildcard chars of this table.These chars can be used to match one "
 "arbitrary char."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1818
+#: src/scim_table_imengine_setup.cpp:1965
 msgid "..."
 msgstr "..."
 
-#: src/scim_table_imengine_setup.cpp:1832
+#: src/scim_table_imengine_setup.cpp:1983
 msgid "Max Key Length:"
 msgstr "ਵੱਧੋ-ਵੱਧ ਸਵਿੱਚ ਲੰਬਾਈ:"
 
-#: src/scim_table_imengine_setup.cpp:1847
+#: src/scim_table_imengine_setup.cpp:1999
+#: src/scim_table_imengine_setup.cpp:2002
 msgid "The maxmium length of key strings."
 msgstr "ਸਵਿੱਚ ਸਤਰਾਂ ਦੀ ਵੱਧੋ-ਵੱਧ ਲੰਬਾਈ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:1852
+#: src/scim_table_imengine_setup.cpp:2008
 msgid "Show Key Prompt:"
 msgstr "ਸਵਿੱਚ ਪਰਾਉਟ ਵੇਖਾਓ:"
 
-#: src/scim_table_imengine_setup.cpp:1870
+#: src/scim_table_imengine_setup.cpp:2027
+#: src/scim_table_imengine_setup.cpp:2031
 msgid "If true then the key prompts will be shown instead of the raw keys."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1875
+#: src/scim_table_imengine_setup.cpp:2037
 msgid "Auto Select:"
 msgstr "ਸਵੈ-ਚੋਣ:"
 
-#: src/scim_table_imengine_setup.cpp:1893
+#: src/scim_table_imengine_setup.cpp:2056
+#: src/scim_table_imengine_setup.cpp:2060
 msgid ""
 "If true then the first candidate phrase will be selected automatically when "
 "inputing the next key."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1899
+#: src/scim_table_imengine_setup.cpp:2067
 msgid "Auto Wildcard:"
 msgstr "ਸਵੈ-ਵਾਇਲਡ-ਕਾਰਡ:"
 
-#: src/scim_table_imengine_setup.cpp:1917
+#: src/scim_table_imengine_setup.cpp:2086
+#: src/scim_table_imengine_setup.cpp:2090
 msgid ""
-"If true then a multi wildcard char will be append to the end of inputted key "
-"string when searching phrases."
+"If true then a multi wildcard char will be appended to the end of the "
+"inputted key string when searching phrases."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1923
+#: src/scim_table_imengine_setup.cpp:2097
 msgid "Auto Commit:"
 msgstr "ਸਵੈ-ਕਮਿਟ:"
 
-#: src/scim_table_imengine_setup.cpp:1941
+#: src/scim_table_imengine_setup.cpp:2116
+#: src/scim_table_imengine_setup.cpp:2120
 msgid ""
 "If true then the converted result string will be committed to client "
 "automatically."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1947
+#: src/scim_table_imengine_setup.cpp:2127
 msgid "Auto Split:"
 msgstr "ਸਵੈ-ਵੰਡੋ:"
 
-#: src/scim_table_imengine_setup.cpp:1965
+#: src/scim_table_imengine_setup.cpp:2146
+#: src/scim_table_imengine_setup.cpp:2150
 msgid ""
-"If true then the inputted key string will be splitted automatically when "
+"If true then the inputted key string will be split automatically when "
 "necessary."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1971
+#: src/scim_table_imengine_setup.cpp:2157
 msgid "Discard Invalid Key:"
 msgstr "ਗਲਤ ਕੁੰਜੀ ਅਣਡਿੱਠਾ:"
 
-#: src/scim_table_imengine_setup.cpp:1989
+#: src/scim_table_imengine_setup.cpp:2176
+#: src/scim_table_imengine_setup.cpp:2180
 msgid ""
 "If true then the invalid key will be discarded automatically.This option is "
 "only valid when Auto Select and Auto Commit is true."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:1995
+#: src/scim_table_imengine_setup.cpp:2187
 msgid "Dynamic Adjust:"
 msgstr "ਸਫ਼ਰੀ ਅਨੁਕੂਲਣ:"
 
-#: src/scim_table_imengine_setup.cpp:2013
+#: src/scim_table_imengine_setup.cpp:2206
+#: src/scim_table_imengine_setup.cpp:2210
 msgid "If true then the phrases' frequencies will be adjusted dynamically."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:2019
+#: src/scim_table_imengine_setup.cpp:2217
 msgid "Auto Fill Preedit Area:"
 msgstr "ਸਵੈ ਭਰਨ ਪਹਿਲਾਂ-ਸੋਧ ਖੇਤਰ:"
 
-#: src/scim_table_imengine_setup.cpp:2037
+#: src/scim_table_imengine_setup.cpp:2236
+#: src/scim_table_imengine_setup.cpp:2241
 msgid ""
 "If true then the preedit string will be filled up with the current candiate "
 "phrase automatically.This option is only valid when Auto Select is TRUE."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:2044
+#: src/scim_table_imengine_setup.cpp:2249
 msgid "Always Show Lookup Table:"
 msgstr "ਹਮੇਸ਼ਾ ਖੋਜ ਸਾਰਣੀ ਵੇਖਾਓ"
 
-#: src/scim_table_imengine_setup.cpp:2062
+#: src/scim_table_imengine_setup.cpp:2268
+#: src/scim_table_imengine_setup.cpp:2275
 msgid ""
 "If true then the lookup table will always be shown when any candidate phrase "
 "is available. Otherwise the lookup table will only be shown when necessary.\n"
@@ -711,65 +734,67 @@ msgid ""
 "true."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:2071
+#: src/scim_table_imengine_setup.cpp:2285
 msgid "Default Full Width Punct:"
 msgstr "ਮੂਲ ਪੂਰੀ ਚੌੜਾਈ ਵਿਰਾਮ ਚਿੰਨ:"
 
-#: src/scim_table_imengine_setup.cpp:2089
+#: src/scim_table_imengine_setup.cpp:2304
+#: src/scim_table_imengine_setup.cpp:2307
 #, fuzzy
 msgid "If true then full width punctuations will be inputted by default."
 msgstr "ਜੇਕਰ ਸਹੀ ਹੈ ਤਾਂ ਮੂਲ ਰੂਪ ਵਿੱਚ ਪੂਰੀ ਚੌੜਾਈ ਅੱਖਰ ਇੰਪੁੱਟ ਕੀਤੇ ਜਾਣਗੇ।"
 
-#: src/scim_table_imengine_setup.cpp:2094
+#: src/scim_table_imengine_setup.cpp:2313
 msgid "Default Full Width Letter:"
 msgstr "ਮੂਲ ਪੂਰੀ ਚੌੜਾਈ ਅੱਖਰ:"
 
-#: src/scim_table_imengine_setup.cpp:2112
+#: src/scim_table_imengine_setup.cpp:2332
+#: src/scim_table_imengine_setup.cpp:2335
 #, fuzzy
 msgid "If true then full width letters will be inputted by default."
 msgstr "ਜੇਕਰ ਸਹੀ ਹੈ ਤਾਂ ਮੂਲ ਰੂਪ ਵਿੱਚ ਪੂਰੀ ਚੌੜਾਈ ਅੱਖਰ ਇੰਪੁੱਟ ਕੀਤੇ ਜਾਣਗੇ।"
 
-#: src/scim_table_imengine_setup.cpp:2262
+#: src/scim_table_imengine_setup.cpp:2524
 msgid "Invalid icon file."
 msgstr "ਗਲਤ ਆਈਕਾਨ ਫਾਇਲ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:2267
+#: src/scim_table_imengine_setup.cpp:2529
 msgid "Invalid languages."
 msgstr "ਗਲਤ ਭਾਸ਼ਾਵਾਂ ਹਨ।"
 
-#: src/scim_table_imengine_setup.cpp:2272
+#: src/scim_table_imengine_setup.cpp:2534
 msgid "Invalid status prompt."
 msgstr "ਗਲਤ ਹਾਲਤ ਪਰਾਉਟ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:2280
+#: src/scim_table_imengine_setup.cpp:2542
 msgid "Invalid multi wildcard chars."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:2292
+#: src/scim_table_imengine_setup.cpp:2554
 msgid "Invalid single wildcard chars."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:2300
+#: src/scim_table_imengine_setup.cpp:2562
 msgid "Invalid commit keys."
 msgstr "ਗਲਤ ਟਿੱਪਣੀ ਸਵਿੱਚਾਂ ਹਨ।"
 
-#: src/scim_table_imengine_setup.cpp:2305
+#: src/scim_table_imengine_setup.cpp:2567
 msgid "Invalid select keys."
 msgstr "ਗਲਤ ਚੋਣ ਸਵਿੱਚਾਂ ਹਨ।"
 
-#: src/scim_table_imengine_setup.cpp:2310
+#: src/scim_table_imengine_setup.cpp:2572
 msgid "Invalid page up keys."
 msgstr "ਗਲਤ ਸਫ਼ਾ ਉੱਤੇ ਸਵਿੱਚ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:2315
+#: src/scim_table_imengine_setup.cpp:2577
 msgid "Invalid page down keys."
 msgstr "ਗਲਤ ਸਫ਼ਾ ਹੇਠਾਂ ਸਵਿੱਚਾਂ ਹਨ।"
 
-#: src/scim_table_imengine_setup.cpp:2321
+#: src/scim_table_imengine_setup.cpp:2583
 msgid "Invalid max key length."
 msgstr "ਗਲਤ ਵੱਧੋ-ਵੱਧ ਸਵਿੱਚ ਲੰਬਾਈ ਹੈ।"
 
-#: src/scim_table_imengine_setup.cpp:2520
+#: src/scim_table_imengine_setup.cpp:2782
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "ਸਾਰਣੀ %s ਨੂੰ ਸੰਭਾਲਣ ਵਿੱਚ ਅਸਫ਼ਲ ਹੈ!"
