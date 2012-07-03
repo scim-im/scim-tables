@@ -22,6 +22,8 @@
 set -x
 
 autoreconf --force --install
+intltoolize --force
+autoreconf
 
 #aclocal -I m4
 #autoheader
