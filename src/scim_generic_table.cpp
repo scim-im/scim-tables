@@ -560,7 +560,7 @@ GenericTableHeader::save (FILE *fp)
     else
         fprintf (fp, "### FULL_WIDTH_LETTER_KEYS =\n");
 
-    fprintf (fp, "MAX_KEY_LENGTH = %u\n", m_max_key_length);
+    fprintf (fp, "MAX_KEY_LENGTH = %u\n", static_cast<unsigned int>(m_max_key_length));
 
     fprintf (fp, "SHOW_KEY_PROMPT = %s\n", (m_show_key_prompt?"TRUE":"FALSE"));
     fprintf (fp, "AUTO_SELECT = %s\n", (m_auto_select?"TRUE":"FALSE"));
