@@ -411,7 +411,11 @@ create_generic_page ()
 {
     GtkWidget *vbox;
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+#else
     vbox = gtk_vbox_new (FALSE, 0);
+#endif
     gtk_widget_show (vbox);
 
     __widget_show_prompt = gtk_check_button_new_with_mnemonic (_("Show _prompt"));
@@ -605,7 +609,11 @@ create_table_management_page ()
     GtkTreeViewColumn *column;
     GtkTreeSelection  *selection;
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+    page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+#else
     page = gtk_vbox_new (FALSE, 0);
+#endif
     gtk_widget_show (page);
 
     label = gtk_label_new (_("The installed tables:"));
@@ -614,7 +622,11 @@ create_table_management_page ()
     gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
     gtk_misc_set_padding (GTK_MISC (label), 2, 2);
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+#else
     hbox = gtk_hbox_new (FALSE, 0);
+#endif
     gtk_widget_show (hbox);
     gtk_box_pack_start (GTK_BOX (page), hbox, TRUE, TRUE, 0);
 
@@ -710,7 +722,11 @@ create_table_management_page ()
 
     // Create buttons.
  
+#if GTK_CHECK_VERSION(3, 0, 0)
+    vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+#else
     vbox = gtk_vbox_new (FALSE, 0);
+#endif
     gtk_widget_show (vbox);
     gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, TRUE, 4);
 
@@ -1090,7 +1106,7 @@ scale_pixbuf (GdkPixbuf **pixbuf,
         if (gdk_pixbuf_get_width (*pixbuf) != width ||
             gdk_pixbuf_get_height (*pixbuf) != height) {
             GdkPixbuf *dest = gdk_pixbuf_scale_simple (*pixbuf, width, height, GDK_INTERP_BILINEAR);
-            gdk_pixbuf_unref (*pixbuf);
+            g_object_unref (*pixbuf);
             *pixbuf = dest;
         }
         return *pixbuf;
@@ -1791,7 +1807,11 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
                           (GtkAttachOptions) (0), 0, 0);
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
   
+#if GTK_CHECK_VERSION(3, 0, 0)
+        hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+#else
         hbox = gtk_hbox_new (FALSE, 0);
+#endif
         gtk_widget_show (hbox);
         gtk_table_attach (GTK_TABLE (table), hbox, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
@@ -1952,7 +1972,11 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
                               (GtkAttachOptions) (0), 0, 0);
             gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+            hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+#else
             hbox = gtk_hbox_new (FALSE, 0);
+#endif
             gtk_widget_show (hbox);
             gtk_table_attach (GTK_TABLE (table), hbox, 1, 2, row, row+1,
                               (GtkAttachOptions) (GTK_FILL),
@@ -2588,6 +2612,7 @@ validate_table_properties_data (const GenericTableLibrary *lib, const TablePrope
                                           GTK_DIALOG_MODAL,
                                           GTK_MESSAGE_ERROR,
                                           GTK_BUTTONS_CLOSE,
+                                          "%s",
                                           err.c_str ());
         gtk_dialog_run (GTK_DIALOG (msg));
         gtk_widget_destroy (msg);
