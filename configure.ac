@@ -67,9 +67,10 @@ AC_ARG_ENABLE(debug,
 	      [  --enable-debug          Turn on debugging], ,
 	      enable_debug=no)
 
-AC_ARG_ENABLE(skim-support,
-              [  --enable-skim-support  Enable skim Setup UI], ,  
-              enable_skim_support=yes)
+# AC_ARG_ENABLE(skim-support,
+#               [  --enable-skim-support  Enable skim Setup UI], ,  
+#               enable_skim_support=yes)
+enable_skim_support="no"
 
 AM_CONDITIONAL(SCIM_BUILD_SKIM_SETUP, [test "$enable_skim_support" = "yes"])
 

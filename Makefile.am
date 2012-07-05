@@ -30,7 +30,7 @@ if SCIM_TABLES_ENABLE_SKIM_SUPPORT
   SKIM_SUBDIR=skim
 endif
 
-SUBDIRS 		= docs icons po src tables $(SKIM_SUBDIR)
+SUBDIRS 		= docs icons po src tables # $(SKIM_SUBDIR)
 
 MAINTAINERCLEANFILES 	= Makefile.in aclocal.m4 configure $(AUX_DIST)
 
