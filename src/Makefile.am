@@ -49,7 +49,7 @@ table_la_CXXFLAGS	= @SCIM_CFLAGS@
 table_la_LDFLAGS	= -avoid-version \
 		     	  -rpath $(moduledir) \
 			  -module \
-			  @LIBTOOL_EXPORT_OPTIONS@ \
+			  $(LIBTOOL_EXPORT_OPTIONS) \
 			  @LTLIBINTL@ \
 			  @SCIM_LIBS@ 
 
@@ -79,7 +79,7 @@ table_imengine_setup_la_CXXFLAGS= @SCIM_GTKUTILS_CFLAGS@ @SCIM_CFLAGS@
 table_imengine_setup_la_LDFLAGS	= -avoid-version \
 				 -rpath $(setupmoduledir) \
 				 -module \
-				 @LIBTOOL_EXPORT_OPTIONS@ \
+				 $(LIBTOOL_EXPORT_OPTIONS) \
 				 @LTLIBINTL@ \
 				 @SCIM_GTKUTILS_LIBS@ \
 				 @SCIM_LIBS@

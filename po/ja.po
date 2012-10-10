@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-05 17:24+0800\n"
+"POT-Creation-Date: 2012-10-10 14:56+0800\n"
 "PO-Revision-Date: 2005-01-12 22:00+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -16,28 +16,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
 
-#: src/scim_table_imengine.cpp:183
+#: ../src/scim_table_imengine.cpp:183
 msgid "Full/Half Letter"
 msgstr "全角/半角文字"
 
-#: src/scim_table_imengine.cpp:184
+#: ../src/scim_table_imengine.cpp:184
 msgid "Full/Half Punct"
 msgstr "全角/半角句読点"
 
-#: src/scim_table_imengine.cpp:188
+#: ../src/scim_table_imengine.cpp:188
 msgid "The status of the current input method. Click to change it."
 msgstr "現在の入力モード。変更するにはここをクリックして下さい。"
 
-#: src/scim_table_imengine.cpp:189
+#: ../src/scim_table_imengine.cpp:189
 msgid "The input mode of the letters. Click to toggle between half and full."
 msgstr "文字入力モード。全角/半角文字に切替えるにはここをクリックして下さい。"
 
-#: src/scim_table_imengine.cpp:190
+#: ../src/scim_table_imengine.cpp:190
 msgid ""
 "The input mode of the puncutations. Click to toggle between half and full."
 msgstr "句読点入力モード。全角/半角に切替えるにはここをクリックして下さい。"
 
-#: src/scim_table_imengine.cpp:302
+#: ../src/scim_table_imengine.cpp:302
 msgid ""
 "Hot Keys:\n"
 "\n"
@@ -47,7 +47,7 @@ msgstr ""
 "\n"
 "  "
 
-#: src/scim_table_imengine.cpp:304
+#: ../src/scim_table_imengine.cpp:304
 msgid ""
 "    Switch between full/half width letter mode.\n"
 "\n"
@@ -57,7 +57,7 @@ msgstr ""
 "\n"
 "  "
 
-#: src/scim_table_imengine.cpp:306
+#: ../src/scim_table_imengine.cpp:306
 msgid ""
 "    Switch between full/half width punctuation mode.\n"
 "\n"
@@ -67,14 +67,14 @@ msgstr ""
 "\n"
 "  "
 
-#: src/scim_table_imengine.cpp:308
+#: ../src/scim_table_imengine.cpp:308
 msgid ""
 "    Switch between Forward/Input mode.\n"
 "\n"
 "  "
 msgstr "直接入力/変換入力モードに切替"
 
-#: src/scim_table_imengine.cpp:310
+#: ../src/scim_table_imengine.cpp:310
 msgid ""
 "    Add a new phrase.\n"
 "\n"
@@ -84,7 +84,7 @@ msgstr ""
 "\n"
 "  "
 
-#: src/scim_table_imengine.cpp:312
+#: ../src/scim_table_imengine.cpp:312
 msgid ""
 "    Delete the selected phrase.\n"
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "    選択したフレーズを削除する\n"
 "\n"
 
-#: src/scim_table_imengine.cpp:313
+#: ../src/scim_table_imengine.cpp:313
 msgid ""
 "  Control+Down:\n"
 "    Move lookup cursor to next shorter phrase\n"
@@ -104,7 +104,7 @@ msgstr ""
 "    \"長いフレーズを優先的に表示\"が有効な場合のみ使用できます。\n"
 "\n"
 
-#: src/scim_table_imengine.cpp:315
+#: ../src/scim_table_imengine.cpp:315
 msgid ""
 "  Control+Up:\n"
 "    Move lookup cursor to previous longer phrase\n"
@@ -116,7 +116,7 @@ msgstr ""
 "    \"長いフレーズを優先的に表示\"が有効な場合のみ使用できます。\n"
 "\n"
 
-#: src/scim_table_imengine.cpp:317
+#: ../src/scim_table_imengine.cpp:317
 msgid ""
 "  Esc:\n"
 "    reset the input method.\n"
@@ -128,7 +128,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/scim_table_imengine.cpp:318
+#: ../src/scim_table_imengine.cpp:318
 msgid ""
 "How to add a phrase:\n"
 "    Input the new phrase as normal, then press the\n"
@@ -146,23 +146,23 @@ msgstr ""
 "  ヒントにフレーズが正しく登録されたかどうか表示されますので\n"
 "  確認して下さい。\n"
 
-#: src/scim_table_imengine.cpp:838
+#: ../src/scim_table_imengine.cpp:838
 msgid "En"
 msgstr "En"
 
-#: src/scim_table_imengine.cpp:1688
+#: ../src/scim_table_imengine.cpp:1688
 msgid "Input a key string for phrase: "
 msgstr "このフレーズに使うキーを入力して下さい: "
 
-#: src/scim_table_imengine.cpp:1690
+#: ../src/scim_table_imengine.cpp:1690
 msgid "Success."
 msgstr "登録完了"
 
-#: src/scim_table_imengine.cpp:1693
+#: ../src/scim_table_imengine.cpp:1693
 msgid "Failed."
 msgstr "登録に失敗しました"
 
-#: src/scim_make_table.cpp:138
+#: ../src/scim_make_table.cpp:138
 msgid ""
 "Too few arguments!\n"
 "Usage:\n"
@@ -177,69 +177,72 @@ msgid ""
 "  -s file\tspecifiy the source file to count phrase ages.\n"
 msgstr ""
 
-#: src/scim_make_table.cpp:162
+#: ../src/scim_make_table.cpp:162
 msgid "option -no cannot be used with -o\n"
 msgstr "-noオプションは-oオプションと同時には使用できません\n"
 
-#: src/scim_make_table.cpp:171
+#: ../src/scim_make_table.cpp:171
 msgid "option -o cannot be used with -no\n"
 msgstr "-oオプションは-noオプションと同時には使用できません\n"
 
-#: src/scim_make_table.cpp:175 src/scim_make_table.cpp:184
-#: src/scim_make_table.cpp:193
+#: ../src/scim_make_table.cpp:175 ../src/scim_make_table.cpp:184
+#: ../src/scim_make_table.cpp:193
 msgid "No argument for option "
 msgstr "オプション引数がありません"
 
-#: src/scim_make_table.cpp:209
+#: ../src/scim_make_table.cpp:209
 msgid "Invalid option: "
 msgstr "オプションが無効です:"
 
-#: src/scim_make_table.cpp:215
+#: ../src/scim_make_table.cpp:215
 msgid "Loading table file "
 msgstr "テーブルを読み込み中"
 
-#: src/scim_make_table.cpp:215 src/scim_make_table.cpp:228
-#: src/scim_make_table.cpp:234
+#: ../src/scim_make_table.cpp:215 ../src/scim_make_table.cpp:228
+#: ../src/scim_make_table.cpp:234
 msgid " ...\n"
 msgstr " ...\n"
 
-#: src/scim_make_table.cpp:218
+#: ../src/scim_make_table.cpp:218
 msgid "table file load failed!"
 msgstr "テーブルの読み込みに失敗!"
 
-#: src/scim_make_table.cpp:228
+#: ../src/scim_make_table.cpp:228
 msgid "Saving frequency table file "
 msgstr "頻度テーブルを保存中"
 
-#: src/scim_make_table.cpp:230
+#: ../src/scim_make_table.cpp:230
 msgid "frequency table file load failed!"
 msgstr "頻度テーブルの読み込みに失敗!"
 
-#: src/scim_make_table.cpp:234
+#: ../src/scim_make_table.cpp:234
 msgid "Saving table file "
 msgstr "テーブルを保存中"
 
-#: src/scim_make_table.cpp:237
+#: ../src/scim_make_table.cpp:237
 msgid "Table file save failed!"
 msgstr "テーブルの保存に失敗!"
 
-#: src/scim_table_imengine_setup.cpp:102
+#: ../src/scim_table_imengine_setup.cpp:125
 msgid "Generic Table"
 msgstr "一般テーブル"
 
-#: src/scim_table_imengine_setup.cpp:107
+#: ../src/scim_table_imengine_setup.cpp:130
 msgid "An IMEngine Module which uses generic table input method file."
 msgstr "一般テーブル入力メソッドを使用するIMエンジンモジュール"
 
-#: src/scim_table_imengine_setup.cpp:214
+#. label
+#: ../src/scim_table_imengine_setup.cpp:236
 msgid "Full width _punctuation:"
 msgstr "全角/半角句読点(_P):"
 
-#: src/scim_table_imengine_setup.cpp:216
+#. title
+#: ../src/scim_table_imengine_setup.cpp:238
 msgid "Select full width puncutation keys"
 msgstr "全角/半角句読点切替キーの設定"
 
-#: src/scim_table_imengine_setup.cpp:218
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:240
 msgid ""
 "The key events to switch full/half width punctuation input mode. Click on "
 "the button on the right to edit it."
@@ -247,15 +250,18 @@ msgstr ""
 "全角/半角句読点を切替えるキー。変更する\n"
 "場合は右のボタンをクリックして下さい。"
 
-#: src/scim_table_imengine_setup.cpp:231
+#. label
+#: ../src/scim_table_imengine_setup.cpp:253
 msgid "Full width _letter:"
 msgstr "全角/半角文字(_L):"
 
-#: src/scim_table_imengine_setup.cpp:233
+#. title
+#: ../src/scim_table_imengine_setup.cpp:255
 msgid "Select full width letter keys"
 msgstr "全角/半角文字切替キーの設定"
 
-#: src/scim_table_imengine_setup.cpp:235
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:257
 msgid ""
 "The key events to switch full/half width letter input mode. Click on the "
 "button on the right to edit it."
@@ -263,15 +269,18 @@ msgstr ""
 "全角/半角文字を切替えるキー。変更する\n"
 "場合は右のボタンをクリックして下さい。"
 
-#: src/scim_table_imengine_setup.cpp:248
+#. label
+#: ../src/scim_table_imengine_setup.cpp:270
 msgid "_Mode switch:"
 msgstr "入力モード切替(_M):"
 
-#: src/scim_table_imengine_setup.cpp:250
+#. title
+#: ../src/scim_table_imengine_setup.cpp:272
 msgid "Select mode switch keys"
 msgstr "入力モード切替キーの設定"
 
-#: src/scim_table_imengine_setup.cpp:252
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:274
 msgid ""
 "The key events to change current input mode. Click on the button on the "
 "right to edit it."
@@ -279,15 +288,18 @@ msgstr ""
 "入力モードを切替えるキー。変更する場合は\n"
 "右のボタンをクリックして下さい。"
 
-#: src/scim_table_imengine_setup.cpp:268
+#. label
+#: ../src/scim_table_imengine_setup.cpp:290
 msgid "_Add phrase:"
 msgstr "フレーズ追加(_A):"
 
-#: src/scim_table_imengine_setup.cpp:270
+#. title
+#: ../src/scim_table_imengine_setup.cpp:292
 msgid "Select add phrase keys."
 msgstr "フレーズ追加キーの設定"
 
-#: src/scim_table_imengine_setup.cpp:272
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:294
 msgid ""
 "The key events to add a new user defined phrase. Click on the button on the "
 "right to edit it."
@@ -295,15 +307,18 @@ msgstr ""
 "新しいフレーズを追加するキー。変更する\n"
 "場合は右のボタンをクリックして下さい。"
 
-#: src/scim_table_imengine_setup.cpp:286
+#. label
+#: ../src/scim_table_imengine_setup.cpp:308
 msgid "_Delete phrase:"
 msgstr "フレーズ削除(_D):"
 
-#: src/scim_table_imengine_setup.cpp:288
+#. title
+#: ../src/scim_table_imengine_setup.cpp:310
 msgid "Select delete phrase keys."
 msgstr "フレーズ削除キーの設定"
 
-#: src/scim_table_imengine_setup.cpp:290
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:312
 msgid ""
 "The key events to delete a selected phrase. Click on the button on the right "
 "to edit it."
@@ -311,27 +326,27 @@ msgstr ""
 "選択したフレーズを削除するキー。変更する\n"
 "場合は右のボタンをクリックして下さい。"
 
-#: src/scim_table_imengine_setup.cpp:421
+#: ../src/scim_table_imengine_setup.cpp:443
 msgid "Show _prompt"
 msgstr "プロンプトを表示(_P)"
 
-#: src/scim_table_imengine_setup.cpp:426
+#: ../src/scim_table_imengine_setup.cpp:448
 msgid "Show key _hint"
 msgstr "ヒントキーを表示(_H)"
 
-#: src/scim_table_imengine_setup.cpp:431
+#: ../src/scim_table_imengine_setup.cpp:453
 msgid "Save _user table in binary format"
 msgstr "ユーザーテーブルをバイナリー形式で保存(_U)"
 
-#: src/scim_table_imengine_setup.cpp:436
+#: ../src/scim_table_imengine_setup.cpp:458
 msgid "Show the u_ser defined phrases first"
 msgstr "ユーザー定義フレーズを優先的に表示(_S)"
 
-#: src/scim_table_imengine_setup.cpp:441
+#: ../src/scim_table_imengine_setup.cpp:463
 msgid "Show the _longer phrases first"
 msgstr "長いフレーズを優先的に表示(_L)"
 
-#: src/scim_table_imengine_setup.cpp:466 src/scim_table_imengine_setup.cpp:491
+#: ../src/scim_table_imengine_setup.cpp:487
 msgid ""
 "If this option is checked, the key prompt of the currently selected phrase "
 "will be shown."
@@ -339,7 +354,7 @@ msgstr ""
 "このオプションを有効にすると選択した\n"
 "フレーズのキープロンプトが表示されます。"
 
-#: src/scim_table_imengine_setup.cpp:471 src/scim_table_imengine_setup.cpp:496
+#: ../src/scim_table_imengine_setup.cpp:491
 #, fuzzy
 msgid ""
 "If this option is checked, the remaining keystrokes of the phrases will be "
@@ -348,7 +363,7 @@ msgstr ""
 "このオプションを有効にするとフレーズの残りの\n"
 "キーストロークが候補ウィンドウに表示されます。"
 
-#: src/scim_table_imengine_setup.cpp:476 src/scim_table_imengine_setup.cpp:501
+#: ../src/scim_table_imengine_setup.cpp:495
 msgid ""
 "If this option is checked, the user table will be stored with binary format, "
 "this will increase the loading speed."
@@ -356,7 +371,7 @@ msgstr ""
 "このオプションを有効にするとユーザー定義テーブルがバイナリー\n"
 "形式で保存されます。テーブルの読み込みが速くなります。"
 
-#: src/scim_table_imengine_setup.cpp:481 src/scim_table_imengine_setup.cpp:506
+#: ../src/scim_table_imengine_setup.cpp:499
 msgid ""
 "If this option is checked, the user defined phrases will be shown in front "
 "of others. "
@@ -364,7 +379,7 @@ msgstr ""
 "このオプションを有効にするとユーザー定義フレーズ\n"
 "が優先的に表示されます。"
 
-#: src/scim_table_imengine_setup.cpp:486 src/scim_table_imengine_setup.cpp:511
+#: ../src/scim_table_imengine_setup.cpp:503
 msgid ""
 "If this option is checked, the longer phrase will be shown in front of "
 "others. "
@@ -372,89 +387,92 @@ msgstr ""
 "このオプションを有効にすると長いフレーズが\n"
 "優先的に表示されます。"
 
-#: src/scim_table_imengine_setup.cpp:619
+#: ../src/scim_table_imengine_setup.cpp:620
 msgid "The installed tables:"
 msgstr "インストール済みのテーブル:"
 
-#: src/scim_table_imengine_setup.cpp:654
+#: ../src/scim_table_imengine_setup.cpp:655
 msgid "Name"
 msgstr "名称"
 
-#: src/scim_table_imengine_setup.cpp:675
+#: ../src/scim_table_imengine_setup.cpp:676
 msgid "Language"
 msgstr "言語"
 
-#: src/scim_table_imengine_setup.cpp:691
+#: ../src/scim_table_imengine_setup.cpp:692
 msgid "Type"
 msgstr "タイプ"
 
-#: src/scim_table_imengine_setup.cpp:707
+#: ../src/scim_table_imengine_setup.cpp:708
 msgid "File"
 msgstr "ファイル"
 
-#: src/scim_table_imengine_setup.cpp:733
+#: ../src/scim_table_imengine_setup.cpp:734
 msgid "_Install"
 msgstr "インストール(_I)"
 
-#: src/scim_table_imengine_setup.cpp:738 src/scim_table_imengine_setup.cpp:740
+#: ../src/scim_table_imengine_setup.cpp:739
 msgid "Install a new table."
 msgstr "新しいテーブルをインストール"
 
-#: src/scim_table_imengine_setup.cpp:747
+#: ../src/scim_table_imengine_setup.cpp:750
 msgid "_Delete"
 msgstr "削除(_D)"
 
-#: src/scim_table_imengine_setup.cpp:752 src/scim_table_imengine_setup.cpp:754
+#: ../src/scim_table_imengine_setup.cpp:754
 msgid "Delete the selected table."
 msgstr "選択したテーブルを削除"
 
-#: src/scim_table_imengine_setup.cpp:761
+#: ../src/scim_table_imengine_setup.cpp:765
 msgid "_Properties"
 msgstr "プロパティー(_P)"
 
-#: src/scim_table_imengine_setup.cpp:766 src/scim_table_imengine_setup.cpp:768
+#: ../src/scim_table_imengine_setup.cpp:769
 msgid "Edit the properties of the selected table."
 msgstr "選択したテーブルのプロパティーを編集"
 
-#: src/scim_table_imengine_setup.cpp:802
+#. Create the label for this note page.
+#: ../src/scim_table_imengine_setup.cpp:806
 msgid "Generic"
 msgstr "全般"
 
-#: src/scim_table_imengine_setup.cpp:810
+#. Create the label for this note page.
+#: ../src/scim_table_imengine_setup.cpp:814
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: src/scim_table_imengine_setup.cpp:820
+#. Create the label for this note page.
+#: ../src/scim_table_imengine_setup.cpp:824
 msgid "Table Management"
 msgstr "テーブル管理"
 
-#: src/scim_table_imengine_setup.cpp:1024
-#: src/scim_table_imengine_setup.cpp:1031
+#: ../src/scim_table_imengine_setup.cpp:1028
+#: ../src/scim_table_imengine_setup.cpp:1035
 msgid "Select an icon file"
 msgstr "アイコンファイルを選択"
 
-#: src/scim_table_imengine_setup.cpp:1161
+#: ../src/scim_table_imengine_setup.cpp:1165
 msgid "User"
 msgstr "ユーザー"
 
-#: src/scim_table_imengine_setup.cpp:1161
+#: ../src/scim_table_imengine_setup.cpp:1165
 msgid "System"
 msgstr "システム"
 
-#: src/scim_table_imengine_setup.cpp:1331
-#: src/scim_table_imengine_setup.cpp:1338
+#: ../src/scim_table_imengine_setup.cpp:1335
+#: ../src/scim_table_imengine_setup.cpp:1342
 msgid "Please select the table file to be installed."
 msgstr "インストールするテーブルファイルを選択して下さい。"
 
-#: src/scim_table_imengine_setup.cpp:1371
+#: ../src/scim_table_imengine_setup.cpp:1375
 msgid "Failed to install the table! It's already in table file directory."
 msgstr "テーブルのインストールに失敗!すでにインストールされています。"
 
-#: src/scim_table_imengine_setup.cpp:1390
+#: ../src/scim_table_imengine_setup.cpp:1394
 msgid "Failed to load the table file!"
 msgstr "テーブルファイルの読み込みに失敗!"
 
-#: src/scim_table_imengine_setup.cpp:1410
+#: ../src/scim_table_imengine_setup.cpp:1414
 msgid ""
 "Failed to install the table! Another version of this table was already "
 "installed."
@@ -462,7 +480,7 @@ msgstr ""
 "テーブルのインストールに失敗!他のバージョンが\n"
 "すでにインストールされています。"
 
-#: src/scim_table_imengine_setup.cpp:1424
+#: ../src/scim_table_imengine_setup.cpp:1428
 msgid ""
 "Another version of this table was already installed. Do you want to replace "
 "it with the new one?"
@@ -470,7 +488,7 @@ msgstr ""
 "このテーブルの他のバージョンがすでにインストールされています。\n"
 "新しいバージョンに置き換えますか?"
 
-#: src/scim_table_imengine_setup.cpp:1450
+#: ../src/scim_table_imengine_setup.cpp:1454
 msgid ""
 "Failed to install the table! A table with the same file name was already "
 "installed."
@@ -478,7 +496,7 @@ msgstr ""
 "テーブルのインストールに失敗!同じ名前のテーブルが\n"
 "すでにインストールされています。"
 
-#: src/scim_table_imengine_setup.cpp:1464
+#: ../src/scim_table_imengine_setup.cpp:1468
 msgid ""
 "A table with the same file name was already installed. Do you want to "
 "overwrite it?"
@@ -486,183 +504,183 @@ msgstr ""
 "同じ名前のテーブルがすでにインストールされています。\n"
 "上書きしますか?"
 
-#: src/scim_table_imengine_setup.cpp:1483
+#: ../src/scim_table_imengine_setup.cpp:1487
 #, c-format
 msgid "Failed to install the table to %s!"
 msgstr "%sにテーブルをインストールできませんでした!"
 
-#: src/scim_table_imengine_setup.cpp:1520
+#: ../src/scim_table_imengine_setup.cpp:1524
 #, c-format
 msgid "Can not delete the file %s!"
 msgstr "ファイル%sを削除できません!"
 
-#: src/scim_table_imengine_setup.cpp:1531
+#: ../src/scim_table_imengine_setup.cpp:1535
 msgid "Are you sure to delete this table file?"
 msgstr "このテーブルを削除しますか?"
 
-#: src/scim_table_imengine_setup.cpp:1544
+#: ../src/scim_table_imengine_setup.cpp:1548
 msgid "Failed to delete the table file!"
 msgstr "テーブルの削除に失敗!"
 
-#: src/scim_table_imengine_setup.cpp:1559
-#: src/scim_table_imengine_setup.cpp:2039
-#: src/scim_table_imengine_setup.cpp:2068
-#: src/scim_table_imengine_setup.cpp:2098
-#: src/scim_table_imengine_setup.cpp:2128
-#: src/scim_table_imengine_setup.cpp:2158
-#: src/scim_table_imengine_setup.cpp:2188
-#: src/scim_table_imengine_setup.cpp:2218
-#: src/scim_table_imengine_setup.cpp:2248
-#: src/scim_table_imengine_setup.cpp:2280
-#: src/scim_table_imengine_setup.cpp:2316
-#: src/scim_table_imengine_setup.cpp:2344
+#: ../src/scim_table_imengine_setup.cpp:1563
+#: ../src/scim_table_imengine_setup.cpp:2029
+#: ../src/scim_table_imengine_setup.cpp:2057
+#: ../src/scim_table_imengine_setup.cpp:2086
+#: ../src/scim_table_imengine_setup.cpp:2115
+#: ../src/scim_table_imengine_setup.cpp:2144
+#: ../src/scim_table_imengine_setup.cpp:2173
+#: ../src/scim_table_imengine_setup.cpp:2202
+#: ../src/scim_table_imengine_setup.cpp:2231
+#: ../src/scim_table_imengine_setup.cpp:2261
+#: ../src/scim_table_imengine_setup.cpp:2293
+#: ../src/scim_table_imengine_setup.cpp:2320
 msgid "True"
 msgstr "True"
 
-#: src/scim_table_imengine_setup.cpp:1561
+#: ../src/scim_table_imengine_setup.cpp:1565
 msgid "False"
 msgstr "False"
 
-#: src/scim_table_imengine_setup.cpp:1608
-#: src/scim_table_imengine_setup.cpp:1609
+#: ../src/scim_table_imengine_setup.cpp:1611
+#: ../src/scim_table_imengine_setup.cpp:1612
 msgid "Split Keys:"
 msgstr "スプリットキー:"
 
-#: src/scim_table_imengine_setup.cpp:1610
+#: ../src/scim_table_imengine_setup.cpp:1613
 msgid "The key strokes to split inputted string."
 msgstr "入力済みの文字列を分割するキー"
 
-#: src/scim_table_imengine_setup.cpp:1616
-#: src/scim_table_imengine_setup.cpp:1617
+#: ../src/scim_table_imengine_setup.cpp:1619
+#: ../src/scim_table_imengine_setup.cpp:1620
 msgid "Commit Keys:"
 msgstr "変換確定キー:"
 
-#: src/scim_table_imengine_setup.cpp:1618
+#: ../src/scim_table_imengine_setup.cpp:1621
 msgid "The key strokes to commit converted result to client."
 msgstr "変換結果をクライアントに送るキー"
 
-#: src/scim_table_imengine_setup.cpp:1624
-#: src/scim_table_imengine_setup.cpp:1625
+#: ../src/scim_table_imengine_setup.cpp:1627
+#: ../src/scim_table_imengine_setup.cpp:1628
 msgid "Forward Keys:"
 msgstr "直接入力キー:"
 
-#: src/scim_table_imengine_setup.cpp:1626
+#: ../src/scim_table_imengine_setup.cpp:1629
 msgid "The key strokes to forward inputted string to client."
 msgstr "入力した文字列を変換せずに直接クライアントに送るキー"
 
-#: src/scim_table_imengine_setup.cpp:1632
-#: src/scim_table_imengine_setup.cpp:1633
+#: ../src/scim_table_imengine_setup.cpp:1635
+#: ../src/scim_table_imengine_setup.cpp:1636
 msgid "Select Keys:"
 msgstr "選択キー:"
 
-#: src/scim_table_imengine_setup.cpp:1634
+#: ../src/scim_table_imengine_setup.cpp:1637
 msgid "The key strokes to select candidate phrases in lookup table."
 msgstr "候補ウィンドウからフレーズを選択するキー"
 
-#: src/scim_table_imengine_setup.cpp:1640
-#: src/scim_table_imengine_setup.cpp:1641
+#: ../src/scim_table_imengine_setup.cpp:1643
+#: ../src/scim_table_imengine_setup.cpp:1644
 msgid "Page Up Keys:"
 msgstr "前ページキー:"
 
-#: src/scim_table_imengine_setup.cpp:1642
+#: ../src/scim_table_imengine_setup.cpp:1645
 msgid "The lookup table page up keys"
 msgstr "候補ウィンドウで前のページに戻るキー"
 
-#: src/scim_table_imengine_setup.cpp:1648
-#: src/scim_table_imengine_setup.cpp:1649
+#: ../src/scim_table_imengine_setup.cpp:1651
+#: ../src/scim_table_imengine_setup.cpp:1652
 msgid "Page Down Keys:"
 msgstr "次ページキー:"
 
-#: src/scim_table_imengine_setup.cpp:1650
+#: ../src/scim_table_imengine_setup.cpp:1653
 msgid "The lookup table page down keys"
 msgstr "候補ウィンドウで次のページに進むキー"
 
-#: src/scim_table_imengine_setup.cpp:1676
+#: ../src/scim_table_imengine_setup.cpp:1678
 msgid "Table Properties"
 msgstr "テーブルのプロパティー"
 
-#: src/scim_table_imengine_setup.cpp:1708
+#. Name
+#: ../src/scim_table_imengine_setup.cpp:1708
 msgid "Name:"
 msgstr "名称:"
 
-#: src/scim_table_imengine_setup.cpp:1722
-#: src/scim_table_imengine_setup.cpp:1725
+#: ../src/scim_table_imengine_setup.cpp:1721
 msgid "The name of this table."
 msgstr "このテーブルの名称"
 
-#: src/scim_table_imengine_setup.cpp:1731
+#. Author
+#: ../src/scim_table_imengine_setup.cpp:1731
 msgid "Author:"
 msgstr "作者:"
 
-#: src/scim_table_imengine_setup.cpp:1746
-#: src/scim_table_imengine_setup.cpp:1749
+#: ../src/scim_table_imengine_setup.cpp:1744
 msgid "The author of this table."
 msgstr "このテーブルの作者"
 
-#: src/scim_table_imengine_setup.cpp:1755
+#. UUID
+#: ../src/scim_table_imengine_setup.cpp:1754
 msgid "UUID:"
 msgstr "UUID:"
 
-#: src/scim_table_imengine_setup.cpp:1770
-#: src/scim_table_imengine_setup.cpp:1773
+#: ../src/scim_table_imengine_setup.cpp:1767
 msgid "The unique ID of this table."
 msgstr "このテーブルのID"
 
-#: src/scim_table_imengine_setup.cpp:1779
+#. Serial Number
+#: ../src/scim_table_imengine_setup.cpp:1777
 msgid "Serial Number:"
 msgstr "バージョン:"
 
-#: src/scim_table_imengine_setup.cpp:1794
-#: src/scim_table_imengine_setup.cpp:1797
+#: ../src/scim_table_imengine_setup.cpp:1790
 msgid "The serial number of this table."
 msgstr "このテーブルのバージョン"
 
-#: src/scim_table_imengine_setup.cpp:1803
+#. Icon file
+#: ../src/scim_table_imengine_setup.cpp:1800
 msgid "Icon File:"
 msgstr "アイコンファイル:"
 
-#: src/scim_table_imengine_setup.cpp:1824
+#: ../src/scim_table_imengine_setup.cpp:1821
 msgid "Browse"
 msgstr "ブラウズ"
 
-#: src/scim_table_imengine_setup.cpp:1834
-#: src/scim_table_imengine_setup.cpp:1837
+#: ../src/scim_table_imengine_setup.cpp:1829
 msgid "The icon file of this table."
 msgstr "このテーブルのアイコンファイル"
 
-#: src/scim_table_imengine_setup.cpp:1843
+#. Supported Languages
+#: ../src/scim_table_imengine_setup.cpp:1839
 msgid "Supported Languages:"
 msgstr "サポート言語:"
 
-#: src/scim_table_imengine_setup.cpp:1858
-#: src/scim_table_imengine_setup.cpp:1861
+#: ../src/scim_table_imengine_setup.cpp:1852
 msgid "The languages supported by this table."
 msgstr "このテーブルがサポートする言語"
 
-#: src/scim_table_imengine_setup.cpp:1867
+#. Status Prompts
+#: ../src/scim_table_imengine_setup.cpp:1862
 msgid "Status Prompt:"
 msgstr "ステイタスプロンプト:"
 
-#: src/scim_table_imengine_setup.cpp:1882
-#: src/scim_table_imengine_setup.cpp:1885
+#: ../src/scim_table_imengine_setup.cpp:1875
 msgid "A prompt string to be shown in status area."
 msgstr "ステイタスに表示される文字列"
 
-#: src/scim_table_imengine_setup.cpp:1891
+#. Valid Input Chars
+#: ../src/scim_table_imengine_setup.cpp:1885
 msgid "Valid Input Chars:"
 msgstr "有効な文字:"
 
-#: src/scim_table_imengine_setup.cpp:1906
-#: src/scim_table_imengine_setup.cpp:1909
+#: ../src/scim_table_imengine_setup.cpp:1898
 msgid "The valid input chars of this table."
 msgstr "このテーブルで使用できる文字"
 
-#: src/scim_table_imengine_setup.cpp:1915
+#. Mulit Wildcard Char
+#: ../src/scim_table_imengine_setup.cpp:1908
 msgid "Multi Wildcard Char:"
 msgstr "マルチワイルドカード文字:"
 
-#: src/scim_table_imengine_setup.cpp:1930
-#: src/scim_table_imengine_setup.cpp:1934
+#: ../src/scim_table_imengine_setup.cpp:1922
 msgid ""
 "The multi wildcard chars of this table. These chars can be used to match one "
 "or more arbitrary chars."
@@ -670,12 +688,12 @@ msgstr ""
 "このテーブルのマルチワイルドカード文字。\n"
 "複数の文字の代わりに使用できます。"
 
-#: src/scim_table_imengine_setup.cpp:1941
+#. Single Wildcard Char
+#: ../src/scim_table_imengine_setup.cpp:1933
 msgid "Single Wildcard Char:"
 msgstr "シングルワイルドカード文字:"
 
-#: src/scim_table_imengine_setup.cpp:1956
-#: src/scim_table_imengine_setup.cpp:1960
+#: ../src/scim_table_imengine_setup.cpp:1947
 msgid ""
 "The single wildcard chars of this table.These chars can be used to match one "
 "arbitrary char."
@@ -683,34 +701,34 @@ msgstr ""
 "このテーブルのシングルワイルドカード文字。\n"
 "任意の一文字の代わりに使用できます。"
 
-#: src/scim_table_imengine_setup.cpp:1989
+#: ../src/scim_table_imengine_setup.cpp:1980
 msgid "..."
 msgstr "..."
 
-#: src/scim_table_imengine_setup.cpp:2007
+#. Max key length
+#: ../src/scim_table_imengine_setup.cpp:1998
 msgid "Max Key Length:"
 msgstr "最大キー数:"
 
-#: src/scim_table_imengine_setup.cpp:2023
-#: src/scim_table_imengine_setup.cpp:2026
+#: ../src/scim_table_imengine_setup.cpp:2012
 msgid "The maxmium length of key strings."
 msgstr "文字列の最大キー数"
 
-#: src/scim_table_imengine_setup.cpp:2032
+#. Show key prompt.
+#: ../src/scim_table_imengine_setup.cpp:2022
 msgid "Show Key Prompt:"
 msgstr "キープロンプトを表示:"
 
-#: src/scim_table_imengine_setup.cpp:2051
-#: src/scim_table_imengine_setup.cpp:2055
+#: ../src/scim_table_imengine_setup.cpp:2040
 msgid "If true then the key prompts will be shown instead of the raw keys."
 msgstr "Trueの場合は入力された文字の代わりにキープロンプトが表示されます。"
 
-#: src/scim_table_imengine_setup.cpp:2061
+#. Auto Select
+#: ../src/scim_table_imengine_setup.cpp:2050
 msgid "Auto Select:"
 msgstr "自動選択:"
 
-#: src/scim_table_imengine_setup.cpp:2080
-#: src/scim_table_imengine_setup.cpp:2084
+#: ../src/scim_table_imengine_setup.cpp:2068
 msgid ""
 "If true then the first candidate phrase will be selected automatically when "
 "inputing the next key."
@@ -718,12 +736,12 @@ msgstr ""
 "Trueの場合は次のフレーズの入力を開始すると同時に入力済みの\n"
 "フレーズに対してその第一変換候補が自動的に選択されます。"
 
-#: src/scim_table_imengine_setup.cpp:2091
+#. Auto Wildcard
+#: ../src/scim_table_imengine_setup.cpp:2079
 msgid "Auto Wildcard:"
 msgstr "自動ワイルドカード:"
 
-#: src/scim_table_imengine_setup.cpp:2110
-#: src/scim_table_imengine_setup.cpp:2114
+#: ../src/scim_table_imengine_setup.cpp:2097
 #, fuzzy
 msgid ""
 "If true then a multi wildcard char will be appended to the end of the "
@@ -732,35 +750,35 @@ msgstr ""
 "Trueの場合は検索時にマルチワイルドカード文字が\n"
 "入力された文字列の最後に自動的に付加されます。"
 
-#: src/scim_table_imengine_setup.cpp:2121
+#. Auto Commit
+#: ../src/scim_table_imengine_setup.cpp:2108
 msgid "Auto Commit:"
 msgstr "自動コミット:"
 
-#: src/scim_table_imengine_setup.cpp:2140
-#: src/scim_table_imengine_setup.cpp:2144
+#: ../src/scim_table_imengine_setup.cpp:2126
 msgid ""
 "If true then the converted result string will be committed to client "
 "automatically."
 msgstr "Trueの場合は変換結果が自動的にコミットされます。"
 
-#: src/scim_table_imengine_setup.cpp:2151
+#. Auto Split
+#: ../src/scim_table_imengine_setup.cpp:2137
 msgid "Auto Split:"
 msgstr "自動スプリット:"
 
-#: src/scim_table_imengine_setup.cpp:2170
-#: src/scim_table_imengine_setup.cpp:2174
+#: ../src/scim_table_imengine_setup.cpp:2155
 #, fuzzy
 msgid ""
 "If true then the inputted key string will be split automatically when "
 "necessary."
 msgstr "Trueの場合は、入力された文字列が必要に応じて自動的に分割されます。"
 
-#: src/scim_table_imengine_setup.cpp:2181
+#. Discard Invalid Key
+#: ../src/scim_table_imengine_setup.cpp:2166
 msgid "Discard Invalid Key:"
 msgstr "無効な文字列を排除:"
 
-#: src/scim_table_imengine_setup.cpp:2200
-#: src/scim_table_imengine_setup.cpp:2204
+#: ../src/scim_table_imengine_setup.cpp:2184
 msgid ""
 "If true then the invalid key will be discarded automatically.This option is "
 "only valid when Auto Select and Auto Commit is true."
@@ -768,21 +786,21 @@ msgstr ""
 "Trueの場合は、入力された無効な文字列を自動的に排除します。このオプションは自"
 "動選択と自動コミットがTrueの場合のみ有効になります。"
 
-#: src/scim_table_imengine_setup.cpp:2211
+#. Dynamic Adjust
+#: ../src/scim_table_imengine_setup.cpp:2195
 msgid "Dynamic Adjust:"
 msgstr "動的アップデート:"
 
-#: src/scim_table_imengine_setup.cpp:2230
-#: src/scim_table_imengine_setup.cpp:2234
+#: ../src/scim_table_imengine_setup.cpp:2213
 msgid "If true then the phrases' frequencies will be adjusted dynamically."
 msgstr "Trueの場合は、使用頻度情報が動的にアップデートされます。"
 
-#: src/scim_table_imengine_setup.cpp:2241
+#. Auto Fill Preedit String
+#: ../src/scim_table_imengine_setup.cpp:2224
 msgid "Auto Fill Preedit Area:"
 msgstr "プリエディットの自動補完:"
 
-#: src/scim_table_imengine_setup.cpp:2260
-#: src/scim_table_imengine_setup.cpp:2265
+#: ../src/scim_table_imengine_setup.cpp:2242
 msgid ""
 "If true then the preedit string will be filled up with the current candiate "
 "phrase automatically.This option is only valid when Auto Select is TRUE."
@@ -790,12 +808,12 @@ msgstr ""
 "Trueの場合は、自動的にプリエディットが変換候補によって補完されます。\n"
 "このオプションは自動選択がTrueの場合のみ有効になります。"
 
-#: src/scim_table_imengine_setup.cpp:2273
+#. Always Show Lookup
+#: ../src/scim_table_imengine_setup.cpp:2254
 msgid "Always Show Lookup Table:"
 msgstr "候補リストを常に表示:"
 
-#: src/scim_table_imengine_setup.cpp:2292
-#: src/scim_table_imengine_setup.cpp:2299
+#: ../src/scim_table_imengine_setup.cpp:2272
 msgid ""
 "If true then the lookup table will always be shown when any candidate phrase "
 "is available. Otherwise the lookup table will only be shown when necessary.\n"
@@ -806,65 +824,65 @@ msgstr ""
 "Falseの場合は必要な時のみ表示されます。\n"
 "但し、自動補完が無効の場合は常に表示されます。"
 
-#: src/scim_table_imengine_setup.cpp:2309
+#. Default full width punctuation
+#: ../src/scim_table_imengine_setup.cpp:2286
 msgid "Default Full Width Punct:"
 msgstr "デフォルト句読点を全角に設定:"
 
-#: src/scim_table_imengine_setup.cpp:2328
-#: src/scim_table_imengine_setup.cpp:2331
+#: ../src/scim_table_imengine_setup.cpp:2303
 msgid "If true then full width punctuations will be inputted by default."
 msgstr "Trueの場合は、指定のない限り全角句読点が入力されます。"
 
-#: src/scim_table_imengine_setup.cpp:2337
+#. Default full width letter
+#: ../src/scim_table_imengine_setup.cpp:2313
 msgid "Default Full Width Letter:"
 msgstr "デフォルト文字幅を全角に設定:"
 
-#: src/scim_table_imengine_setup.cpp:2356
-#: src/scim_table_imengine_setup.cpp:2359
+#: ../src/scim_table_imengine_setup.cpp:2330
 msgid "If true then full width letters will be inputted by default."
 msgstr "Trueの場合は、指定のない限り全角文字が入力されます。"
 
-#: src/scim_table_imengine_setup.cpp:2548
+#: ../src/scim_table_imengine_setup.cpp:2500
 msgid "Invalid icon file."
 msgstr "アイコンファイルが無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2553
+#: ../src/scim_table_imengine_setup.cpp:2505
 msgid "Invalid languages."
 msgstr "言語が無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2558
+#: ../src/scim_table_imengine_setup.cpp:2510
 msgid "Invalid status prompt."
 msgstr "ステイタスプロンプトが無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2566
+#: ../src/scim_table_imengine_setup.cpp:2518
 msgid "Invalid multi wildcard chars."
 msgstr "マルチワイルドカード文字が無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2578
+#: ../src/scim_table_imengine_setup.cpp:2530
 msgid "Invalid single wildcard chars."
 msgstr "シングルワイルドカード文字が無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2586
+#: ../src/scim_table_imengine_setup.cpp:2538
 msgid "Invalid commit keys."
 msgstr "コミットキーが無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2591
+#: ../src/scim_table_imengine_setup.cpp:2543
 msgid "Invalid select keys."
 msgstr "選択キーが無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2596
+#: ../src/scim_table_imengine_setup.cpp:2548
 msgid "Invalid page up keys."
 msgstr "次ページキーが無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2601
+#: ../src/scim_table_imengine_setup.cpp:2553
 msgid "Invalid page down keys."
 msgstr "前ページキーが無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2607
+#: ../src/scim_table_imengine_setup.cpp:2559
 msgid "Invalid max key length."
 msgstr "最大キー数が無効です。"
 
-#: src/scim_table_imengine_setup.cpp:2807
+#: ../src/scim_table_imengine_setup.cpp:2759
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "テーブル%sの保存に失敗!"

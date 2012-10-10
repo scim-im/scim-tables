@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-05 17:24+0800\n"
+"POT-Creation-Date: 2012-10-10 14:56+0800\n"
 "PO-Revision-Date: 2004-06-20 14:57+0800\n"
 "Last-Translator: James Su <suzhe@tsinghua.org.cn>\n"
 "Language-Team: Simplified Chinese <zh@li.org>\n"
@@ -16,28 +16,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
 
-#: src/scim_table_imengine.cpp:183
+#: ../src/scim_table_imengine.cpp:183
 msgid "Full/Half Letter"
 msgstr "全/半角字符"
 
-#: src/scim_table_imengine.cpp:184
+#: ../src/scim_table_imengine.cpp:184
 msgid "Full/Half Punct"
 msgstr "全/半角标点"
 
-#: src/scim_table_imengine.cpp:188
+#: ../src/scim_table_imengine.cpp:188
 msgid "The status of the current input method. Click to change it."
 msgstr "当前输入法的状态, 点击切换状态."
 
-#: src/scim_table_imengine.cpp:189
+#: ../src/scim_table_imengine.cpp:189
 msgid "The input mode of the letters. Click to toggle between half and full."
 msgstr "字母输入模式. 点击以切换全角/半角模式."
 
-#: src/scim_table_imengine.cpp:190
+#: ../src/scim_table_imengine.cpp:190
 msgid ""
 "The input mode of the puncutations. Click to toggle between half and full."
 msgstr "标点输入模式. 点击以切换全角/半角模式."
 
-#: src/scim_table_imengine.cpp:302
+#: ../src/scim_table_imengine.cpp:302
 msgid ""
 "Hot Keys:\n"
 "\n"
@@ -47,7 +47,7 @@ msgstr ""
 "\n"
 "  "
 
-#: src/scim_table_imengine.cpp:304
+#: ../src/scim_table_imengine.cpp:304
 msgid ""
 "    Switch between full/half width letter mode.\n"
 "\n"
@@ -57,7 +57,7 @@ msgstr ""
 "\n"
 "  "
 
-#: src/scim_table_imengine.cpp:306
+#: ../src/scim_table_imengine.cpp:306
 msgid ""
 "    Switch between full/half width punctuation mode.\n"
 "\n"
@@ -67,7 +67,7 @@ msgstr ""
 "\n"
 "  "
 
-#: src/scim_table_imengine.cpp:308
+#: ../src/scim_table_imengine.cpp:308
 msgid ""
 "    Switch between Forward/Input mode.\n"
 "\n"
@@ -77,7 +77,7 @@ msgstr ""
 "\n"
 "  "
 
-#: src/scim_table_imengine.cpp:310
+#: ../src/scim_table_imengine.cpp:310
 msgid ""
 "    Add a new phrase.\n"
 "\n"
@@ -87,7 +87,7 @@ msgstr ""
 "\n"
 "  "
 
-#: src/scim_table_imengine.cpp:312
+#: ../src/scim_table_imengine.cpp:312
 msgid ""
 "    Delete the selected phrase.\n"
 "\n"
@@ -95,7 +95,7 @@ msgstr ""
 "    删除选中的词语.\n"
 "\n"
 
-#: src/scim_table_imengine.cpp:313
+#: ../src/scim_table_imengine.cpp:313
 msgid ""
 "  Control+Down:\n"
 "    Move lookup cursor to next shorter phrase\n"
@@ -107,7 +107,7 @@ msgstr ""
 "    只在打开 LongPhraseFirst 选项的时候才生效.\n"
 "\n"
 
-#: src/scim_table_imengine.cpp:315
+#: ../src/scim_table_imengine.cpp:315
 msgid ""
 "  Control+Up:\n"
 "    Move lookup cursor to previous longer phrase\n"
@@ -119,7 +119,7 @@ msgstr ""
 "    只在打开 LongPhraseFirst 选项的时候才生效.\n"
 "\n"
 
-#: src/scim_table_imengine.cpp:317
+#: ../src/scim_table_imengine.cpp:317
 msgid ""
 "  Esc:\n"
 "    reset the input method.\n"
@@ -131,7 +131,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/scim_table_imengine.cpp:318
+#: ../src/scim_table_imengine.cpp:318
 msgid ""
 "How to add a phrase:\n"
 "    Input the new phrase as normal, then press the\n"
@@ -147,23 +147,23 @@ msgstr ""
 "    输入键串后按空格键. 会有一个提示说明加词\n"
 "  是否成功.\n"
 
-#: src/scim_table_imengine.cpp:838
+#: ../src/scim_table_imengine.cpp:838
 msgid "En"
 msgstr "英"
 
-#: src/scim_table_imengine.cpp:1688
+#: ../src/scim_table_imengine.cpp:1688
 msgid "Input a key string for phrase: "
 msgstr "为这个词输入一个键串: "
 
-#: src/scim_table_imengine.cpp:1690
+#: ../src/scim_table_imengine.cpp:1690
 msgid "Success."
 msgstr "成功."
 
-#: src/scim_table_imengine.cpp:1693
+#: ../src/scim_table_imengine.cpp:1693
 msgid "Failed."
 msgstr "失败."
 
-#: src/scim_make_table.cpp:138
+#: ../src/scim_make_table.cpp:138
 msgid ""
 "Too few arguments!\n"
 "Usage:\n"
@@ -178,575 +178,593 @@ msgid ""
 "  -s file\tspecifiy the source file to count phrase ages.\n"
 msgstr ""
 
-#: src/scim_make_table.cpp:162
+#: ../src/scim_make_table.cpp:162
 msgid "option -no cannot be used with -o\n"
 msgstr ""
 
-#: src/scim_make_table.cpp:171
+#: ../src/scim_make_table.cpp:171
 msgid "option -o cannot be used with -no\n"
 msgstr ""
 
-#: src/scim_make_table.cpp:175 src/scim_make_table.cpp:184
-#: src/scim_make_table.cpp:193
+#: ../src/scim_make_table.cpp:175 ../src/scim_make_table.cpp:184
+#: ../src/scim_make_table.cpp:193
 msgid "No argument for option "
 msgstr ""
 
-#: src/scim_make_table.cpp:209
+#: ../src/scim_make_table.cpp:209
 msgid "Invalid option: "
 msgstr ""
 
-#: src/scim_make_table.cpp:215
+#: ../src/scim_make_table.cpp:215
 msgid "Loading table file "
 msgstr ""
 
-#: src/scim_make_table.cpp:215 src/scim_make_table.cpp:228
-#: src/scim_make_table.cpp:234
+#: ../src/scim_make_table.cpp:215 ../src/scim_make_table.cpp:228
+#: ../src/scim_make_table.cpp:234
 msgid " ...\n"
 msgstr ""
 
-#: src/scim_make_table.cpp:218
+#: ../src/scim_make_table.cpp:218
 msgid "table file load failed!"
 msgstr ""
 
-#: src/scim_make_table.cpp:228
+#: ../src/scim_make_table.cpp:228
 msgid "Saving frequency table file "
 msgstr ""
 
-#: src/scim_make_table.cpp:230
+#: ../src/scim_make_table.cpp:230
 msgid "frequency table file load failed!"
 msgstr ""
 
-#: src/scim_make_table.cpp:234
+#: ../src/scim_make_table.cpp:234
 msgid "Saving table file "
 msgstr ""
 
-#: src/scim_make_table.cpp:237
+#: ../src/scim_make_table.cpp:237
 msgid "Table file save failed!"
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:102
+#: ../src/scim_table_imengine_setup.cpp:125
 msgid "Generic Table"
 msgstr "通用码表"
 
-#: src/scim_table_imengine_setup.cpp:107
+#: ../src/scim_table_imengine_setup.cpp:130
 msgid "An IMEngine Module which uses generic table input method file."
 msgstr "一个使用通用码表输入法文件的输入法引擎模块."
 
-#: src/scim_table_imengine_setup.cpp:214
+#. label
+#: ../src/scim_table_imengine_setup.cpp:236
 msgid "Full width _punctuation:"
 msgstr "全/半角标点切换(_P):"
 
-#: src/scim_table_imengine_setup.cpp:216
+#. title
+#: ../src/scim_table_imengine_setup.cpp:238
 msgid "Select full width puncutation keys"
 msgstr "选择全/半角标点状态切换键"
 
-#: src/scim_table_imengine_setup.cpp:218
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:240
 msgid ""
 "The key events to switch full/half width punctuation input mode. Click on "
 "the button on the right to edit it."
 msgstr "用以切换全/半角标点输入模式的按键. 点击右边的按钮进行编辑."
 
-#: src/scim_table_imengine_setup.cpp:231
+#. label
+#: ../src/scim_table_imengine_setup.cpp:253
 msgid "Full width _letter:"
 msgstr "全/半角字母切换(_L):"
 
-#: src/scim_table_imengine_setup.cpp:233
+#. title
+#: ../src/scim_table_imengine_setup.cpp:255
 msgid "Select full width letter keys"
 msgstr "选择全/半角字母状态切换键"
 
-#: src/scim_table_imengine_setup.cpp:235
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:257
 msgid ""
 "The key events to switch full/half width letter input mode. Click on the "
 "button on the right to edit it."
 msgstr "用以切换全/半角字母输入模式的按键. 点击右边的按钮进行编辑."
 
-#: src/scim_table_imengine_setup.cpp:248
+#. label
+#: ../src/scim_table_imengine_setup.cpp:270
 msgid "_Mode switch:"
 msgstr "输入模式切换(_M):"
 
-#: src/scim_table_imengine_setup.cpp:250
+#. title
+#: ../src/scim_table_imengine_setup.cpp:272
 msgid "Select mode switch keys"
 msgstr "选择输入模式切换键"
 
-#: src/scim_table_imengine_setup.cpp:252
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:274
 msgid ""
 "The key events to change current input mode. Click on the button on the "
 "right to edit it."
 msgstr "用以切换当前输入模式的按键. 点击右边的按钮进行编辑."
 
-#: src/scim_table_imengine_setup.cpp:268
+#. label
+#: ../src/scim_table_imengine_setup.cpp:290
 msgid "_Add phrase:"
 msgstr "添加词语(_A):"
 
-#: src/scim_table_imengine_setup.cpp:270
+#. title
+#: ../src/scim_table_imengine_setup.cpp:292
 msgid "Select add phrase keys."
 msgstr "选择添加词语键"
 
-#: src/scim_table_imengine_setup.cpp:272
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:294
 msgid ""
 "The key events to add a new user defined phrase. Click on the button on the "
 "right to edit it."
 msgstr "用以添加用户自定义词语的按键. 点击右边的按钮进行编辑."
 
-#: src/scim_table_imengine_setup.cpp:286
+#. label
+#: ../src/scim_table_imengine_setup.cpp:308
 msgid "_Delete phrase:"
 msgstr "删除词语(_D):"
 
-#: src/scim_table_imengine_setup.cpp:288
+#. title
+#: ../src/scim_table_imengine_setup.cpp:310
 msgid "Select delete phrase keys."
 msgstr "选择删除词语键"
 
-#: src/scim_table_imengine_setup.cpp:290
+#. tooltip
+#: ../src/scim_table_imengine_setup.cpp:312
 msgid ""
 "The key events to delete a selected phrase. Click on the button on the right "
 "to edit it."
 msgstr "用以删除选中词语的按键. 点击右边的按钮进行编辑."
 
-#: src/scim_table_imengine_setup.cpp:421
+#: ../src/scim_table_imengine_setup.cpp:443
 msgid "Show _prompt"
 msgstr "显示提示(_P)"
 
-#: src/scim_table_imengine_setup.cpp:426
+#: ../src/scim_table_imengine_setup.cpp:448
 msgid "Show key _hint"
 msgstr "显示逐键提示(_H)"
 
-#: src/scim_table_imengine_setup.cpp:431
+#: ../src/scim_table_imengine_setup.cpp:453
 msgid "Save _user table in binary format"
 msgstr "以二进制格式保存用户码表(_U)"
 
-#: src/scim_table_imengine_setup.cpp:436
+#: ../src/scim_table_imengine_setup.cpp:458
 msgid "Show the u_ser defined phrases first"
 msgstr "优先显示用户自定义的词语(_S)"
 
-#: src/scim_table_imengine_setup.cpp:441
+#: ../src/scim_table_imengine_setup.cpp:463
 msgid "Show the _longer phrases first"
 msgstr "优先显示较长的词语(_L)"
 
-#: src/scim_table_imengine_setup.cpp:466 src/scim_table_imengine_setup.cpp:491
+#: ../src/scim_table_imengine_setup.cpp:487
 msgid ""
 "If this option is checked, the key prompt of the currently selected phrase "
 "will be shown."
 msgstr "如果选中这个选项, 则显示当前词语按键的提示信息."
 
-#: src/scim_table_imengine_setup.cpp:471 src/scim_table_imengine_setup.cpp:496
+#: ../src/scim_table_imengine_setup.cpp:491
 #, fuzzy
 msgid ""
 "If this option is checked, the remaining keystrokes of the phrases will be "
 "shown on the lookup table."
 msgstr "如果选中这个选项, 将在候选词表中显示每个词语剩下需要输入的按键."
 
-#: src/scim_table_imengine_setup.cpp:476 src/scim_table_imengine_setup.cpp:501
+#: ../src/scim_table_imengine_setup.cpp:495
 msgid ""
 "If this option is checked, the user table will be stored with binary format, "
 "this will increase the loading speed."
 msgstr "如果选中这个选项, 用户码表将以二进制格式存储, 这会提高调入速度."
 
-#: src/scim_table_imengine_setup.cpp:481 src/scim_table_imengine_setup.cpp:506
+#: ../src/scim_table_imengine_setup.cpp:499
 msgid ""
 "If this option is checked, the user defined phrases will be shown in front "
 "of others. "
 msgstr "如果选中这个选项, 将优先显示用户自定义的词语."
 
-#: src/scim_table_imengine_setup.cpp:486 src/scim_table_imengine_setup.cpp:511
+#: ../src/scim_table_imengine_setup.cpp:503
 msgid ""
 "If this option is checked, the longer phrase will be shown in front of "
 "others. "
 msgstr "如果选中这个选项, 将优先显示较长的词语."
 
-#: src/scim_table_imengine_setup.cpp:619
+#: ../src/scim_table_imengine_setup.cpp:620
 msgid "The installed tables:"
 msgstr "已安装的码表:"
 
-#: src/scim_table_imengine_setup.cpp:654
+#: ../src/scim_table_imengine_setup.cpp:655
 msgid "Name"
 msgstr "名称"
 
-#: src/scim_table_imengine_setup.cpp:675
+#: ../src/scim_table_imengine_setup.cpp:676
 msgid "Language"
 msgstr "语言"
 
-#: src/scim_table_imengine_setup.cpp:691
+#: ../src/scim_table_imengine_setup.cpp:692
 msgid "Type"
 msgstr "类型"
 
-#: src/scim_table_imengine_setup.cpp:707
+#: ../src/scim_table_imengine_setup.cpp:708
 msgid "File"
 msgstr "文件"
 
-#: src/scim_table_imengine_setup.cpp:733
+#: ../src/scim_table_imengine_setup.cpp:734
 msgid "_Install"
 msgstr "安装(_I)"
 
-#: src/scim_table_imengine_setup.cpp:738 src/scim_table_imengine_setup.cpp:740
+#: ../src/scim_table_imengine_setup.cpp:739
 msgid "Install a new table."
 msgstr "安装一个新码表."
 
-#: src/scim_table_imengine_setup.cpp:747
+#: ../src/scim_table_imengine_setup.cpp:750
 msgid "_Delete"
 msgstr "删除(_D)"
 
-#: src/scim_table_imengine_setup.cpp:752 src/scim_table_imengine_setup.cpp:754
+#: ../src/scim_table_imengine_setup.cpp:754
 msgid "Delete the selected table."
 msgstr "删除选中的码表."
 
-#: src/scim_table_imengine_setup.cpp:761
+#: ../src/scim_table_imengine_setup.cpp:765
 msgid "_Properties"
 msgstr "属性(_P)"
 
-#: src/scim_table_imengine_setup.cpp:766 src/scim_table_imengine_setup.cpp:768
+#: ../src/scim_table_imengine_setup.cpp:769
 msgid "Edit the properties of the selected table."
 msgstr "编辑选中的码表的属性."
 
-#: src/scim_table_imengine_setup.cpp:802
+#. Create the label for this note page.
+#: ../src/scim_table_imengine_setup.cpp:806
 msgid "Generic"
 msgstr "通用"
 
-#: src/scim_table_imengine_setup.cpp:810
+#. Create the label for this note page.
+#: ../src/scim_table_imengine_setup.cpp:814
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/scim_table_imengine_setup.cpp:820
+#. Create the label for this note page.
+#: ../src/scim_table_imengine_setup.cpp:824
 msgid "Table Management"
 msgstr "码表管理"
 
-#: src/scim_table_imengine_setup.cpp:1024
-#: src/scim_table_imengine_setup.cpp:1031
+#: ../src/scim_table_imengine_setup.cpp:1028
+#: ../src/scim_table_imengine_setup.cpp:1035
 msgid "Select an icon file"
 msgstr "选择一个图标文件"
 
-#: src/scim_table_imengine_setup.cpp:1161
+#: ../src/scim_table_imengine_setup.cpp:1165
 msgid "User"
 msgstr "用户"
 
-#: src/scim_table_imengine_setup.cpp:1161
+#: ../src/scim_table_imengine_setup.cpp:1165
 msgid "System"
 msgstr "系统"
 
-#: src/scim_table_imengine_setup.cpp:1331
-#: src/scim_table_imengine_setup.cpp:1338
+#: ../src/scim_table_imengine_setup.cpp:1335
+#: ../src/scim_table_imengine_setup.cpp:1342
 msgid "Please select the table file to be installed."
 msgstr "请选择要安装的码表文件."
 
-#: src/scim_table_imengine_setup.cpp:1371
+#: ../src/scim_table_imengine_setup.cpp:1375
 msgid "Failed to install the table! It's already in table file directory."
 msgstr "码表安装失败! 它已经被安装到码表目录中了."
 
-#: src/scim_table_imengine_setup.cpp:1390
+#: ../src/scim_table_imengine_setup.cpp:1394
 msgid "Failed to load the table file!"
 msgstr "无法调入码表文件!"
 
-#: src/scim_table_imengine_setup.cpp:1410
+#: ../src/scim_table_imengine_setup.cpp:1414
 msgid ""
 "Failed to install the table! Another version of this table was already "
 "installed."
 msgstr "码表安装失败! 这个码表的另外一个版本已经被安装过了."
 
-#: src/scim_table_imengine_setup.cpp:1424
+#: ../src/scim_table_imengine_setup.cpp:1428
 msgid ""
 "Another version of this table was already installed. Do you want to replace "
 "it with the new one?"
 msgstr "已经安装了这个码表的另外一个版本. 你想用新码表替换原来那个么?"
 
-#: src/scim_table_imengine_setup.cpp:1450
+#: ../src/scim_table_imengine_setup.cpp:1454
 msgid ""
 "Failed to install the table! A table with the same file name was already "
 "installed."
 msgstr "码表安装失败! 一个有相同文件名的码表已经被安装."
 
-#: src/scim_table_imengine_setup.cpp:1464
+#: ../src/scim_table_imengine_setup.cpp:1468
 msgid ""
 "A table with the same file name was already installed. Do you want to "
 "overwrite it?"
 msgstr "一个有相同文件名的码表已经被安装. 你想覆盖它么?"
 
-#: src/scim_table_imengine_setup.cpp:1483
+#: ../src/scim_table_imengine_setup.cpp:1487
 #, c-format
 msgid "Failed to install the table to %s!"
 msgstr "将码表安装到 %s 失败!"
 
-#: src/scim_table_imengine_setup.cpp:1520
+#: ../src/scim_table_imengine_setup.cpp:1524
 #, c-format
 msgid "Can not delete the file %s!"
 msgstr "无法删除文件 %s!"
 
-#: src/scim_table_imengine_setup.cpp:1531
+#: ../src/scim_table_imengine_setup.cpp:1535
 msgid "Are you sure to delete this table file?"
 msgstr "你确认删除这个码表文件?"
 
-#: src/scim_table_imengine_setup.cpp:1544
+#: ../src/scim_table_imengine_setup.cpp:1548
 msgid "Failed to delete the table file!"
 msgstr "码表文件删除失败!"
 
-#: src/scim_table_imengine_setup.cpp:1559
-#: src/scim_table_imengine_setup.cpp:2039
-#: src/scim_table_imengine_setup.cpp:2068
-#: src/scim_table_imengine_setup.cpp:2098
-#: src/scim_table_imengine_setup.cpp:2128
-#: src/scim_table_imengine_setup.cpp:2158
-#: src/scim_table_imengine_setup.cpp:2188
-#: src/scim_table_imengine_setup.cpp:2218
-#: src/scim_table_imengine_setup.cpp:2248
-#: src/scim_table_imengine_setup.cpp:2280
-#: src/scim_table_imengine_setup.cpp:2316
-#: src/scim_table_imengine_setup.cpp:2344
+#: ../src/scim_table_imengine_setup.cpp:1563
+#: ../src/scim_table_imengine_setup.cpp:2029
+#: ../src/scim_table_imengine_setup.cpp:2057
+#: ../src/scim_table_imengine_setup.cpp:2086
+#: ../src/scim_table_imengine_setup.cpp:2115
+#: ../src/scim_table_imengine_setup.cpp:2144
+#: ../src/scim_table_imengine_setup.cpp:2173
+#: ../src/scim_table_imengine_setup.cpp:2202
+#: ../src/scim_table_imengine_setup.cpp:2231
+#: ../src/scim_table_imengine_setup.cpp:2261
+#: ../src/scim_table_imengine_setup.cpp:2293
+#: ../src/scim_table_imengine_setup.cpp:2320
 msgid "True"
 msgstr "真"
 
-#: src/scim_table_imengine_setup.cpp:1561
+#: ../src/scim_table_imengine_setup.cpp:1565
 msgid "False"
 msgstr "假"
 
-#: src/scim_table_imengine_setup.cpp:1608
-#: src/scim_table_imengine_setup.cpp:1609
+#: ../src/scim_table_imengine_setup.cpp:1611
+#: ../src/scim_table_imengine_setup.cpp:1612
 msgid "Split Keys:"
 msgstr "分隔键:"
 
-#: src/scim_table_imengine_setup.cpp:1610
+#: ../src/scim_table_imengine_setup.cpp:1613
 msgid "The key strokes to split inputted string."
 msgstr "用于分隔输入字符串的按键."
 
-#: src/scim_table_imengine_setup.cpp:1616
-#: src/scim_table_imengine_setup.cpp:1617
+#: ../src/scim_table_imengine_setup.cpp:1619
+#: ../src/scim_table_imengine_setup.cpp:1620
 msgid "Commit Keys:"
 msgstr "提交键:"
 
-#: src/scim_table_imengine_setup.cpp:1618
+#: ../src/scim_table_imengine_setup.cpp:1621
 msgid "The key strokes to commit converted result to client."
 msgstr "用于将转换结果提交给客户程序的按键."
 
-#: src/scim_table_imengine_setup.cpp:1624
-#: src/scim_table_imengine_setup.cpp:1625
+#: ../src/scim_table_imengine_setup.cpp:1627
+#: ../src/scim_table_imengine_setup.cpp:1628
 msgid "Forward Keys:"
 msgstr "转发键:"
 
-#: src/scim_table_imengine_setup.cpp:1626
+#: ../src/scim_table_imengine_setup.cpp:1629
 msgid "The key strokes to forward inputted string to client."
 msgstr "用于将已输入的字符串转发给客户程序的按键."
 
-#: src/scim_table_imengine_setup.cpp:1632
-#: src/scim_table_imengine_setup.cpp:1633
+#: ../src/scim_table_imengine_setup.cpp:1635
+#: ../src/scim_table_imengine_setup.cpp:1636
 msgid "Select Keys:"
 msgstr "选择键:"
 
-#: src/scim_table_imengine_setup.cpp:1634
+#: ../src/scim_table_imengine_setup.cpp:1637
 msgid "The key strokes to select candidate phrases in lookup table."
 msgstr "在候选词表中选择候选词的按键."
 
-#: src/scim_table_imengine_setup.cpp:1640
-#: src/scim_table_imengine_setup.cpp:1641
+#: ../src/scim_table_imengine_setup.cpp:1643
+#: ../src/scim_table_imengine_setup.cpp:1644
 msgid "Page Up Keys:"
 msgstr "向上翻页键:"
 
-#: src/scim_table_imengine_setup.cpp:1642
+#: ../src/scim_table_imengine_setup.cpp:1645
 msgid "The lookup table page up keys"
 msgstr "候选词表向上翻页键"
 
-#: src/scim_table_imengine_setup.cpp:1648
-#: src/scim_table_imengine_setup.cpp:1649
+#: ../src/scim_table_imengine_setup.cpp:1651
+#: ../src/scim_table_imengine_setup.cpp:1652
 msgid "Page Down Keys:"
 msgstr "向下翻页键:"
 
-#: src/scim_table_imengine_setup.cpp:1650
+#: ../src/scim_table_imengine_setup.cpp:1653
 msgid "The lookup table page down keys"
 msgstr "候选词表向下翻页键"
 
-#: src/scim_table_imengine_setup.cpp:1676
+#: ../src/scim_table_imengine_setup.cpp:1678
 msgid "Table Properties"
 msgstr "码表属性"
 
-#: src/scim_table_imengine_setup.cpp:1708
+#. Name
+#: ../src/scim_table_imengine_setup.cpp:1708
 msgid "Name:"
 msgstr "名称:"
 
-#: src/scim_table_imengine_setup.cpp:1722
-#: src/scim_table_imengine_setup.cpp:1725
+#: ../src/scim_table_imengine_setup.cpp:1721
 msgid "The name of this table."
 msgstr "这个码表的名称."
 
-#: src/scim_table_imengine_setup.cpp:1731
+#. Author
+#: ../src/scim_table_imengine_setup.cpp:1731
 msgid "Author:"
 msgstr "作者:"
 
-#: src/scim_table_imengine_setup.cpp:1746
-#: src/scim_table_imengine_setup.cpp:1749
+#: ../src/scim_table_imengine_setup.cpp:1744
 msgid "The author of this table."
 msgstr "这个码表的作者."
 
-#: src/scim_table_imengine_setup.cpp:1755
+#. UUID
+#: ../src/scim_table_imengine_setup.cpp:1754
 msgid "UUID:"
 msgstr "唯一号:"
 
-#: src/scim_table_imengine_setup.cpp:1770
-#: src/scim_table_imengine_setup.cpp:1773
+#: ../src/scim_table_imengine_setup.cpp:1767
 msgid "The unique ID of this table."
 msgstr "这个码表的唯一号."
 
-#: src/scim_table_imengine_setup.cpp:1779
+#. Serial Number
+#: ../src/scim_table_imengine_setup.cpp:1777
 msgid "Serial Number:"
 msgstr "系列号:"
 
-#: src/scim_table_imengine_setup.cpp:1794
-#: src/scim_table_imengine_setup.cpp:1797
+#: ../src/scim_table_imengine_setup.cpp:1790
 msgid "The serial number of this table."
 msgstr "这个码表的系列号."
 
-#: src/scim_table_imengine_setup.cpp:1803
+#. Icon file
+#: ../src/scim_table_imengine_setup.cpp:1800
 msgid "Icon File:"
 msgstr "图标文件:"
 
-#: src/scim_table_imengine_setup.cpp:1824
+#: ../src/scim_table_imengine_setup.cpp:1821
 msgid "Browse"
 msgstr "浏览"
 
-#: src/scim_table_imengine_setup.cpp:1834
-#: src/scim_table_imengine_setup.cpp:1837
+#: ../src/scim_table_imengine_setup.cpp:1829
 msgid "The icon file of this table."
 msgstr "这个码表的图标文件."
 
-#: src/scim_table_imengine_setup.cpp:1843
+#. Supported Languages
+#: ../src/scim_table_imengine_setup.cpp:1839
 msgid "Supported Languages:"
 msgstr "支持的语言:"
 
-#: src/scim_table_imengine_setup.cpp:1858
-#: src/scim_table_imengine_setup.cpp:1861
+#: ../src/scim_table_imengine_setup.cpp:1852
 msgid "The languages supported by this table."
 msgstr "这个码表支持的语言."
 
-#: src/scim_table_imengine_setup.cpp:1867
+#. Status Prompts
+#: ../src/scim_table_imengine_setup.cpp:1862
 msgid "Status Prompt:"
 msgstr "状态提示:"
 
-#: src/scim_table_imengine_setup.cpp:1882
-#: src/scim_table_imengine_setup.cpp:1885
+#: ../src/scim_table_imengine_setup.cpp:1875
 msgid "A prompt string to be shown in status area."
 msgstr "要显示在状态区中的提示字符串."
 
-#: src/scim_table_imengine_setup.cpp:1891
+#. Valid Input Chars
+#: ../src/scim_table_imengine_setup.cpp:1885
 msgid "Valid Input Chars:"
 msgstr "合法的输入字符:"
 
-#: src/scim_table_imengine_setup.cpp:1906
-#: src/scim_table_imengine_setup.cpp:1909
+#: ../src/scim_table_imengine_setup.cpp:1898
 msgid "The valid input chars of this table."
 msgstr "这个码表的合法的输入字符."
 
-#: src/scim_table_imengine_setup.cpp:1915
+#. Mulit Wildcard Char
+#: ../src/scim_table_imengine_setup.cpp:1908
 msgid "Multi Wildcard Char:"
 msgstr "多重扩展字符:"
 
-#: src/scim_table_imengine_setup.cpp:1930
-#: src/scim_table_imengine_setup.cpp:1934
+#: ../src/scim_table_imengine_setup.cpp:1922
 msgid ""
 "The multi wildcard chars of this table. These chars can be used to match one "
 "or more arbitrary chars."
 msgstr "这个码表的多重扩展字符. 这些字符可以用来匹配一个或多个任意字符."
 
-#: src/scim_table_imengine_setup.cpp:1941
+#. Single Wildcard Char
+#: ../src/scim_table_imengine_setup.cpp:1933
 msgid "Single Wildcard Char:"
 msgstr "单一扩展字符:"
 
-#: src/scim_table_imengine_setup.cpp:1956
-#: src/scim_table_imengine_setup.cpp:1960
+#: ../src/scim_table_imengine_setup.cpp:1947
 msgid ""
 "The single wildcard chars of this table.These chars can be used to match one "
 "arbitrary char."
 msgstr "这个码表的单一扩展字符. 这些字符可以用于匹配一个任意字符."
 
-#: src/scim_table_imengine_setup.cpp:1989
+#: ../src/scim_table_imengine_setup.cpp:1980
 msgid "..."
 msgstr ""
 
-#: src/scim_table_imengine_setup.cpp:2007
+#. Max key length
+#: ../src/scim_table_imengine_setup.cpp:1998
 msgid "Max Key Length:"
 msgstr "最大键长度:"
 
-#: src/scim_table_imengine_setup.cpp:2023
-#: src/scim_table_imengine_setup.cpp:2026
+#: ../src/scim_table_imengine_setup.cpp:2012
 msgid "The maxmium length of key strings."
 msgstr "键串的最大长度."
 
-#: src/scim_table_imengine_setup.cpp:2032
+#. Show key prompt.
+#: ../src/scim_table_imengine_setup.cpp:2022
 msgid "Show Key Prompt:"
 msgstr "显示键提示:"
 
-#: src/scim_table_imengine_setup.cpp:2051
-#: src/scim_table_imengine_setup.cpp:2055
+#: ../src/scim_table_imengine_setup.cpp:2040
 msgid "If true then the key prompts will be shown instead of the raw keys."
 msgstr "如果选中这个选项, 则显式键的提示而不是原始的键."
 
-#: src/scim_table_imengine_setup.cpp:2061
+#. Auto Select
+#: ../src/scim_table_imengine_setup.cpp:2050
 msgid "Auto Select:"
 msgstr "自动选择:"
 
-#: src/scim_table_imengine_setup.cpp:2080
-#: src/scim_table_imengine_setup.cpp:2084
+#: ../src/scim_table_imengine_setup.cpp:2068
 msgid ""
 "If true then the first candidate phrase will be selected automatically when "
 "inputing the next key."
 msgstr "如果为真, 则在输入下一个键的时候, 第一个候选词将被自动选择."
 
-#: src/scim_table_imengine_setup.cpp:2091
+#. Auto Wildcard
+#: ../src/scim_table_imengine_setup.cpp:2079
 msgid "Auto Wildcard:"
 msgstr "自动扩展:"
 
-#: src/scim_table_imengine_setup.cpp:2110
-#: src/scim_table_imengine_setup.cpp:2114
+#: ../src/scim_table_imengine_setup.cpp:2097
 #, fuzzy
 msgid ""
 "If true then a multi wildcard char will be appended to the end of the "
 "inputted key string when searching phrases."
 msgstr "如果为真, 则会在搜索词语的时候, 在已输入的键串后附加一个多重扩展字符."
 
-#: src/scim_table_imengine_setup.cpp:2121
+#. Auto Commit
+#: ../src/scim_table_imengine_setup.cpp:2108
 msgid "Auto Commit:"
 msgstr "自动提交:"
 
-#: src/scim_table_imengine_setup.cpp:2140
-#: src/scim_table_imengine_setup.cpp:2144
+#: ../src/scim_table_imengine_setup.cpp:2126
 msgid ""
 "If true then the converted result string will be committed to client "
 "automatically."
 msgstr "如果为真, 则转换结果字符串将被自动提交到客户程序."
 
-#: src/scim_table_imengine_setup.cpp:2151
+#. Auto Split
+#: ../src/scim_table_imengine_setup.cpp:2137
 msgid "Auto Split:"
 msgstr "自动分隔:"
 
-#: src/scim_table_imengine_setup.cpp:2170
-#: src/scim_table_imengine_setup.cpp:2174
+#: ../src/scim_table_imengine_setup.cpp:2155
 #, fuzzy
 msgid ""
 "If true then the inputted key string will be split automatically when "
 "necessary."
 msgstr "如果为真, 则当有需要的时候, 自动分隔输入的键串."
 
-#: src/scim_table_imengine_setup.cpp:2181
+#. Discard Invalid Key
+#: ../src/scim_table_imengine_setup.cpp:2166
 msgid "Discard Invalid Key:"
 msgstr "丢弃无效键:"
 
-#: src/scim_table_imengine_setup.cpp:2200
-#: src/scim_table_imengine_setup.cpp:2204
+#: ../src/scim_table_imengine_setup.cpp:2184
 msgid ""
 "If true then the invalid key will be discarded automatically.This option is "
 "only valid when Auto Select and Auto Commit is true."
 msgstr ""
 "如果为真, 则无效键将被自动丢弃. 此选项仅在自动选择和自动提交选项开启时有效."
 
-#: src/scim_table_imengine_setup.cpp:2211
+#. Dynamic Adjust
+#: ../src/scim_table_imengine_setup.cpp:2195
 msgid "Dynamic Adjust:"
 msgstr "动态调整:"
 
-#: src/scim_table_imengine_setup.cpp:2230
-#: src/scim_table_imengine_setup.cpp:2234
+#: ../src/scim_table_imengine_setup.cpp:2213
 msgid "If true then the phrases' frequencies will be adjusted dynamically."
 msgstr "如果为真, 则会动态调整词语的频率信息."
 
-#: src/scim_table_imengine_setup.cpp:2241
+#. Auto Fill Preedit String
+#: ../src/scim_table_imengine_setup.cpp:2224
 msgid "Auto Fill Preedit Area:"
 msgstr "自动填充预编辑区:"
 
-#: src/scim_table_imengine_setup.cpp:2260
-#: src/scim_table_imengine_setup.cpp:2265
+#: ../src/scim_table_imengine_setup.cpp:2242
 msgid ""
 "If true then the preedit string will be filled up with the current candiate "
 "phrase automatically.This option is only valid when Auto Select is TRUE."
@@ -754,12 +772,12 @@ msgstr ""
 "如果为真, 则预编辑字符串将自动被当前候选词填充. 此选项仅在自动选择选项开启时"
 "有效."
 
-#: src/scim_table_imengine_setup.cpp:2273
+#. Always Show Lookup
+#: ../src/scim_table_imengine_setup.cpp:2254
 msgid "Always Show Lookup Table:"
 msgstr "一直显示候选词表:"
 
-#: src/scim_table_imengine_setup.cpp:2292
-#: src/scim_table_imengine_setup.cpp:2299
+#: ../src/scim_table_imengine_setup.cpp:2272
 msgid ""
 "If true then the lookup table will always be shown when any candidate phrase "
 "is available. Otherwise the lookup table will only be shown when necessary.\n"
@@ -770,65 +788,65 @@ msgstr ""
 "显示.\n"
 "如果自动填充为假, 则该选项不起作用, 该值将永远为真."
 
-#: src/scim_table_imengine_setup.cpp:2309
+#. Default full width punctuation
+#: ../src/scim_table_imengine_setup.cpp:2286
 msgid "Default Full Width Punct:"
 msgstr "缺省全角标点:"
 
-#: src/scim_table_imengine_setup.cpp:2328
-#: src/scim_table_imengine_setup.cpp:2331
+#: ../src/scim_table_imengine_setup.cpp:2303
 msgid "If true then full width punctuations will be inputted by default."
 msgstr "如果为真, 则在缺省状态下输入全角标点."
 
-#: src/scim_table_imengine_setup.cpp:2337
+#. Default full width letter
+#: ../src/scim_table_imengine_setup.cpp:2313
 msgid "Default Full Width Letter:"
 msgstr "缺省全角字母:"
 
-#: src/scim_table_imengine_setup.cpp:2356
-#: src/scim_table_imengine_setup.cpp:2359
+#: ../src/scim_table_imengine_setup.cpp:2330
 msgid "If true then full width letters will be inputted by default."
 msgstr "如果为真, 则在缺省状态下输入全角字符."
 
-#: src/scim_table_imengine_setup.cpp:2548
+#: ../src/scim_table_imengine_setup.cpp:2500
 msgid "Invalid icon file."
 msgstr "无效的图标文件."
 
-#: src/scim_table_imengine_setup.cpp:2553
+#: ../src/scim_table_imengine_setup.cpp:2505
 msgid "Invalid languages."
 msgstr "无效的语言."
 
-#: src/scim_table_imengine_setup.cpp:2558
+#: ../src/scim_table_imengine_setup.cpp:2510
 msgid "Invalid status prompt."
 msgstr "无效的状态提示."
 
-#: src/scim_table_imengine_setup.cpp:2566
+#: ../src/scim_table_imengine_setup.cpp:2518
 msgid "Invalid multi wildcard chars."
 msgstr "无效的多重扩展字符."
 
-#: src/scim_table_imengine_setup.cpp:2578
+#: ../src/scim_table_imengine_setup.cpp:2530
 msgid "Invalid single wildcard chars."
 msgstr "无效的单一扩展字符."
 
-#: src/scim_table_imengine_setup.cpp:2586
+#: ../src/scim_table_imengine_setup.cpp:2538
 msgid "Invalid commit keys."
 msgstr "无效的提交键."
 
-#: src/scim_table_imengine_setup.cpp:2591
+#: ../src/scim_table_imengine_setup.cpp:2543
 msgid "Invalid select keys."
 msgstr "无效的选择键."
 
-#: src/scim_table_imengine_setup.cpp:2596
+#: ../src/scim_table_imengine_setup.cpp:2548
 msgid "Invalid page up keys."
 msgstr "无效的向上翻页键."
 
-#: src/scim_table_imengine_setup.cpp:2601
+#: ../src/scim_table_imengine_setup.cpp:2553
 msgid "Invalid page down keys."
 msgstr "无效的向下翻页键."
 
-#: src/scim_table_imengine_setup.cpp:2607
+#: ../src/scim_table_imengine_setup.cpp:2559
 msgid "Invalid max key length."
 msgstr "无效的最大键长度."
 
-#: src/scim_table_imengine_setup.cpp:2807
+#: ../src/scim_table_imengine_setup.cpp:2759
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "保存码表 %s 失败!"

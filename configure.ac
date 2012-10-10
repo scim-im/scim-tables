@@ -1,32 +1,31 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(scim-tables, 0.5.11, suzhe@tsinghua.org.cn) #do not forget to edit skim/configure.in.in to change the version
+AC_INIT(scim-tables, 0.5.12, suzhe@tsinghua.org.cn) #do not forget to edit skim/configure.in.in to change the version
 AC_CONFIG_SRCDIR([src/scim_table_imengine.h])
 
-SCIM_VERSION=1.4.9
-
-AC_SUBST(SCIM_VERSION)
-
-PACKAGE=scim-tables
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$PACKAGE", [The gettext domain])
-AC_SUBST(PACKAGE)
+AC_SUBST(PACKAGE_VERSION)
+AC_DEFINE_UNQUOTED(SCIM_TABLES_VERSION, "$PACKAGE_VERSION", [The release version of scim-tables.])
 
 # Init automake stuff
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER([config.h])
 
 # Init gettext
-ALL_LINGUAS="zh_CN zh_TW ja ko de fr it pa nl"
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION(0.14)
 
-# Check intltool
-# IT_PROG_INTLTOOL([0.33], [no-xml])
+GETTEXT_PACKAGE=scim-tables
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [The gettext domain])
+AM_GLIB_GNU_GETTEXT
 
-AC_LIBTOOL_WIN32_DLL
+# Init libtool
 AC_LIBTOOL_DLOPEN
 AC_PROG_LIBTOOL
-AC_LIB_LTDL
+# AC_LIB_LTDL
 AC_SUBST(LIBTOOL_DEPS)
+
+# Check intltool
+IT_PROG_INTLTOOL([0.33], [no-xml])
 
 AC_PROG_CXX
 AC_PROG_CC
@@ -35,6 +34,9 @@ AC_LANG(C++)
 AC_C_CONST
 AC_C_INLINE
 AC_TYPE_SIZE_T
+
+SCIM_VERSION=1.4.9
+AC_SUBST(SCIM_VERSION)
 
 # Check SCIM 
 PKG_CHECK_MODULES(SCIM,[scim >= $SCIM_VERSION])
@@ -55,12 +57,11 @@ AC_SUBST(SCIM_BUILD_SETUP)
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([langinfo.h libintl.h string.h hash_map ext/hash_map])
+# AC_CHECK_HEADERS([langinfo.h libintl.h string.h hash_map ext/hash_map])
 
 # libtool option to control which symbols are exported
 # right now, symbols starting with _ are not exported
 LIBTOOL_EXPORT_OPTIONS='-export-symbols-regex "^[[^_]].*"'
-AC_SUBST(LIBTOOL_EXPORT_OPTIONS)
 
 # Extra args.
 AC_ARG_ENABLE(debug,
@@ -238,7 +239,7 @@ AC_OUTPUT
 
 AC_MSG_RESULT([
 Build options:
-  Version                  $VERSION
+  Version                  $PACKAGE_VERSION
   Install prefix           $prefix
   Build shared libs        $enable_shared
   Build static libs        $enable_static
