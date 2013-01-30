@@ -160,6 +160,7 @@ AC_CONFIG_FILES([Makefile
 		 tables/pa/Punjabi-remington.txt
 		 tables/ru/Makefile
 		 tables/ru/RussianTraditional.txt
+		 tables/ru/RussianComputer.txt
 		 tables/ru/Translit.txt
 		 tables/ru/Yawerty.txt
 		 tables/ta/Makefile
