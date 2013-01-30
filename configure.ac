@@ -130,6 +130,7 @@ AC_CONFIG_FILES([Makefile
 		 tables/gu/Makefile
 		 tables/he/Makefile
 		 tables/he/classicalhebrew.txt
+		 tables/he/HebrewComputer.txt
 		 tables/hi/Hindi-inscript.txt
 		 tables/hi/Hindi-phonetic.txt
 		 tables/hi/Hindi-remington.txt

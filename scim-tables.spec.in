@@ -212,6 +212,7 @@ rm -f $RPM_BUILD_ROOT/@KDEDIR@/lib/kde*/*.{a,la}
 @SCIM_TABLEDIR@/Bengali-probhat.bin
 @SCIM_TABLEDIR@/Gujarati-inscript.bin
 @SCIM_TABLEDIR@/Gujarati-phonetic.bin
+@SCIM_TABLEDIR@/HebrewComputer.bin
 @SCIM_TABLEDIR@/Hindi-inscript.bin
 @SCIM_TABLEDIR@/Hindi-phonetic.bin
 @SCIM_TABLEDIR@/IPA-X-SAMPA.bin

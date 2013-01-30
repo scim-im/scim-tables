@@ -36,6 +36,7 @@ INST_ICONS		= table.png	\
 			  Gujarati-phonetic.png	\
 			  Hangul.png    \
 			  Hanja.png     \
+			  HebrewComputer.png        \
 			  Hindi-inscript.png	\
 			  Hindi-phonetic.png	\
 			  Hindi-remington.png   \
