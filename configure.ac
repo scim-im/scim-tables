@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(scim-tables, 0.5.12, suzhe@tsinghua.org.cn) #do not forget to edit skim/configure.in.in to change the version
+AC_INIT(scim-tables, 0.5.13, suzhe@tsinghua.org.cn) #do not forget to edit skim/configure.in.in to change the version
 AC_CONFIG_SRCDIR([src/scim_table_imengine.h])
 
 AC_SUBST(PACKAGE_VERSION)
@@ -130,6 +130,7 @@ AC_CONFIG_FILES([Makefile
 		 tables/gu/Makefile
 		 tables/he/Makefile
 		 tables/he/classicalhebrew.txt
+		 tables/he/HebrewComputer.txt
 		 tables/hi/Hindi-inscript.txt
 		 tables/hi/Hindi-phonetic.txt
 		 tables/hi/Hindi-remington.txt
@@ -160,6 +161,7 @@ AC_CONFIG_FILES([Makefile
 		 tables/pa/Punjabi-remington.txt
 		 tables/ru/Makefile
 		 tables/ru/RussianTraditional.txt
+		 tables/ru/RussianComputer.txt
 		 tables/ru/Translit.txt
 		 tables/ru/Yawerty.txt
 		 tables/ta/Makefile

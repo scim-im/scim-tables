@@ -36,6 +36,7 @@ INST_ICONS		= table.png	\
 			  Gujarati-phonetic.png	\
 			  Hangul.png    \
 			  Hanja.png     \
+			  HebrewComputer.png        \
 			  Hindi-inscript.png	\
 			  Hindi-phonetic.png	\
 			  Hindi-remington.png   \
@@ -57,6 +58,7 @@ INST_ICONS		= table.png	\
 			  Punjabi-remington.png \
 			  Quick.png	\
 			  RussianTraditional.png        \
+			  RussianComputer.png        \
 			  Simplex.png   \
 			  SmartCangJie6.png    \
 			  Stroke5.png	\

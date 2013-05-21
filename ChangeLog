@@ -1,3 +1,8 @@
+2013-05-21 09:01  tzhuan
+
+	* Release 0.5.13
+	* Add modern Hebrew and Russian support, thanks to Ury Marshak
+
 2008-12-22 14:59  ryo-dairiki
 
 	* po/ko.po, po/nl.po, tables/zh/Cantonese.txt.in: - Update the

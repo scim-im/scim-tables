@@ -17,11 +17,13 @@
 
 SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
-scim_tables_source	= classicalhebrew.txt.in
-scim_tables		= classicalhebrew.txt
+scim_tables_source	= 	classicalhebrew.txt.in \
+				HebrewComputer.txt.in
+scim_tables		= 	classicalhebrew.txt \
+				HebrewComputer.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
-scim_tables_bin_DATA = classicalhebrew.bin
+scim_tables_bin_DATA = classicalhebrew.bin HebrewComputer.bin
 
 
 EXTRA_DIST = $(scim_tables_source)

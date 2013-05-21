@@ -19,15 +19,18 @@ SCIM_MAKE_TABLE	= $(top_builddir)/src/scim-make-table
 
 scim_tables_source	= Yawerty.txt.in\
 			Translit.txt.in\
+			RussianComputer.txt.in\
 			RussianTraditional.txt.in
 
 scim_tables		= Yawerty.txt\
 			Translit.txt\
+			RussianComputer.txt\
 			RussianTraditional.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
 scim_tables_bin_DATA	= Yawerty.bin\
 			Translit.bin\
+			RussianComputer.bin\
 			RussianTraditional.bin
 
 
