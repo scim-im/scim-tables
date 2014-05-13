@@ -74,7 +74,7 @@ USE_FULL_WIDTH_LETTER = FALSE
 DEF_FULL_WIDTH_LETTER = FALSE
 
 ### The maxmium length of a key.
-MAX_KEY_LENGTH = 1
+MAX_KEY_LENGTH = 2
 
 ### Valid input chars.
 VALID_INPUT_CHARS = `qwertyuiopasdfghjkl;'zxcvbnm,./
@@ -110,6 +110,7 @@ BEGIN_TABLE
 `       ;
 q       /
 w       ׳
+ww      ״
 e       ק
 r       ר
 t       א
