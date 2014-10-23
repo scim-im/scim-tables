@@ -2,7 +2,7 @@
 
 set -x
 
-AM_VERSION=-1.11
+AM_VERSION=
 AC_VERSION=
 
 if [ "x${ACLOCAL_DIR}" != "x" ]; then
