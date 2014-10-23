@@ -60,6 +60,21 @@
     #define SCIM_TABLES_USE_GTK_FILE_CHOOSER
 #endif
 
+#if GTK_CHECK_VERSION(3, 4, 0)
+    #define SCIM_TABLES_USE_GTK_GRID
+#endif
+
+#if GTK_CHECK_VERSION(3, 10, 0)
+#else
+    #define SCIM_TABLES_USE_GTK_STOCK
+#endif
+
+#if GTK_CHECK_VERSION(3, 14, 0)
+    #define SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+    #define SCIM_TABLES_USE_GTK_BUTTON_NEW_FROM_ICON_NAME
+#else
+    #define SCIM_TABLES_USE_GTK_TREE_VIEW_SET_RULES_HINT
+#endif
 
 using namespace scim;
 
@@ -527,7 +542,11 @@ create_keyboard_page ()
 
     int i;
 
+#ifdef SCIM_TABLES_USE_GTK_GRID
+    table = gtk_grid_new ();
+#else   
     table = gtk_table_new (3, 3, FALSE);
+#endif
     gtk_widget_show (table);
 
     // Create keyboard setting.
@@ -535,25 +554,50 @@ create_keyboard_page ()
         label = gtk_label_new (NULL);
         gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(__config_keyboards[i].label));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+        gtk_widget_set_margin_start (label, 4);
+        gtk_widget_set_margin_end (label, 4);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
         gtk_misc_set_padding (GTK_MISC (label), 4, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_widget_set_valign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, i, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (GTK_FILL), 4, 4);
+#endif
 
         __config_keyboards [i].entry = gtk_entry_new ();
         gtk_widget_show (__config_keyboards [i].entry);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (__config_keyboards [i].entry, GTK_ALIGN_FILL);
+        gtk_widget_set_valign (__config_keyboards [i].entry, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), __config_keyboards [i].entry, 1, i, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), __config_keyboards [i].entry, 1, 2, i, i+1,
                           (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
                           (GtkAttachOptions) (GTK_FILL), 4, 4);
+#endif
 
         gtk_editable_set_editable (GTK_EDITABLE (__config_keyboards[i].entry), FALSE);
 
         __config_keyboards[i].button = gtk_button_new_with_label ("...");
         gtk_widget_show (__config_keyboards[i].button);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (__config_keyboards [i].button, GTK_ALIGN_FILL);
+        gtk_widget_set_valign (__config_keyboards [i].button, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), __config_keyboards [i].button, 2, i, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), __config_keyboards[i].button, 2, 3, i, i+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (GTK_FILL), 4, 4);
+#endif
         gtk_label_set_mnemonic_widget (GTK_LABEL (label), __config_keyboards[i].button);
     }
 
@@ -620,8 +664,17 @@ create_table_management_page ()
     label = gtk_label_new (_("The installed tables:"));
     gtk_widget_show (label);
     gtk_box_pack_start (GTK_BOX (page), label, FALSE, FALSE, 2);
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+    gtk_widget_set_halign (label, GTK_ALIGN_START);
+    gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+    gtk_widget_set_margin_start (label, 2);
+    gtk_widget_set_margin_end (label, 2);
+    gtk_widget_set_margin_top (label, 2);
+    gtk_widget_set_margin_bottom (label, 2);
+#else
     gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
     gtk_misc_set_padding (GTK_MISC (label), 2, 2);
+#endif
 
 #ifdef SCIM_TABLES_USE_GTK_BOX
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -642,7 +695,9 @@ create_table_management_page ()
     __widget_table_list_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (__widget_table_list_model));
     gtk_widget_show (__widget_table_list_view);
     gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (__widget_table_list_view), TRUE);
+#if SCIM_TABLES_USE_GTK_TREE_VIEW_SET_RULES_HINT
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (__widget_table_list_view), TRUE);
+#endif
     gtk_container_add (GTK_CONTAINER (scrolledwindow), __widget_table_list_view);
 
     // Create name column
@@ -1028,8 +1083,18 @@ on_icon_file_selection_clicked (GtkButton *button,
                                     _("Select an icon file"),
                                     NULL,
                                     GTK_FILE_CHOOSER_ACTION_OPEN,
-                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                    GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+#ifdef SCIM_TABLES_USE_GTK_STOCK
+                                    GTK_STOCK_CANCEL,
+#else
+                                    _("_Cancel"),
+#endif
+                                    GTK_RESPONSE_CANCEL,
+#ifdef SCIM_TABLES_USE_GTK_STOCK
+                                    GTK_STOCK_OPEN,
+#else
+                                    _("_Open"),
+#endif
+                                    GTK_RESPONSE_OK,
                                     NULL);
 #else
         GtkWidget *file_selection = gtk_file_selection_new (_("Select an icon file"));
@@ -1335,8 +1400,18 @@ on_table_install_clicked (GtkButton *button,
                                 _("Please select the table file to be installed."),
                                 NULL,
                                 GTK_FILE_CHOOSER_ACTION_OPEN,
-                                GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                                GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+#ifdef SCIM_TABLES_USE_GTK_STOCK
+                                GTK_STOCK_CANCEL,
+#else
+                                _("_Cancel"),
+#endif
+                                GTK_RESPONSE_CANCEL,
+#ifdef SCIM_TABLES_USE_GTK_STOCK
+                                GTK_STOCK_OPEN,
+#else
+                                _("_Open"),
+#endif
+                                GTK_RESPONSE_OK,
                                 NULL);
 #else
     file_selection = gtk_file_selection_new (_("Please select the table file to be installed."));
@@ -1698,25 +1773,49 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         gtk_widget_show (viewport);
         gtk_container_add (GTK_CONTAINER (scrolledwindow), viewport);
   
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        table = gtk_grid_new ();
+#else   
         table = gtk_table_new (24, 2, FALSE);
+#endif
         gtk_widget_show (table);
         gtk_container_add (GTK_CONTAINER (viewport), table);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_grid_set_row_spacing (GTK_GRID (table), 2);
+        gtk_grid_set_column_spacing (GTK_GRID (table), 2);
+#else
         gtk_table_set_row_spacings (GTK_TABLE (table), 2);
         gtk_table_set_col_spacings (GTK_TABLE (table), 2);
+#endif
   
         // Name
         label = gtk_label_new (_("Name:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         entry_name = gtk_entry_new ();
         gtk_widget_show (entry_name);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (entry_name, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), entry_name, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), entry_name, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
  
         const gchar *name_tooltip = _("The name of this table.");
 #ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
@@ -1730,16 +1829,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Author
         label = gtk_label_new (_("Author:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         entry_author = gtk_entry_new ();
         gtk_widget_show (entry_author);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (entry_author, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), entry_author, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), entry_author, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
   
         const gchar *author_tooltip = _("The author of this table.");
 #ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
@@ -1753,16 +1867,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // UUID
         label = gtk_label_new (_("UUID:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         entry_uuid = gtk_entry_new ();
         gtk_widget_show (entry_uuid);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (entry_uuid, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), entry_uuid, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), entry_uuid, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
   
         const gchar *uuid_tooltip = _("The unique ID of this table.");
 #ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
@@ -1776,16 +1905,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Serial Number
         label = gtk_label_new (_("Serial Number:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         entry_serial = gtk_entry_new ();
         gtk_widget_show (entry_serial);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (entry_serial, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), entry_serial, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), entry_serial, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
   
         const gchar *serial_tooltip = _("The serial number of this table.");
 #ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
@@ -1799,10 +1943,20 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Icon file
         label = gtk_label_new (_("Icon File:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
 #ifdef SCIM_TABLES_USE_GTK_BOX
         hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -1810,9 +1964,15 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         hbox = gtk_hbox_new (FALSE, 0);
 #endif
         gtk_widget_show (hbox);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (hbox, GTK_ALIGN_FILL);
+        gtk_widget_set_valign (hbox, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), hbox, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), hbox, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (GTK_FILL), 0, 0);
+#endif
   
         entry_icon = gtk_entry_new ();
         gtk_widget_show (entry_icon);
@@ -1838,16 +1998,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Supported Languages
         label = gtk_label_new (_("Supported Languages:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         entry_languages = gtk_entry_new ();
         gtk_widget_show (entry_languages);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (entry_languages, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), entry_languages, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), entry_languages, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
 
         const gchar *languages_tooltip = _("The languages supported by this table.");
 #ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
@@ -1861,16 +2036,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Status Prompts
         label = gtk_label_new (_("Status Prompt:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         entry_status_prompt = gtk_entry_new ();
         gtk_widget_show (entry_status_prompt);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (entry_status_prompt, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), entry_status_prompt, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), entry_status_prompt, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
  
         const gchar *status_prompt_tooltip = _("A prompt string to be shown in status area.");
 #ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
@@ -1884,16 +2074,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Valid Input Chars
         label = gtk_label_new (_("Valid Input Chars:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         entry_valid_input_chars = gtk_entry_new ();
         gtk_widget_show (entry_valid_input_chars);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (entry_valid_input_chars, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), entry_valid_input_chars, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), entry_valid_input_chars, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
   
         const gchar *valid_input_chars_tooltip = _("The valid input chars of this table.");
 #ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
@@ -1907,16 +2112,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Mulit Wildcard Char
         label = gtk_label_new (_("Multi Wildcard Char:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         entry_multi_wildcard_chars = gtk_entry_new ();
         gtk_widget_show (entry_multi_wildcard_chars);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (entry_multi_wildcard_chars, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), entry_multi_wildcard_chars, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), entry_multi_wildcard_chars, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
 
         const gchar *multi_wildcard_chars_tooltip = 
             _("The multi wildcard chars of this table. "
@@ -1932,16 +2152,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Single Wildcard Char
         label = gtk_label_new (_("Single Wildcard Char:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         entry_single_wildcard_chars = gtk_entry_new ();
         gtk_widget_show (entry_single_wildcard_chars);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (entry_single_wildcard_chars, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), entry_single_wildcard_chars, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), entry_single_wildcard_chars, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
  
         const gchar *single_wildcard_chars_tooltip =
             _("The single wildcard chars of this table."
@@ -1958,10 +2193,20 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         for (int i = 0; all_keys [i]; ++i) {
             label = gtk_label_new (all_keys [i]->label);
             gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+            gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+            gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
             gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                               (GtkAttachOptions) (GTK_FILL),
                               (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+            gtk_widget_set_halign (label, GTK_ALIGN_END);
+            gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
             gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
 
 #ifdef SCIM_TABLES_USE_GTK_BOX
             hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -1969,9 +2214,15 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
             hbox = gtk_hbox_new (FALSE, 0);
 #endif
             gtk_widget_show (hbox);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+            gtk_widget_set_halign (hbox, GTK_ALIGN_FILL);
+            gtk_widget_set_valign (hbox, GTK_ALIGN_FILL);
+            gtk_grid_attach (GTK_GRID (table), hbox, 1, row, 1, 1);
+#else
             gtk_table_attach (GTK_TABLE (table), hbox, 1, 2, row, row+1,
                               (GtkAttachOptions) (GTK_FILL),
                               (GtkAttachOptions) (GTK_FILL), 0, 0);
+#endif
 
             all_keys [i]->entry = gtk_entry_new ();
             gtk_widget_show (all_keys [i]->entry);
@@ -1997,17 +2248,32 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Max key length
         label = gtk_label_new (_("Max Key Length:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         spin_max_key_length = gtk_spin_button_new_with_range (1, SCIM_GT_MAX_KEY_LENGTH, 1);
         gtk_spin_button_set_digits (GTK_SPIN_BUTTON (spin_max_key_length), 0);
         gtk_widget_show (spin_max_key_length);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (spin_max_key_length, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), spin_max_key_length, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), spin_max_key_length, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
   
         const gchar *max_key_length_tooltip = _("The maxmium length of key strings.");
 #ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
@@ -2021,16 +2287,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Show key prompt. 
         label = gtk_label_new (_("Show Key Prompt:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         toggle_show_key_prompt = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_show_key_prompt);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_show_key_prompt, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_show_key_prompt, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_show_key_prompt, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_show_key_prompt), TRUE);
         g_signal_connect (G_OBJECT (toggle_show_key_prompt), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2049,16 +2330,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Auto Select
         label = gtk_label_new (_("Auto Select:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         toggle_auto_select = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_auto_select);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_auto_select, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_auto_select, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_auto_select, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_select), TRUE);
         g_signal_connect (G_OBJECT (toggle_auto_select), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2078,16 +2374,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Auto Wildcard
         label = gtk_label_new (_("Auto Wildcard:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         toggle_auto_wildcard = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_auto_wildcard);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_auto_wildcard, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_auto_wildcard, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_auto_wildcard, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_wildcard), TRUE);
         g_signal_connect (G_OBJECT (toggle_auto_wildcard), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2107,16 +2418,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Auto Commit
         label = gtk_label_new (_("Auto Commit:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         toggle_auto_commit = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_auto_commit);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_auto_commit, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_auto_commit, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_auto_commit, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_commit), TRUE);
         g_signal_connect (G_OBJECT (toggle_auto_commit), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2136,16 +2462,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Auto Split
         label = gtk_label_new (_("Auto Split:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         toggle_auto_split = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_auto_split);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_auto_split, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_auto_split, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_auto_split, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_split), TRUE);
         g_signal_connect (G_OBJECT (toggle_auto_split), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2165,16 +2506,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Discard Invalid Key
         label = gtk_label_new (_("Discard Invalid Key:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         toggle_discard_invalid_key = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_discard_invalid_key);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_discard_invalid_key, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_discard_invalid_key, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_discard_invalid_key, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_discard_invalid_key), TRUE);
         g_signal_connect (G_OBJECT (toggle_discard_invalid_key), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2194,16 +2550,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Dynamic Adjust
         label = gtk_label_new (_("Dynamic Adjust:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
  
         toggle_dynamic_adjust = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_dynamic_adjust);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_dynamic_adjust, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_dynamic_adjust, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_dynamic_adjust, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_dynamic_adjust), TRUE);
         g_signal_connect (G_OBJECT (toggle_dynamic_adjust), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2223,16 +2594,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Auto Fill Preedit String
         label = gtk_label_new (_("Auto Fill Preedit Area:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
   
         toggle_auto_fill = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_auto_fill);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_auto_fill, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_auto_fill, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_auto_fill, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_fill), TRUE);
         g_signal_connect (G_OBJECT (toggle_auto_fill), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2253,16 +2639,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Always Show Lookup
         label = gtk_label_new (_("Always Show Lookup Table:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
  
         toggle_always_show_lookup = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_always_show_lookup);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_always_show_lookup, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_always_show_lookup, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_always_show_lookup, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_always_show_lookup), TRUE);
         g_signal_connect (G_OBJECT (toggle_always_show_lookup), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2285,16 +2686,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Default full width punctuation
         label = gtk_label_new (_("Default Full Width Punct:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
  
         toggle_def_full_width_punct = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_def_full_width_punct);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_def_full_width_punct, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_def_full_width_punct, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_def_full_width_punct, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_def_full_width_punct), TRUE);
         g_signal_connect (G_OBJECT (toggle_def_full_width_punct), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2312,16 +2728,31 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
         // Default full width letter 
         label = gtk_label_new (_("Default Full Width Letter:"));
         gtk_widget_show (label);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
+#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
+        gtk_widget_set_halign (label, GTK_ALIGN_END);
+        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+#else
         gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+#endif
  
         toggle_def_full_width_letter = gtk_toggle_button_new_with_label (_("True"));
         gtk_widget_show (toggle_def_full_width_letter);
+#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_halign (toggle_def_full_width_letter, GTK_ALIGN_FILL);
+        gtk_grid_attach (GTK_GRID (table), toggle_def_full_width_letter, 1, row, 1, 1);
+#else
         gtk_table_attach (GTK_TABLE (table), toggle_def_full_width_letter, 1, 2, row, row+1,
                           (GtkAttachOptions) (GTK_FILL),
                           (GtkAttachOptions) (0), 0, 0);
+#endif
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_def_full_width_letter), TRUE);
         g_signal_connect (G_OBJECT (toggle_def_full_width_letter), "toggled", 
                           G_CALLBACK (on_toggle_button_toggled),
@@ -2336,14 +2767,20 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
 
         // action buttons
 #ifdef SCIM_TABLES_USE_GTK_DIALOG_GET_ACTION_AREA
+        G_GNUC_BEGIN_IGNORE_DEPRECATIONS
         dialog_action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+        G_GNUC_END_IGNORE_DEPRECATIONS
 #else
         dialog_action_area = GTK_DIALOG (dialog)->action_area;
 #endif
         gtk_widget_show (dialog_action_area);
         gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
   
+#ifdef SCIM_TABLES_USE_GTK_BUTTON_NEW_FROM_ICON_NAME
+        cancelbutton = gtk_button_new_from_icon_name ("gtk-cancel", GTK_ICON_SIZE_BUTTON);
+#else
         cancelbutton = gtk_button_new_from_stock ("gtk-cancel");
+#endif
         gtk_widget_show (cancelbutton);
         gtk_dialog_add_action_widget (GTK_DIALOG (dialog), cancelbutton, GTK_RESPONSE_CANCEL);
 #ifdef SCIM_TABLES_USE_GTK_WIDGET_GET_CAN_DEFAULT
@@ -2353,7 +2790,11 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
 #endif
 
   
+#ifdef SCIM_TABLES_USE_GTK_BUTTON_NEW_FROM_ICON_NAME
+        okbutton = gtk_button_new_from_icon_name ("gtk-ok", GTK_ICON_SIZE_BUTTON);
+#else
         okbutton = gtk_button_new_from_stock ("gtk-ok");
+#endif
         gtk_widget_show (okbutton);
         gtk_dialog_add_action_widget (GTK_DIALOG (dialog), okbutton, GTK_RESPONSE_OK);
 #ifdef SCIM_TABLES_USE_GTK_WIDGET_GET_CAN_DEFAULT
