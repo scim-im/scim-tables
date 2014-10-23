@@ -17,8 +17,8 @@
 
 MAINTAINERCLEANFILES	= Makefile.in
 
-INCLUDES		= -I$(top_builddir) \
-	    		  -I$(top_srcdir) \
+AM_CPPFLAGS	= -I$(top_builddir) \
+              -I$(top_srcdir) \
 			  -I$(top_srcdir)/src \
 			  -I$(top_srcdir)/intl \
 			  -DSCIM_ICONDIR=\"@SCIM_ICONDIR@\" \
