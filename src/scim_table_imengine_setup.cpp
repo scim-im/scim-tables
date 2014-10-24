@@ -695,7 +695,7 @@ create_table_management_page ()
     __widget_table_list_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (__widget_table_list_model));
     gtk_widget_show (__widget_table_list_view);
     gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (__widget_table_list_view), TRUE);
-#if SCIM_TABLES_USE_GTK_TREE_VIEW_SET_RULES_HINT
+#ifdef SCIM_TABLES_USE_GTK_TREE_VIEW_SET_RULES_HINT
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (__widget_table_list_view), TRUE);
 #endif
     gtk_container_add (GTK_CONTAINER (scrolledwindow), __widget_table_list_view);
