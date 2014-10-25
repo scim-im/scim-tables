@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([scim-tables], [0.5.14], [https://github.com/scim-im/scim-tables]) 
+AC_INIT([scim-tables], [0.5.14.1], [https://github.com/scim-im/scim-tables]) 
 # do not forget to edit skim/configure.in.in to change the version
 AC_CONFIG_SRCDIR([src/scim_table_imengine.h])
 
