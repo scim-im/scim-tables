@@ -21,8 +21,11 @@ INST_ICONS		= table.png	\
 			  Amharic.png   \
 			  Arabic.png    \
 			  Array30.png   \
+			  Balinese.png \
+			  Batak.png \	
 			  Bengali-inscript.png	\
 			  Bengali-probhat.png	\
+			  Buginese.png \
 			  CangJie.png	\
 			  CangJie3.png	\
 			  Cantonese.png \
@@ -42,6 +45,7 @@ INST_ICONS		= table.png	\
 			  Hindi-remington.png   \
 			  HIRAGANA.png  \
 			  IPA-X-SAMPA.png  \
+			  Javanese.png \
 			  Jyutping.png  \
 			  KATAKANA.png  \
 			  Kannada-inscript.png	\
@@ -57,11 +61,13 @@ INST_ICONS		= table.png	\
 			  Punjabi-phonetic.png	\
 			  Punjabi-remington.png \
 			  Quick.png	\
+			  Rejang.png \
 			  RussianTraditional.png        \
 			  RussianComputer.png        \
 			  Simplex.png   \
 			  SmartCangJie6.png    \
 			  Stroke5.png	\
+			  Sundanese.png \
 			  Tamil-inscript.png	\
 			  Tamil-phonetic.png	\
 			  Tamil-remington.png   \

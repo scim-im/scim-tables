@@ -1,0 +1,301 @@
+SCIM_Generic_Table_Phrase_Library_TEXT
+VERSION_1_0
+### Begin Table daefinition.
+BEGIN_DEFINITION
+UUID = beae4879-2ffe-4859-a899-40f6feed2423
+SERIAL_NUMBER = 20110130
+ICON = /usr/share/scim/icons/Rejang.png
+NAME = Rejang
+LANGUAGES = id_ID
+AUTHOR = Ari Effendi <zerosix06@gmail.com>
+STATUS_PROMPT = Rejang
+KEYBOARD_LAYOUT = US
+VALID_INPUT_CHARS = -,.0123456789ABCDEGHIJKLMNOPRSTUWXYZabcdefghijklmnoprstuwxyz)+/*\<>
+### KEY_END_CHARS =
+### SINGLE_WILDCARD_CHAR =
+### MULTI_WILDCARD_CHAR =
+### SPLIT_KEYS =
+COMMIT_KEYS = space
+### FORWARD_KEYS =
+### SELECT_KEYS =
+### PAGE_UP_KEYS =
+### PAGE_DOWN_KEYS =
+### MODE_SWITCH_KEYS =
+### FULL_WIDTH_PUNCT_KEYS =
+### FULL_WIDTH_LETTER_KEYS =
+MAX_KEY_LENGTH = 5
+SHOW_KEY_PROMPT = FALSE
+AUTO_SELECT = TRUE
+AUTO_WILDCARD = FALSE
+AUTO_COMMIT = TRUE
+AUTO_SPLIT = TRUE
+AUTO_FILL = TRUE
+DISCARD_INVALID_KEY = FALSE
+DYNAMIC_ADJUST = FALSE
+ALWAYS_SHOW_LOOKUP = FALSE
+USE_FULL_WIDTH_PUNCT = FALSE
+DEF_FULL_WIDTH_PUNCT = FALSE
+USE_FULL_WIDTH_LETTER = FALSE
+DEF_FULL_WIDTH_LETTER = FALSE
+END_DEFINITION
+
+### Begin Table data.
+BEGIN_TABLE
+
+### au
+kau	ꤰꥌ	0
+gau	ꤱꥌ	0
+ngau	ꤲꥌ	0
+tau	ꤳꥌ	0
+dau	ꤴꥌ	0
+nau	ꤵꥌ	0
+pau	ꤶꥌ	0
+bau	ꤷꥌ	0
+mau	ꤸꥌ	0
+cau	ꤹꥌ	0
+jau	ꤺꥌ	0
+nyau	ꤻꥌ	0
+sau	ꤼꥌ	0
+rau	ꤽꥌ	0
+lau	ꤾꥌ	0
+yau	ꤿꥌ	0
+wau	ꥀꥌ	0
+hau	ꥁꥌ	0
+mbau	ꥂꥌ	0
+nggau	ꥃꥌ	0
+ndau	ꥄꥌ	0
+nyjau	ꥅꥌ	0
+au	ꥆꥌ	0
+
+### ai
+kai	ꤰꥊ	0
+gai	ꤱꥊ	0
+ngai	ꤲꥊ	0
+tai	ꤳꥊ	0
+dai	ꤴꥊ	0
+nai	ꤵꥊ	0
+pai	ꤶꥊ	0
+bai	ꤷꥊ	0
+mai	ꤸꥊ	0
+cai	ꤹꥊ	0
+jai	ꤺꥊ	0
+nyai	ꤻꥊ	0
+sai	ꤼꥊ	0
+rai	ꤽꥊ	0
+lai	ꤾꥊ	0
+yai	ꤿꥊ	0
+wai	ꥀꥊ	0
+hai	ꥁꥊ	0
+mbai	ꥂꥊ	0
+nggai	ꥃꥊ	0
+ndai	ꥄꥊ	0
+nyjai	ꥅꥊ	0
+ai	ꥆꥊ	0
+
+### ea
+kea	ꤰꥎ	0
+gea	ꤱꥎ	0
+ngea	ꤲꥎ	0
+tea	ꤳꥎ	0
+dea	ꤴꥎ	0
+nea	ꤵꥎ	0
+pea	ꤶꥎ	0
+bea	ꤷꥎ	0
+mea	ꤸꥎ	0
+cea	ꤹꥎ	0
+jea	ꤺꥎ	0
+nyea	ꤻꥎ	0
+sea	ꤼꥎ	0
+rea	ꤽꥎ	0
+lea	ꤾꥎ	0
+yea	ꤿꥎ	0
+wea	ꥀꥎ	0
+hea	ꥁꥎ	0
+mbea	ꥂꥎ	0
+nggea	ꥃꥎ	0
+ndea	ꥄꥎ	0
+nyjea	ꥅꥎ	0
+ea	ꥆꥎ	0
+
+### eu
+keu	ꤰꥍ	0
+geu	ꤱꥍ	0
+ngeu	ꤲꥍ	0
+teu	ꤳꥍ	0
+deu	ꤴꥍ	0
+neu	ꤵꥍ	0
+peu	ꤶꥍ	0
+beu	ꤷꥍ	0
+meu	ꤸꥍ	0
+ceu	ꤹꥍ	0
+jeu	ꤺꥍ	0
+nyeu	ꤻꥍ	0
+seu	ꤼꥍ	0
+reu	ꤽꥍ	0
+leu	ꤾꥍ	0
+yeu	ꤿꥍ	0
+weu	ꥀꥍ	0
+heu	ꥁꥍ	0
+mbeu	ꥂꥍ	0
+nggeu	ꥃꥍ	0
+ndeu	ꥄꥍ	0
+nyjeu	ꥅꥍ	0
+eu	ꥆꥍ	0
+
+### o
+ko	ꤰꥋ	0
+go	ꤱꥋ	0
+ngo	ꤲꥋ	0
+to	ꤳꥋ	0
+do	ꤴꥋ	0
+no	ꤵꥋ	0
+po	ꤶꥋ	0
+bo	ꤷꥋ	0
+mo	ꤸꥋ	0
+co	ꤹꥋ	0
+jo	ꤺꥋ	0
+nyo	ꤻꥋ	0
+so	ꤼꥋ	0
+ro	ꤽꥋ	0
+lo	ꤾꥋ	0
+yo	ꤿꥋ	0
+wo	ꥀꥋ	0
+ho	ꥁꥋ	0
+mbo	ꥂꥋ	0
+nggo	ꥃꥋ	0
+ndo	ꥄꥋ	0
+nyjo	ꥅꥋ	0
+o	ꥆꥋ	0
+
+### e
+ke	ꤰꥉ	0
+ge	ꤱꥉ	0
+nge	ꤲꥉ	0
+te	ꤳꥉ	0
+de	ꤴꥉ	0
+ne	ꤵꥉ	0
+pe	ꤶꥉ	0
+be	ꤷꥉ	0
+me	ꤸꥉ	0
+ce	ꤹꥉ	0
+je	ꤺꥉ	0
+nye	ꤻꥉ	0
+se	ꤼꥉ	0
+re	ꤽꥉ	0
+le	ꤾꥉ	0
+ye	ꤿꥉ	0
+we	ꥀꥉ	0
+he	ꥁꥉ	0
+mbe	ꥂꥉ	0
+ngge	ꥃꥉ	0
+nde	ꥄꥉ	0
+nyje	ꥅꥉ	0
+e	ꥆꥉ	0
+
+### u
+ku	ꤰꥈ	0
+gu	ꤱꥈ	0
+ngu	ꤲꥈ	0
+tu	ꤳꥈ	0
+du	ꤴꥈ	0
+nu	ꤵꥈ	0
+pu	ꤶꥈ	0
+bu	ꤷꥈ	0
+mu	ꤸꥈ	0
+cu	ꤹꥈ	0
+ju	ꤺꥈ	0
+nyu	ꤻꥈ	0
+su	ꤼꥈ	0
+ru	ꤽꥈ	0
+lu	ꤾꥈ	0
+yu	ꤿꥈ	0
+wu	ꥀꥈ	0
+hu	ꥁꥈ	0
+mbu	ꥂꥈ	0
+nggu	ꥃꥈ	0
+ndu	ꥄꥈ	0
+nyju	ꥅꥈ	0
+u	ꥆꥈ	0
+
+### i
+ki	ꤰꥇ	0
+gi	ꤱꥇ	0
+ngi	ꤲꥇ	0
+ti	ꤳꥇ	0
+di	ꤴꥇ	0
+ni	ꤵꥇ	0
+pi	ꤶꥇ	0
+bi	ꤷꥇ	0
+mi	ꤸꥇ	0
+ci	ꤹꥇ	0
+ji	ꤺꥇ	0
+nyi	ꤻꥇ	0
+si	ꤼꥇ	0
+ri	ꤽꥇ	0
+li	ꤾꥇ	0
+yi	ꤿꥇ	0
+wi	ꥀꥇ	0
+hi	ꥁꥇ	0
+mbi	ꥂꥇ	0
+nggi	ꥃꥇ	0
+ndi	ꥄꥇ	0
+nyji	ꥅꥇ	0
+i	ꥆꥇ	0
+
+### a
+ka	ꤰ	0
+ga	ꤱ	0
+nga	ꤲ	0
+ta	ꤳ	0
+da	ꤴ	0
+na	ꤵ	0
+pa	ꤶ	0
+ba	ꤷ	0
+ma	ꤸ	0
+ca	ꤹ	0
+ja	ꤺ	0
+nya	ꤻ	0
+sa	ꤼ	0
+ra	ꤽ	0
+la	ꤾ	0
+ya	ꤿ	0
+wa	ꥀ	0
+ha	ꥁ	0
+mba	ꥂ	0
+ngga	ꥃ	0
+nda	ꥄ	0
+nyja	ꥅ	0
+a	ꥆ	0
+
+### paten
+k	ꤰ꥓	0
+g	ꤱ꥓	0
+#ng	ꤲ꥓	0
+ng	ꥏ	0
+t	ꤳ꥓	0
+d	ꤴ꥓	0
+#n	ꤵ꥓	0
+n	ꥐ	0
+p	ꤶ꥓	0
+b	ꤷ꥓	0
+m	ꤸ꥓	0
+c	ꤹ꥓	0
+j	ꤺ꥓	0
+ny	ꤻ꥓	0
+s	ꤼ꥓	0
+#r	ꤽ꥓	0
+r	ꥑ	0
+l	ꤾ꥓	0
+y	ꤿ꥓	0
+w	ꥀ꥓	0
+#h	ꥁ꥓	0
+h	ꥒ	0
+mb	ꥂ꥓	0
+ngg	ꥃ꥓	0
+nd	ꥄ꥓	0
+nyj	ꥅ꥓	0
+
+###
+.	꥟	0
+
+END_TABLE
