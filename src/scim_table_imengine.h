@@ -2,9 +2,9 @@
  * definition of Table related classes.
  */
 
-/* 
+/*
  * Smart Common Input Method
- * 
+ *
  * Copyright (c) 2002-2005 James Su <suzhe@tsinghua.org.cn>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -72,6 +72,10 @@ class TableFactory : public IMEngineFactoryBase
     Property              m_letter_property;
     Property              m_punct_property;
 
+    time_t                m_mtime;
+    bool                  m_auto_reload;
+    int                   m_auto_reload_interval;
+
     friend class TableInstance;
 
 public:
@@ -89,6 +93,7 @@ public:
     virtual IMEngineInstancePointer create_instance (const String& encoding, int id = -1);
 
     bool load_table (const String &table_file, bool user_table=false);
+    bool reload_table ();
 
     bool valid () const {
         return m_table.valid ();

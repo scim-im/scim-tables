@@ -2,9 +2,9 @@
  * definition of GenericTableLib related classes.
  */
 
-/* 
+/*
  * Smart Common Input Method
- * 
+ *
  * Copyright (c) 2002-2005 James Su <suzhe@tsinghua.org.cn>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -330,21 +330,21 @@ public:
  *  +-------+-------+-------+...+-------+-------+-------+...
  *
  *  The content and key must be in UTF-8 encoding.
- * 
+ *
  *  Format of Header:
  *    Byte 1   Byte 2   Byte 3   Byte 4
  *   76543210 76543210 76543210 76543210
  *  +--------+--------+--------+--------+
  *  |FMKKKKKK|PPPPPPPP|CCCCCCCC|CCCCCCCC|
  *  +--------+--------+--------+--------+
- *  
+ *
  *  The meaning of the bits:
  *  F: this must be set to 1 indicating that this phrase is ok.
  *  M: this is set when the phrase's frequency is changed.
  *  K: 6 bits to store the key length in bytes.
  *  P: 8 bits to store the phrase content length in bytes.
  *  C: 16 bits to store the phrase frequency.
- *  
+ *
  */
 const int GT_SEARCH_NO_LONGER = 0,
           GT_SEARCH_INCLUDE_LONGER = 1,
@@ -491,7 +491,7 @@ public:
 
     bool load_text (FILE *fp);
     bool load_binary (FILE *fp, bool mmapped = false);
- 
+
     bool load_freq_text (FILE *fp);
     bool load_freq_binary (FILE *fp);
 
@@ -623,6 +623,7 @@ public:
     GenericTableLibrary ();
 
     bool init (const String &sys, const String &usr = "", const String &freq = "", bool all = false);
+    void deinit ();
     bool save (const String &sys, const String &usr = "", const String &freq = "", bool binary = false);
 
     bool valid () const {

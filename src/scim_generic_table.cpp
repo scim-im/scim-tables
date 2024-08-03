@@ -2163,6 +2163,16 @@ GenericTableLibrary::init (const String &sys, const String &usr, const String &f
     return ok;
 }
 
+void
+GenericTableLibrary::deinit ()
+{
+    m_header_loaded = false;
+    m_content_loaded = false;
+    m_header = GenericTableHeader();
+    m_sys_content = GenericTableContent();
+    m_usr_content = GenericTableContent();
+}
+
 bool
 GenericTableLibrary::load_header ()
 {

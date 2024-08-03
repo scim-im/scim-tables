@@ -4,7 +4,7 @@
 
 /*
  * Smart Common Input Method
- * 
+ *
  * Copyright (c) 2002-2005 James Su <suzhe@tsinghua.org.cn>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -70,6 +70,8 @@
 #define SCIM_CONFIG_IMENGINE_TABLE_USER_PHRASE_FIRST      "/IMEngine/Table/UserPhraseFirst"
 #define SCIM_CONFIG_IMENGINE_TABLE_LONG_PHRASE_FIRST      "/IMEngine/Table/LongPhraseFirst"
 #define SCIM_CONFIG_IMENGINE_TABLE_SHOW_KEY_HINT          "/IMEngine/Table/ShowKeyHint"
+#define SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD            "/IMEngine/Table/AutoReload"
+#define SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD_INTERVAL   "/IMEngine/Table/AutoReloadInterval"
 
 #define SCIM_PROP_STATUS                                  "/IMEngine/Table/Status"
 #define SCIM_PROP_LETTER                                  "/IMEngine/Table/Letter"
@@ -112,7 +114,7 @@ _get_table_list (std::vector<String> &table_list, const String &path)
 
             file = readdir (dir);
         }
-        closedir (dir);        
+        closedir (dir);
     }
 }
 
@@ -138,9 +140,9 @@ extern "C" {
         _get_table_list (_scim_sys_table_list, SCIM_TABLE_SYSTEM_TABLE_DIR);
         _get_table_list (_scim_user_table_list, scim_get_home_dir () + SCIM_TABLE_USER_TABLE_DIR);
 
-        _scim_number_of_tables = _scim_sys_table_list.size () + _scim_user_table_list.size (); 
+        _scim_number_of_tables = _scim_sys_table_list.size () + _scim_user_table_list.size ();
 
-        return _scim_number_of_tables; 
+        return _scim_number_of_tables;
     }
 
     IMEngineFactoryPointer scim_imengine_module_create_factory (unsigned int index)
@@ -181,7 +183,8 @@ TableFactory::TableFactory (const ConfigPointer &config)
       m_last_time ((time_t)0),
       m_status_property (SCIM_PROP_STATUS, ""),
       m_letter_property (SCIM_PROP_LETTER, _("Full/Half Letter")),
-      m_punct_property (SCIM_PROP_PUNCT, _("Full/Half Punct"))
+      m_punct_property (SCIM_PROP_PUNCT, _("Full/Half Punct")),
+      m_mtime (0)
 {
     init (m_config);
 
@@ -235,6 +238,10 @@ TableFactory::init (const ConfigPointer &config)
         m_long_phrase_first = config->read (String (SCIM_CONFIG_IMENGINE_TABLE_LONG_PHRASE_FIRST), false);
 
         m_user_table_binary = config->read (String (SCIM_CONFIG_IMENGINE_TABLE_USER_TABLE_BINARY), false);
+
+        m_auto_reload = config->read (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD), false);
+
+        m_auto_reload_interval = config->read (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD_INTERVAL), 10);
     }
 
     m_last_time = time (NULL);
@@ -345,6 +352,13 @@ TableFactory::create_instance (const String& encoding, int id)
     return new TableInstance (this, encoding, id);
 }
 
+time_t
+get_file_mtime(const String& file)
+{
+    struct stat buffer;
+    return stat(file.c_str(), &buffer) == 0 ? buffer.st_mtime : 0;
+}
+
 bool
 TableFactory::load_table (const String &table_file, bool user_table)
 {
@@ -364,7 +378,21 @@ TableFactory::load_table (const String &table_file, bool user_table)
 
     set_languages (m_table.get_languages ());
 
+    m_mtime = get_file_mtime(m_table_filename);
     return m_table.valid ();
+}
+
+bool
+TableFactory::reload_table ()
+{
+    if (!m_auto_reload or time (NULL) - m_mtime < m_auto_reload_interval) {
+      return false;
+    }
+
+    time_t mtime = get_file_mtime(m_table_filename);
+    if (m_mtime == 0 or m_mtime == mtime) return false;
+    m_table.deinit ();
+    return load_table(m_table_filename, m_is_user_table);
 }
 
 void
@@ -484,6 +512,8 @@ TableInstance::~TableInstance ()
 bool
 TableInstance::process_key_event (const KeyEvent& rawkey)
 {
+    m_factory->reload_table();
+
     KeyEvent key = rawkey.map_to_layout (m_factory->m_table.get_keyboard_layout ());
 
     bool ret = false;
@@ -546,7 +576,7 @@ TableInstance::process_key_event (const KeyEvent& rawkey)
         else if (key.code == SCIM_KEY_Right && key.mask == 0)
             ret = caret_right ();
 
-        //caret home 
+        //caret home
         else if (key.code == SCIM_KEY_Home && key.mask == 0)
             ret = caret_home ();
 
@@ -770,6 +800,8 @@ TableInstance::reset ()
 void
 TableInstance::focus_in ()
 {
+    m_factory->reload_table();
+
     m_focused = true;
 
     if (m_add_phrase_mode != 1) {
@@ -787,6 +819,7 @@ TableInstance::focus_in ()
 void
 TableInstance::focus_out ()
 {
+    m_factory->reload_table();
     m_focused = false;
 }
 
@@ -804,12 +837,12 @@ TableInstance::trigger_property (const String &property)
             !m_full_width_letter [m_forward?1:0];
         refresh_letter_property ();
     } else if (property == SCIM_PROP_PUNCT && m_factory->m_table.is_use_full_width_punct ()) {
-        m_full_width_punct [m_forward?1:0] = 
+        m_full_width_punct [m_forward?1:0] =
             !m_full_width_punct [m_forward?1:0];
         refresh_punct_property ();
     }
 }
- 
+
 void
 TableInstance::initialize_properties ()
 {
@@ -1050,7 +1083,7 @@ TableInstance::insert (char ch)
             if (m_factory->m_table.is_defined_key (newkey)) {
                 m_inputted_keys.push_back (newkey);
                 m_inputing_key = 0;
-                m_inputing_caret = 1; 
+                m_inputing_caret = 1;
                 insert_ok = true;
             }
         }
@@ -1351,7 +1384,7 @@ TableInstance::lookup_page_up ()
 bool
 TableInstance::lookup_page_down ()
 {
-    if (m_inputted_keys.size () && 
+    if (m_inputted_keys.size () &&
          m_lookup_table.get_current_page_size () <
          m_lookup_table.number_of_candidates ()) {
 
@@ -1548,7 +1581,7 @@ TableInstance::refresh_preedit ()
         hide_preedit_string ();
         return;
     }
- 
+
     for (i = 0; i<m_converted_strings.size (); ++i)
         preedit_string += m_converted_strings [i];
 
@@ -1730,7 +1763,7 @@ bool
 TableInstance::match_key_event (const std::vector<KeyEvent>& keyvec,
                                       const KeyEvent& key)
 {
-    std::vector<KeyEvent>::const_iterator kit; 
+    std::vector<KeyEvent>::const_iterator kit;
 
     for (kit = keyvec.begin (); kit != keyvec.end (); ++kit) {
         if (key.code == kit->code && key.mask == kit->mask)
@@ -1739,6 +1772,7 @@ TableInstance::match_key_event (const std::vector<KeyEvent>& keyvec,
     }
     return false;
 }
+
 /*
 vi:ts=4:nowrap:ai:expandtab
 */
