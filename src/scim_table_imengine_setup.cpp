@@ -63,6 +63,7 @@ using namespace scim;
 #define SCIM_CONFIG_IMENGINE_TABLE_USER_PHRASE_FIRST       "/IMEngine/Table/UserPhraseFirst"
 #define SCIM_CONFIG_IMENGINE_TABLE_LONG_PHRASE_FIRST       "/IMEngine/Table/LongPhraseFirst"
 #define SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD             "/IMEngine/Table/AutoReload"
+#define SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD_INTERVAL    "/IMEngine/Table/AutoReloadInterval"
 
 #define SCIM_TABLE_ICON_FILE                              (SCIM_ICONDIR "/table.png")
 
@@ -187,6 +188,7 @@ static bool __config_user_table_binary     = false;
 static bool __config_user_phrase_first     = false;
 static bool __config_long_phrase_first     = false;
 static bool __config_auto_reload           = false;
+static int  __config_auto_reload_interval  = 10;
 
 static bool __have_changed                 = false;
 
@@ -196,6 +198,7 @@ static GtkWidget    * __widget_user_table_binary     = 0;
 static GtkWidget    * __widget_user_phrase_first     = 0;
 static GtkWidget    * __widget_long_phrase_first     = 0;
 static GtkWidget    * __widget_auto_reload           = 0;
+static GtkWidget    * __widget_auto_reload_interval  = 0;
 
 static GtkWidget    * __widget_table_list_view       = 0;
 static GtkListStore * __widget_table_list_model      = 0;
@@ -321,6 +324,14 @@ on_default_editable_changed          (GtkEditable     *editable,
 
 static void
 on_default_toggle_button_toggled     (GtkCheckButton  *checkbutton,
+                                      gpointer         user_data);
+
+static void
+on_auto_reload_toggled               (GtkCheckButton  *checkbutton,
+                                      gpointer         user_data);
+
+static void
+on_auto_reload_interval_changed      (GtkSpinButton   *spin,
                                       gpointer         user_data);
 
 static void
@@ -518,6 +529,18 @@ create_generic_page ()
     gtk_widget_set_margin_bottom (__widget_auto_reload, 4);
     gtk_box_append (GTK_BOX (vbox), __widget_auto_reload);
 
+    GtkWidget *interval_hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
+    gtk_widget_set_margin_start  (interval_hbox, 20);
+    gtk_widget_set_margin_end    (interval_hbox, 4);
+    gtk_widget_set_margin_bottom (interval_hbox, 4);
+    GtkWidget *interval_label = gtk_label_new_with_mnemonic (_("Check _interval (seconds):"));
+    gtk_box_append (GTK_BOX (interval_hbox), interval_label);
+    __widget_auto_reload_interval = gtk_spin_button_new_with_range (1, 3600, 1);
+    gtk_spin_button_set_digits (GTK_SPIN_BUTTON (__widget_auto_reload_interval), 0);
+    gtk_label_set_mnemonic_widget (GTK_LABEL (interval_label), __widget_auto_reload_interval);
+    gtk_box_append (GTK_BOX (interval_hbox), __widget_auto_reload_interval);
+    gtk_box_append (GTK_BOX (vbox), interval_hbox);
+
     // Connect all signals.
     g_signal_connect ((gpointer) __widget_show_prompt, "toggled",
                       G_CALLBACK (on_default_toggle_button_toggled),
@@ -535,8 +558,11 @@ create_generic_page ()
                       G_CALLBACK (on_default_toggle_button_toggled),
                       &__config_long_phrase_first);
     g_signal_connect ((gpointer) __widget_auto_reload, "toggled",
-                      G_CALLBACK (on_default_toggle_button_toggled),
-                      &__config_auto_reload);
+                      G_CALLBACK (on_auto_reload_toggled),
+                      NULL);
+    g_signal_connect ((gpointer) __widget_auto_reload_interval, "value-changed",
+                      G_CALLBACK (on_auto_reload_interval_changed),
+                      NULL);
 
     // Set all tooltips.
     const gchar *show_prompt_tooltip =
@@ -569,6 +595,8 @@ create_generic_page ()
     gtk_widget_set_tooltip_text (__widget_user_phrase_first, user_phrase_first_tooltip);
     gtk_widget_set_tooltip_text (__widget_long_phrase_first, long_phrase_first_tooltip);
     gtk_widget_set_tooltip_text (__widget_auto_reload, auto_reload_tooltip);
+    gtk_widget_set_tooltip_text (__widget_auto_reload_interval,
+        _("How often, at most, the table file is checked for changes."));
 
     return vbox;
 }
@@ -878,6 +906,13 @@ setup_widget_value ()
             __config_auto_reload);
     }
 
+    if (__widget_auto_reload_interval) {
+        gtk_spin_button_set_value (
+            GTK_SPIN_BUTTON (__widget_auto_reload_interval),
+            __config_auto_reload_interval);
+        gtk_widget_set_sensitive (__widget_auto_reload_interval, __config_auto_reload);
+    }
+
     for (int i = 0; __config_keyboards [i].key; ++ i) {
         if (__config_keyboards [i].entry) {
             gtk_editable_set_text (
@@ -910,6 +945,11 @@ load_config (const ConfigPointer &config)
         __config_auto_reload =
             config->read (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD),
                           __config_auto_reload);
+        __config_auto_reload_interval =
+            config->read (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD_INTERVAL),
+                          __config_auto_reload_interval);
+        if (__config_auto_reload_interval < 1)
+            __config_auto_reload_interval = 1;
 
         for (int i = 0; __config_keyboards [i].key; ++ i) {
             __config_keyboards [i].data =
@@ -941,6 +981,8 @@ save_config (const ConfigPointer &config)
                        __config_long_phrase_first);
         config->write (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD),
                        __config_auto_reload);
+        config->write (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD_INTERVAL),
+                       __config_auto_reload_interval);
 
         for (int i = 0; __config_keyboards [i].key; ++ i) {
             config->write (String (__config_keyboards [i].key),
@@ -999,6 +1041,24 @@ on_default_toggle_button_toggled (GtkCheckButton *checkbutton,
         *toggle = gtk_check_button_get_active (checkbutton);
         __have_changed = true;
     }
+}
+
+static void
+on_auto_reload_toggled (GtkCheckButton *checkbutton, gpointer /*user_data*/)
+{
+    __config_auto_reload = gtk_check_button_get_active (checkbutton);
+    __have_changed = true;
+
+    // The interval only matters when auto-reload is enabled.
+    if (__widget_auto_reload_interval)
+        gtk_widget_set_sensitive (__widget_auto_reload_interval, __config_auto_reload);
+}
+
+static void
+on_auto_reload_interval_changed (GtkSpinButton *spin, gpointer /*user_data*/)
+{
+    __config_auto_reload_interval = gtk_spin_button_get_value_as_int (spin);
+    __have_changed = true;
 }
 
 // Payload for the asynchronous key-selection dialog.
