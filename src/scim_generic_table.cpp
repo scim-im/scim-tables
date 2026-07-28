@@ -1209,7 +1209,7 @@ GenericTableContent::load_binary (FILE *fp, bool mmapped)
     uint32 key_length;
     uint32 phrase_length;
 
-    while (p - m_content < m_content_size) {
+    while ((size_t) (p - m_content) < m_content_size) {
         key_length = static_cast<uint32> ((*p) & 0x3F);
         phrase_length = static_cast<uint32> (*(p+1));
 
@@ -2072,7 +2072,7 @@ GenericTableContent::init_offsets_by_phrases () const
 
     m_offsets_by_phrases.clear ();
 
-    for (int i = 0; i < m_max_key_length; ++i) {
+    for (int i = 0; i < (int) m_max_key_length; ++i) {
         m_offsets_by_phrases.insert (m_offsets_by_phrases.end (),
                                      m_offsets [i].begin (),
                                      m_offsets [i].end ());
@@ -2118,9 +2118,9 @@ GenericTableContent::get_max_phrase_length () const
 
     int max_len = 0;
 
-    for (int i = 0; i < m_max_key_length; ++i) {
+    for (int i = 0; i < (int) m_max_key_length; ++i) {
         for (std::vector <uint32>::const_iterator j = m_offsets [i].begin (); j != m_offsets [i].end (); ++j)
-            if (get_phrase_length (*j) > max_len)
+            if ((int) get_phrase_length (*j) > max_len)
                 max_len = get_phrase_length (*j);
     }
 
@@ -2181,7 +2181,6 @@ GenericTableLibrary::load_header ()
     GenericTableHeader header;
 
     bool ok = false;
-    bool binary = false;
 
     magic   = _get_line (fp);
     version = _get_line (fp);

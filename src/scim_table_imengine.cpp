@@ -125,7 +125,7 @@ extern "C" {
 
     void scim_module_exit (void)
     {
-        for (int i=0; i<_scim_number_of_tables; ++i)
+        for (int i=0; i<(int) _scim_number_of_tables; ++i)
             _scim_table_factories [i].reset ();
 
         _scim_config.reset ();
@@ -1337,7 +1337,7 @@ TableInstance::lookup_page_up ()
 {
     if (m_inputted_keys.size () &&
          m_lookup_table.get_current_page_size () <
-         m_lookup_table.number_of_candidates ()) {
+         (int) m_lookup_table.number_of_candidates ()) {
 
         m_lookup_table.page_up ();
         refresh_lookup_table (true, false);
@@ -1353,10 +1353,10 @@ TableInstance::lookup_page_down ()
 {
     if (m_inputted_keys.size () && 
          m_lookup_table.get_current_page_size () <
-         m_lookup_table.number_of_candidates ()) {
+         (int) m_lookup_table.number_of_candidates ()) {
 
         if (!m_lookup_table.page_down ())
-            while (m_lookup_table.page_up ()) NULL;
+            while (m_lookup_table.page_up ()) {}
 
         refresh_lookup_table (true, false);
         refresh_preedit ();
@@ -1467,7 +1467,7 @@ TableInstance::delete_phrase ()
 void
 TableInstance::lookup_to_converted (int index)
 {
-    if (index < 0 || index >= m_lookup_table.number_of_candidates ())
+    if (index < 0 || index >= (int) m_lookup_table.number_of_candidates ())
         return;
 
     uint32 offset  = m_lookup_table_indexes [index];
@@ -1559,7 +1559,7 @@ TableInstance::refresh_preedit ()
 
     // Fill the preedit string.
     if (m_factory->m_table.is_auto_fill () &&
-        m_converted_strings.size () == inputted_keys - 1 &&
+        (int) m_converted_strings.size () == inputted_keys - 1 &&
         m_inputing_caret == m_inputted_keys [m_inputing_key].length () &&
         m_lookup_table.number_of_candidates ()) {
 
@@ -1574,7 +1574,7 @@ TableInstance::refresh_preedit ()
         i = m_converted_strings.size ();
         caret = start = preedit_string.length ();
 
-        for (i = m_converted_strings.size (); i < inputted_keys; ++i) {
+        for (i = m_converted_strings.size (); i < (size_t) inputted_keys; ++i) {
             if (m_factory->m_table.is_show_key_prompt ()) {
                 preedit_string += m_factory->m_table.get_key_prompt (m_inputted_keys [i]);
                 if (i == m_inputing_key)
@@ -1588,7 +1588,7 @@ TableInstance::refresh_preedit ()
             if (i == m_converted_strings.size ())
                 length = preedit_string.length () - start;
 
-            if (i < inputted_keys - 1)
+            if (i < (size_t) (inputted_keys - 1))
                 preedit_string.push_back ((ucs4_t)' ');
 
             if (i < m_inputing_key)

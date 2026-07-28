@@ -86,9 +86,9 @@ void self_learn (GenericTableLibrary &lib, const char *file)
         }
 
         buffer.push_back (0);
-        for (int i=0; i<buffer.size (); i++) {
+        for (int i=0; i<(int) buffer.size (); i++) {
             str = WideString ();
-            for (int j=0; j<maxlen; j++) {
+            for (int j=0; j<(int) maxlen; j++) {
                 if (buffer [j+i] == 0)
                     break;
                 str.push_back (buffer [j+i]);
