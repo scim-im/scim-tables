@@ -1260,7 +1260,7 @@ load_all_tables ()
     GenericTableLibrary *library;
 
     String sys_dir (SCIM_TABLE_SYSTEM_TABLE_DIR);
-    String usr_dir (scim_get_home_dir () + SCIM_TABLE_USER_TABLE_DIR);
+    String usr_dir (scim_get_user_data_dir () + SCIM_TABLE_USER_TABLE_DIR);
 
     destroy_all_tables ();
 
@@ -1405,7 +1405,7 @@ on_table_install_clicked (GtkButton *button,
     bool user_table = true;
 
     String sys_dir (SCIM_TABLE_SYSTEM_TABLE_DIR);
-    String usr_dir (scim_get_home_dir () + SCIM_TABLE_USER_TABLE_DIR);
+    String usr_dir (scim_get_user_data_dir () + SCIM_TABLE_USER_TABLE_DIR);
 
     // Select the table file.
 #ifdef SCIM_TABLES_USE_GTK_FILE_CHOOSER

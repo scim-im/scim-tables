@@ -136,7 +136,7 @@ extern "C" {
         _scim_config = config;
 
         _get_table_list (_scim_sys_table_list, SCIM_TABLE_SYSTEM_TABLE_DIR);
-        _get_table_list (_scim_user_table_list, scim_get_home_dir () + SCIM_TABLE_USER_TABLE_DIR);
+        _get_table_list (_scim_user_table_list, scim_get_user_data_dir () + SCIM_TABLE_USER_TABLE_DIR);
 
         _scim_number_of_tables = _scim_sys_table_list.size () + _scim_user_table_list.size (); 
 
@@ -403,7 +403,7 @@ TableFactory::get_sys_table_freq_file ()
         else
             tf = m_table_filename;
 
-        fn = scim_get_home_dir () + SCIM_TABLE_SYSTEM_UPDATE_TABLE_DIR;
+        fn = scim_get_user_data_dir () + SCIM_TABLE_SYSTEM_UPDATE_TABLE_DIR;
 
         if (access (fn.c_str (), R_OK | W_OK) != 0) {
             if (!scim_make_dir (fn))
@@ -429,7 +429,7 @@ TableFactory::get_sys_table_user_file ()
         else
             tf = m_table_filename;
 
-        fn = scim_get_home_dir () + SCIM_TABLE_SYSTEM_UPDATE_TABLE_DIR;
+        fn = scim_get_user_data_dir () + SCIM_TABLE_SYSTEM_UPDATE_TABLE_DIR;
 
         if (access (fn.c_str (), R_OK | W_OK) != 0) {
             if (!scim_make_dir (fn))

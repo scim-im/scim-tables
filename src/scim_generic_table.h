@@ -24,8 +24,7 @@
  * $Id: scim_generic_table.h,v 1.7 2006/08/23 10:25:32 suzhe Exp $
  */
 
-#if !defined (__SCIM_GENERIC_TABLE_H)
-#define __SCIM_GENERIC_TABLE_H
+#pragma once
 
 #include <scim_types.h>
 #include <scim_utility.h>
@@ -42,12 +41,14 @@
   #define SCIM_TABLE_SYSTEM_TABLE_DIR (SCIM_DATADIR SCIM_PATH_DELIM_STRING "tables")
 #endif
 
+// User table dirs live under the XDG data dir (scim_get_user_data_dir(),
+// i.e. $XDG_CONFIG_HOME/scim, falling back to ~/.scim), matching scim.
 #ifndef SCIM_TABLE_USER_TABLE_DIR
-  #define SCIM_TABLE_USER_TABLE_DIR (SCIM_PATH_DELIM_STRING ".scim" SCIM_PATH_DELIM_STRING "user-tables")
+  #define SCIM_TABLE_USER_TABLE_DIR (SCIM_PATH_DELIM_STRING "user-tables")
 #endif
 
 #ifndef SCIM_TABLE_SYSTEM_UPDATE_TABLE_DIR
-  #define SCIM_TABLE_SYSTEM_UPDATE_TABLE_DIR (SCIM_PATH_DELIM_STRING ".scim" SCIM_PATH_DELIM_STRING "sys-tables")
+  #define SCIM_TABLE_SYSTEM_UPDATE_TABLE_DIR (SCIM_PATH_DELIM_STRING "sys-tables")
 #endif
 
 using namespace scim;
@@ -1116,8 +1117,6 @@ public:
         m_header.set_keyboard_layout (layout);
     }
 };
-
-#endif
 
 /*
 vi:ts=4:nowrap:ai:expandtab
