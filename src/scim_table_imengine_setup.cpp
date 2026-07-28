@@ -62,6 +62,7 @@ using namespace scim;
 #define SCIM_CONFIG_IMENGINE_TABLE_USER_TABLE_BINARY       "/IMEngine/Table/UserTableBinary"
 #define SCIM_CONFIG_IMENGINE_TABLE_USER_PHRASE_FIRST       "/IMEngine/Table/UserPhraseFirst"
 #define SCIM_CONFIG_IMENGINE_TABLE_LONG_PHRASE_FIRST       "/IMEngine/Table/LongPhraseFirst"
+#define SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD             "/IMEngine/Table/AutoReload"
 
 #define SCIM_TABLE_ICON_FILE                              (SCIM_ICONDIR "/table.png")
 
@@ -185,6 +186,7 @@ static bool __config_show_key_hint         = false;
 static bool __config_user_table_binary     = false;
 static bool __config_user_phrase_first     = false;
 static bool __config_long_phrase_first     = false;
+static bool __config_auto_reload           = false;
 
 static bool __have_changed                 = false;
 
@@ -193,6 +195,7 @@ static GtkWidget    * __widget_show_key_hint         = 0;
 static GtkWidget    * __widget_user_table_binary     = 0;
 static GtkWidget    * __widget_user_phrase_first     = 0;
 static GtkWidget    * __widget_long_phrase_first     = 0;
+static GtkWidget    * __widget_auto_reload           = 0;
 
 static GtkWidget    * __widget_table_list_view       = 0;
 static GtkListStore * __widget_table_list_model      = 0;
@@ -508,6 +511,13 @@ create_generic_page ()
     gtk_widget_set_margin_bottom (__widget_long_phrase_first, 4);
     gtk_box_append (GTK_BOX (vbox), __widget_long_phrase_first);
 
+    __widget_auto_reload = gtk_check_button_new_with_mnemonic (_("_Reload the table when its file changes"));
+    gtk_widget_set_margin_start  (__widget_auto_reload, 4);
+    gtk_widget_set_margin_end    (__widget_auto_reload, 4);
+    gtk_widget_set_margin_top    (__widget_auto_reload, 4);
+    gtk_widget_set_margin_bottom (__widget_auto_reload, 4);
+    gtk_box_append (GTK_BOX (vbox), __widget_auto_reload);
+
     // Connect all signals.
     g_signal_connect ((gpointer) __widget_show_prompt, "toggled",
                       G_CALLBACK (on_default_toggle_button_toggled),
@@ -524,6 +534,9 @@ create_generic_page ()
     g_signal_connect ((gpointer) __widget_long_phrase_first, "toggled",
                       G_CALLBACK (on_default_toggle_button_toggled),
                       &__config_long_phrase_first);
+    g_signal_connect ((gpointer) __widget_auto_reload, "toggled",
+                      G_CALLBACK (on_default_toggle_button_toggled),
+                      &__config_auto_reload);
 
     // Set all tooltips.
     const gchar *show_prompt_tooltip =
@@ -546,11 +559,16 @@ create_generic_page ()
         _("If this option is checked, "
           "the longer phrase will be shown "
           "in front of others. ");
+    const gchar *auto_reload_tooltip =
+        _("If this option is checked, "
+          "a table whose file has been modified on disk "
+          "will be reloaded automatically the next time a text field is focused.");
     gtk_widget_set_tooltip_text (__widget_show_prompt, show_prompt_tooltip);
     gtk_widget_set_tooltip_text (__widget_show_key_hint, show_key_hint_tooltip);
     gtk_widget_set_tooltip_text (__widget_user_table_binary, user_table_binary_tooltip);
     gtk_widget_set_tooltip_text (__widget_user_phrase_first, user_phrase_first_tooltip);
     gtk_widget_set_tooltip_text (__widget_long_phrase_first, long_phrase_first_tooltip);
+    gtk_widget_set_tooltip_text (__widget_auto_reload, auto_reload_tooltip);
 
     return vbox;
 }
@@ -854,6 +872,12 @@ setup_widget_value ()
             __config_long_phrase_first);
     }
 
+    if (__widget_auto_reload) {
+        gtk_check_button_set_active (
+            GTK_CHECK_BUTTON (__widget_auto_reload),
+            __config_auto_reload);
+    }
+
     for (int i = 0; __config_keyboards [i].key; ++ i) {
         if (__config_keyboards [i].entry) {
             gtk_editable_set_text (
@@ -883,6 +907,9 @@ load_config (const ConfigPointer &config)
         __config_long_phrase_first =
             config->read (String (SCIM_CONFIG_IMENGINE_TABLE_LONG_PHRASE_FIRST),
                           __config_long_phrase_first);
+        __config_auto_reload =
+            config->read (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD),
+                          __config_auto_reload);
 
         for (int i = 0; __config_keyboards [i].key; ++ i) {
             __config_keyboards [i].data =
@@ -912,6 +939,8 @@ save_config (const ConfigPointer &config)
                        __config_user_phrase_first);
         config->write (String (SCIM_CONFIG_IMENGINE_TABLE_LONG_PHRASE_FIRST),
                        __config_long_phrase_first);
+        config->write (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD),
+                       __config_auto_reload);
 
         for (int i = 0; __config_keyboards [i].key; ++ i) {
             config->write (String (__config_keyboards [i].key),
