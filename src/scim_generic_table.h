@@ -626,6 +626,10 @@ public:
     bool init (const String &sys, const String &usr = "", const String &freq = "", bool all = false);
     bool save (const String &sys, const String &usr = "", const String &freq = "", bool binary = false);
 
+    // Exchange the entire loaded state with another library in O(1); used to
+    // swap in a freshly reloaded table atomically.
+    void swap (GenericTableLibrary &other);
+
     bool valid () const {
         return m_header_loaded && m_header.valid ();
     }

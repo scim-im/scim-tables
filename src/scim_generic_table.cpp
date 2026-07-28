@@ -2163,6 +2163,19 @@ GenericTableLibrary::init (const String &sys, const String &usr, const String &f
     return ok;
 }
 
+void
+GenericTableLibrary::swap (GenericTableLibrary &other)
+{
+    std::swap (m_header,         other.m_header);
+    std::swap (m_sys_content,    other.m_sys_content);
+    std::swap (m_usr_content,    other.m_usr_content);
+    std::swap (m_sys_file,       other.m_sys_file);
+    std::swap (m_usr_file,       other.m_usr_file);
+    std::swap (m_freq_file,      other.m_freq_file);
+    std::swap (m_header_loaded,  other.m_header_loaded);
+    std::swap (m_content_loaded, other.m_content_loaded);
+}
+
 bool
 GenericTableLibrary::load_header ()
 {

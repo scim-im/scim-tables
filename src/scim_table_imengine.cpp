@@ -70,6 +70,8 @@
 #define SCIM_CONFIG_IMENGINE_TABLE_USER_PHRASE_FIRST      "/IMEngine/Table/UserPhraseFirst"
 #define SCIM_CONFIG_IMENGINE_TABLE_LONG_PHRASE_FIRST      "/IMEngine/Table/LongPhraseFirst"
 #define SCIM_CONFIG_IMENGINE_TABLE_SHOW_KEY_HINT          "/IMEngine/Table/ShowKeyHint"
+#define SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD            "/IMEngine/Table/AutoReload"
+#define SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD_INTERVAL   "/IMEngine/Table/AutoReloadInterval"
 
 #define SCIM_PROP_STATUS                                  "/IMEngine/Table/Status"
 #define SCIM_PROP_LETTER                                  "/IMEngine/Table/Letter"
@@ -179,6 +181,10 @@ TableFactory::TableFactory (const ConfigPointer &config)
       m_user_phrase_first (false),
       m_long_phrase_first (false),
       m_last_time ((time_t)0),
+      m_auto_reload (false),
+      m_auto_reload_interval (10),
+      m_table_mtime ((time_t)0),
+      m_last_reload_check ((time_t)0),
       m_status_property (SCIM_PROP_STATUS, ""),
       m_letter_property (SCIM_PROP_LETTER, _("Full/Half Letter")),
       m_punct_property (SCIM_PROP_PUNCT, _("Full/Half Punct"))
@@ -235,6 +241,12 @@ TableFactory::init (const ConfigPointer &config)
         m_long_phrase_first = config->read (String (SCIM_CONFIG_IMENGINE_TABLE_LONG_PHRASE_FIRST), false);
 
         m_user_table_binary = config->read (String (SCIM_CONFIG_IMENGINE_TABLE_USER_TABLE_BINARY), false);
+
+        m_auto_reload = config->read (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD), false);
+
+        m_auto_reload_interval = config->read (String (SCIM_CONFIG_IMENGINE_TABLE_AUTO_RELOAD_INTERVAL), 10);
+        if (m_auto_reload_interval < 1)
+            m_auto_reload_interval = 1;
     }
 
     m_last_time = time (NULL);
@@ -345,6 +357,13 @@ TableFactory::create_instance (const String& encoding, int id)
     return new TableInstance (this, encoding, id);
 }
 
+static time_t
+get_file_mtime (const String &file)
+{
+    struct stat st;
+    return (file.length () && stat (file.c_str (), &st) == 0) ? st.st_mtime : 0;
+}
+
 bool
 TableFactory::load_table (const String &table_file, bool user_table)
 {
@@ -364,7 +383,47 @@ TableFactory::load_table (const String &table_file, bool user_table)
 
     set_languages (m_table.get_languages ());
 
+    m_table_mtime = get_file_mtime (m_table_filename);
+    m_last_reload_check = time (NULL);
+
     return m_table.valid ();
+}
+
+bool
+TableFactory::reload_table ()
+{
+    if (!m_auto_reload || m_table_filename.empty ())
+        return false;
+
+    // Throttle: only stat the file at most once per interval, measured from
+    // the previous check (not from the file's mtime).
+    time_t now = time (NULL);
+    if (now - m_last_reload_check < m_auto_reload_interval)
+        return false;
+    m_last_reload_check = now;
+
+    // Unreadable or unchanged -> nothing to do (mtime 0 means stat failed,
+    // e.g. mid-rewrite; keep the current table).
+    time_t mtime = get_file_mtime (m_table_filename);
+    if (mtime == 0 || mtime == m_table_mtime)
+        return false;
+
+    // Load into a fresh library and only swap it in on success, so a failed
+    // or partial load never leaves the factory with an empty table.
+    GenericTableLibrary fresh;
+    bool ok = m_is_user_table
+        ? fresh.init ("", m_table_filename, "")
+        : fresh.init (m_table_filename,
+                      get_sys_table_user_file (),
+                      get_sys_table_freq_file ());
+
+    if (!ok || !fresh.valid ())
+        return false;
+
+    m_table.swap (fresh);
+    m_table_mtime = mtime;
+    set_languages (m_table.get_languages ());
+    return true;
 }
 
 void
@@ -771,6 +830,10 @@ void
 TableInstance::focus_in ()
 {
     m_focused = true;
+
+    // Pick up an edited table file at focus time: low-frequency, and no
+    // instance is mid-lookup here, so swapping the shared table is safe.
+    m_factory->reload_table ();
 
     if (m_add_phrase_mode != 1) {
         m_last_committed = WideString ();

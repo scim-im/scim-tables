@@ -24,8 +24,7 @@
  * $Id: scim_table_imengine.h,v 1.3 2005/10/26 07:53:53 suzhe Exp $
  */
 
-#if !defined (__SCIM_TABLE_IMENGINE_H)
-#define __SCIM_TABLE_IMENGINE_H
+#pragma once
 #include "scim_generic_table.h"
 
 /* phrase frequency cannot larger than this value (2^16 - 1) */
@@ -66,6 +65,12 @@ class TableFactory : public IMEngineFactoryBase
 
     time_t                m_last_time;
 
+    // Auto-reload the table when its file changes on disk.
+    bool                  m_auto_reload;
+    int                   m_auto_reload_interval;  // min seconds between checks
+    time_t                m_table_mtime;           // mtime of the loaded table
+    time_t                m_last_reload_check;     // last time we stat()ed it
+
     Connection            m_reload_signal_connection;
 
     Property              m_status_property;
@@ -103,6 +108,10 @@ private:
     String get_sys_table_user_file ();
 
     void refresh (bool rightnow = false);
+
+    // Reload the table file if it changed on disk (config-gated + throttled).
+    // Returns true if the table was actually reloaded.
+    bool reload_table ();
 };
 
 class TableInstance : public IMEngineInstanceBase
@@ -196,7 +205,6 @@ private:
     bool match_key_event (const std::vector<KeyEvent>& keyvec, const KeyEvent& key);
 };
 
-#endif
 /*
 vi:ts=4:nowrap:ai:expandtab
 */
