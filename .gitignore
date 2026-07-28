@@ -27,10 +27,7 @@ ltmain.sh
 autom4te.cache
 compile
 missing
-intltool-extract
-intltool-merge
-intltool-update
-scim-tables.spec
+ar-lib
 stamp-h*
 
 src/.deps/
@@ -38,5 +35,11 @@ src/.libs/
 src/scim-make-table
 m4/
 po/Makefile.in.in
+po/Makevars.template
 po/POTFILES
-po/stamp-it
+po/*.pot
+po/Rules-quot
+po/*.sed
+po/*.sin
+po/en@*.header
+po/stamp-po

@@ -1,39 +1,58 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT([scim-tables], [0.5.14.1], [https://github.com/scim-im/scim-tables]) 
+AC_PREREQ([2.71])
+AC_INIT([scim-tables], [0.5.14.1], [https://github.com/scim-im/scim-tables])
 # do not forget to edit skim/configure.in.in to change the version
 AC_CONFIG_SRCDIR([src/scim_table_imengine.h])
+AC_CONFIG_MACRO_DIRS([m4])
 
 AC_SUBST(PACKAGE_VERSION)
 AC_DEFINE_UNQUOTED(SCIM_TABLES_VERSION, "$PACKAGE_VERSION", [The release version of scim-tables.])
 
 # Init automake stuff
-AM_INIT_AUTOMAKE
-AM_CONFIG_HEADER([config.h])
+AM_INIT_AUTOMAKE([foreign subdir-objects -Wall])
+AC_CONFIG_HEADERS([config.h])
 
-# Init gettext
+# Use a POSIX archiver interface (required by automake >= 1.12 for some libs)
+AM_PROG_AR
+
+# Init gettext (languages are listed in po/LINGUAS)
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION(0.14)
+AM_GNU_GETTEXT_VERSION([0.21])
 
 GETTEXT_PACKAGE=scim-tables
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [The gettext domain])
-AM_GLIB_GNU_GETTEXT
 
 # Init libtool
-AC_LIBTOOL_DLOPEN
-AC_PROG_LIBTOOL
-# AC_LIB_LTDL
+LT_INIT([dlopen])
 AC_SUBST(LIBTOOL_DEPS)
 
-# Check intltool
-IT_PROG_INTLTOOL([0.33], [no-xml])
-
+# Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
-AC_LANG(C++)
+AC_LANG([C++])
 
-AC_C_CONST
-AC_C_INLINE
+# Require a C++17 compiler.
+AC_LANG_PUSH([C++])
+AC_MSG_CHECKING([whether $CXX supports C++17])
+ac_st_save_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -std=c++17"
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([[#include <optional>
+                    #include <string_view>
+                    #include <memory>]],
+                   [[std::optional<int> o; std::string_view sv;
+                     auto p = std::make_unique<int>(0); (void)p;]])],
+  [AC_MSG_RESULT([yes])],
+  [CXXFLAGS="$ac_st_save_CXXFLAGS"
+   AC_MSG_ERROR([a C++17-capable compiler is required to build scim-tables])])
+AC_LANG_POP([C++])
+
+# Enable a baseline set of warnings for development builds (non-fatal).
+SCIM_TABLES_WARNING_FLAGS="-Wall -Wextra"
+CFLAGS="$CFLAGS $SCIM_TABLES_WARNING_FLAGS"
+CXXFLAGS="$CXXFLAGS $SCIM_TABLES_WARNING_FLAGS"
+
 AC_TYPE_SIZE_T
 
 SCIM_VERSION=1.4.9
@@ -57,8 +76,7 @@ AM_CONDITIONAL(SCIM_BUILD_SETUP, [test "$SCIM_HAS_GTKUTILS" = "yes"])
 AC_SUBST(SCIM_BUILD_SETUP)
 
 # Checks for header files.
-AC_HEADER_STDC
-# AC_CHECK_HEADERS([langinfo.h libintl.h string.h hash_map ext/hash_map])
+# AC_CHECK_HEADERS([langinfo.h libintl.h string.h])
 
 # libtool option to control which symbols are exported
 # right now, symbols starting with _ are not exported
@@ -111,7 +129,6 @@ AC_CONFIG_FILES([Makefile
 		 docs/Makefile
 		 icons/Makefile
 		 src/Makefile
-		 scim-tables.spec
 		 tables/Makefile
 		 tables/additional/IPA-Kirshenbaum.txt
 		 tables/additional/IPA-X-SAMPA.txt
