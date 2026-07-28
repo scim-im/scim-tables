@@ -4,7 +4,7 @@
 
 /*
  * Smart Common Input Method
- * 
+ *
  * Copyright (c) 2002-2005 James Su <suzhe@tsinghua.org.cn>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -38,57 +38,6 @@
 #include "scim_generic_table.h"
 #include "scim_table_private.h"
 
-#if !GTK_CHECK_VERSION(2, 12, 0)
-    #define SCIM_TABLES_USE_GTK_TOOLTIPS
-#endif
-
-#if !GTK_CHECK_VERSION(2, 22, 0)
-    #define SCIM_TABLES_USE_GTK_DIALOG_SEPARATOR
-#endif
-
-#if GTK_CHECK_VERSION(2, 14, 0)
-    #define SCIM_TABLES_USE_GTK_DIALOG_GET_CONTENT_AREA
-    #define SCIM_TABLES_USE_GTK_DIALOG_GET_ACTION_AREA
-#endif
-
-#if GTK_CHECK_VERSION(2, 18, 0)
-    #define SCIM_TABLES_USE_GTK_WIDGET_GET_CAN_DEFAULT
-#endif
-
-#if GTK_CHECK_VERSION(3, 0, 0)
-    #define SCIM_TABLES_USE_GTK_BOX
-    #define SCIM_TABLES_USE_GTK_FILE_CHOOSER
-#endif
-
-#if GTK_CHECK_VERSION(3, 4, 0)
-    #define SCIM_TABLES_USE_GTK_GRID
-#endif
-
-#if GTK_CHECK_VERSION(3, 10, 0)
-#else
-    #define SCIM_TABLES_USE_GTK_STOCK
-#endif
-
-#if GTK_CHECK_VERSION(3, 14, 0)
-    #define SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-    #define SCIM_TABLES_USE_GTK_BUTTON_NEW_FROM_ICON_NAME
-#else
-    #define SCIM_TABLES_USE_GTK_TREE_VIEW_SET_RULES_HINT
-#endif
-
-#if ! GLIB_CHECK_VERSION(2, 32, 0)
-#if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)
-#define G_GNUC_BEGIN_IGNORE_DEPRECATIONS                \
-  _Pragma ("GCC diagnostic push")                       \
-  _Pragma ("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
-#define G_GNUC_END_IGNORE_DEPRECATIONS                  \
-  _Pragma ("GCC diagnostic pop")
-#else
-#define G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-#define G_GNUC_END_IGNORE_DEPRECATIONS
-#endif
-#endif
-
 using namespace scim;
 
 #define scim_module_init table_imengine_setup_LTX_scim_module_init
@@ -116,7 +65,7 @@ using namespace scim;
 
 #define SCIM_TABLE_ICON_FILE                              (SCIM_ICONDIR "/table.png")
 
-#define LIST_ICON_SIZE 20 
+#define LIST_ICON_SIZE 20
 
 static GtkWidget * create_setup_window ();
 static void        load_config (const ConfigPointer &config);
@@ -244,9 +193,6 @@ static GtkWidget    * __widget_show_key_hint         = 0;
 static GtkWidget    * __widget_user_table_binary     = 0;
 static GtkWidget    * __widget_user_phrase_first     = 0;
 static GtkWidget    * __widget_long_phrase_first     = 0;
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-static GtkTooltips  * __widget_tooltips              = 0;
-#endif
 
 static GtkWidget    * __widget_table_list_view       = 0;
 static GtkListStore * __widget_table_list_model      = 0;
@@ -371,7 +317,7 @@ on_default_editable_changed          (GtkEditable     *editable,
                                       gpointer         user_data);
 
 static void
-on_default_toggle_button_toggled     (GtkToggleButton *togglebutton,
+on_default_toggle_button_toggled     (GtkCheckButton  *checkbutton,
                                       gpointer         user_data);
 
 static void
@@ -402,9 +348,11 @@ static void
 on_toggle_button_toggled             (GtkToggleButton *button,
                                       gpointer         user_data);
 
-static gint
+static void
 run_table_properties_dialog          (GenericTableLibrary *lib,
-                                      TablePropertiesData &data,
+                                      GtkTreeModel        *model,
+                                      GtkTreeIter         *iter,
+                                      const TablePropertiesData &data,
                                       bool                 editable);
 
 static bool
@@ -455,43 +403,110 @@ test_file_modify (const String &file);
 static bool
 test_file_unlink (const String &file);
 
+// Helpers for asynchronous dialogs (GTK4 removed gtk_dialog_run).
+static GtkWindow *
+get_setup_window ()
+{
+    if (__widget_table_list_view) {
+        GtkRoot *root = gtk_widget_get_root (__widget_table_list_view);
+        if (root && GTK_IS_WINDOW (root))
+            return GTK_WINDOW (root);
+    }
+    return NULL;
+}
+
+// Show a simple, non-blocking informational/error message.
+static void
+show_message (const gchar *msg)
+{
+    GtkAlertDialog *dialog = gtk_alert_dialog_new ("%s", msg);
+    gtk_alert_dialog_show (dialog, get_setup_window ());
+    g_object_unref (dialog);
+}
+
+// Asynchronous OK/Cancel confirmation.
+typedef void (*ConfirmCallback) (gpointer user_data, bool ok);
+
+struct ConfirmData {
+    ConfirmCallback  cb;
+    gpointer         user_data;
+};
+
+static void
+confirm_alert_finish (GObject *source, GAsyncResult *result, gpointer data)
+{
+    ConfirmData *cd = static_cast<ConfirmData *> (data);
+    int button = gtk_alert_dialog_choose_finish (GTK_ALERT_DIALOG (source), result, NULL);
+
+    // Button index 1 is OK, everything else (including cancel/close) is not OK.
+    bool ok = (button == 1);
+
+    if (cd->cb)
+        cd->cb (cd->user_data, ok);
+
+    delete cd;
+}
+
+static void
+show_confirm (const gchar *msg, ConfirmCallback cb, gpointer user_data)
+{
+    GtkAlertDialog *dialog = gtk_alert_dialog_new ("%s", msg);
+    const char *buttons[] = { _("_Cancel"), _("_OK"), NULL };
+
+    gtk_alert_dialog_set_buttons (dialog, buttons);
+    gtk_alert_dialog_set_cancel_button (dialog, 0);
+    gtk_alert_dialog_set_default_button (dialog, 1);
+
+    ConfirmData *cd = new ConfirmData;
+    cd->cb        = cb;
+    cd->user_data = user_data;
+
+    gtk_alert_dialog_choose (dialog, get_setup_window (), NULL, confirm_alert_finish, cd);
+    g_object_unref (dialog);
+}
+
 // Function implementations.
 static GtkWidget *
 create_generic_page ()
 {
     GtkWidget *vbox;
 
-#ifdef SCIM_TABLES_USE_GTK_BOX
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-#else
-    vbox = gtk_vbox_new (FALSE, 0);
-#endif
-    gtk_widget_show (vbox);
 
     __widget_show_prompt = gtk_check_button_new_with_mnemonic (_("Show _prompt"));
-    gtk_widget_show (__widget_show_prompt);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_show_prompt, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_show_prompt), 4);
+    gtk_widget_set_margin_start  (__widget_show_prompt, 4);
+    gtk_widget_set_margin_end    (__widget_show_prompt, 4);
+    gtk_widget_set_margin_top    (__widget_show_prompt, 4);
+    gtk_widget_set_margin_bottom (__widget_show_prompt, 4);
+    gtk_box_append (GTK_BOX (vbox), __widget_show_prompt);
 
     __widget_show_key_hint = gtk_check_button_new_with_mnemonic (_("Show key _hint"));
-    gtk_widget_show (__widget_show_key_hint);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_show_key_hint, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_show_key_hint), 4);
+    gtk_widget_set_margin_start  (__widget_show_key_hint, 4);
+    gtk_widget_set_margin_end    (__widget_show_key_hint, 4);
+    gtk_widget_set_margin_top    (__widget_show_key_hint, 4);
+    gtk_widget_set_margin_bottom (__widget_show_key_hint, 4);
+    gtk_box_append (GTK_BOX (vbox), __widget_show_key_hint);
 
     __widget_user_table_binary = gtk_check_button_new_with_mnemonic (_("Save _user table in binary format"));
-    gtk_widget_show (__widget_user_table_binary);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_user_table_binary, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_user_table_binary), 4);
+    gtk_widget_set_margin_start  (__widget_user_table_binary, 4);
+    gtk_widget_set_margin_end    (__widget_user_table_binary, 4);
+    gtk_widget_set_margin_top    (__widget_user_table_binary, 4);
+    gtk_widget_set_margin_bottom (__widget_user_table_binary, 4);
+    gtk_box_append (GTK_BOX (vbox), __widget_user_table_binary);
 
     __widget_user_phrase_first = gtk_check_button_new_with_mnemonic (_("Show the u_ser defined phrases first"));
-    gtk_widget_show (__widget_user_phrase_first);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_user_phrase_first, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_user_phrase_first), 4);
+    gtk_widget_set_margin_start  (__widget_user_phrase_first, 4);
+    gtk_widget_set_margin_end    (__widget_user_phrase_first, 4);
+    gtk_widget_set_margin_top    (__widget_user_phrase_first, 4);
+    gtk_widget_set_margin_bottom (__widget_user_phrase_first, 4);
+    gtk_box_append (GTK_BOX (vbox), __widget_user_phrase_first);
 
     __widget_long_phrase_first = gtk_check_button_new_with_mnemonic (_("Show the _longer phrases first"));
-    gtk_widget_show (__widget_long_phrase_first);
-    gtk_box_pack_start (GTK_BOX (vbox), __widget_long_phrase_first, FALSE, FALSE, 4);
-    gtk_container_set_border_width (GTK_CONTAINER (__widget_long_phrase_first), 4);
+    gtk_widget_set_margin_start  (__widget_long_phrase_first, 4);
+    gtk_widget_set_margin_end    (__widget_long_phrase_first, 4);
+    gtk_widget_set_margin_top    (__widget_long_phrase_first, 4);
+    gtk_widget_set_margin_bottom (__widget_long_phrase_first, 4);
+    gtk_box_append (GTK_BOX (vbox), __widget_long_phrase_first);
 
     // Connect all signals.
     g_signal_connect ((gpointer) __widget_show_prompt, "toggled",
@@ -531,19 +546,12 @@ create_generic_page ()
         _("If this option is checked, "
           "the longer phrase will be shown "
           "in front of others. ");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-    gtk_tooltips_set_tip (__widget_tooltips, __widget_show_prompt, show_prompt_tooltip, NULL);
-    gtk_tooltips_set_tip (__widget_tooltips, __widget_show_key_hint, show_key_hint_tooltip, NULL);
-    gtk_tooltips_set_tip (__widget_tooltips, __widget_user_table_binary, user_table_binary_tooltip, NULL);
-    gtk_tooltips_set_tip (__widget_tooltips, __widget_user_phrase_first, user_phrase_first_tooltip, NULL);
-    gtk_tooltips_set_tip (__widget_tooltips, __widget_long_phrase_first, long_phrase_first_tooltip, NULL);
-#else
     gtk_widget_set_tooltip_text (__widget_show_prompt, show_prompt_tooltip);
     gtk_widget_set_tooltip_text (__widget_show_key_hint, show_key_hint_tooltip);
     gtk_widget_set_tooltip_text (__widget_user_table_binary, user_table_binary_tooltip);
     gtk_widget_set_tooltip_text (__widget_user_phrase_first, user_phrase_first_tooltip);
     gtk_widget_set_tooltip_text (__widget_long_phrase_first, long_phrase_first_tooltip);
-#endif
+
     return vbox;
 }
 
@@ -555,62 +563,27 @@ create_keyboard_page ()
 
     int i;
 
-#ifdef SCIM_TABLES_USE_GTK_GRID
     table = gtk_grid_new ();
-#else   
-    table = gtk_table_new (3, 3, FALSE);
-#endif
-    gtk_widget_show (table);
+    gtk_grid_set_row_spacing (GTK_GRID (table), 4);
+    gtk_grid_set_column_spacing (GTK_GRID (table), 4);
 
     // Create keyboard setting.
     for (i = 0; __config_keyboards [i].key; ++ i) {
         label = gtk_label_new (NULL);
         gtk_label_set_text_with_mnemonic (GTK_LABEL (label), _(__config_keyboards[i].label));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
         gtk_widget_set_halign (label, GTK_ALIGN_END);
         gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-        gtk_widget_set_margin_start (label, 4);
-        gtk_widget_set_margin_end (label, 4);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
-        gtk_misc_set_padding (GTK_MISC (label), 4, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_widget_set_valign (label, GTK_ALIGN_FILL);
         gtk_grid_attach (GTK_GRID (table), label, 0, i, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, i, i+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (GTK_FILL), 4, 4);
-#endif
 
         __config_keyboards [i].entry = gtk_entry_new ();
-        gtk_widget_show (__config_keyboards [i].entry);
-#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_hexpand (__config_keyboards [i].entry, TRUE);
         gtk_widget_set_halign (__config_keyboards [i].entry, GTK_ALIGN_FILL);
-        gtk_widget_set_valign (__config_keyboards [i].entry, GTK_ALIGN_FILL);
         gtk_grid_attach (GTK_GRID (table), __config_keyboards [i].entry, 1, i, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), __config_keyboards [i].entry, 1, 2, i, i+1,
-                          (GtkAttachOptions) (GTK_FILL|GTK_EXPAND),
-                          (GtkAttachOptions) (GTK_FILL), 4, 4);
-#endif
 
         gtk_editable_set_editable (GTK_EDITABLE (__config_keyboards[i].entry), FALSE);
 
         __config_keyboards[i].button = gtk_button_new_with_label ("...");
-        gtk_widget_show (__config_keyboards[i].button);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (__config_keyboards [i].button, GTK_ALIGN_FILL);
-        gtk_widget_set_valign (__config_keyboards [i].button, GTK_ALIGN_FILL);
         gtk_grid_attach (GTK_GRID (table), __config_keyboards [i].button, 2, i, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), __config_keyboards[i].button, 2, 3, i, i+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (GTK_FILL), 4, 4);
-#endif
         gtk_label_set_mnemonic_widget (GTK_LABEL (label), __config_keyboards[i].button);
     }
 
@@ -624,13 +597,8 @@ create_keyboard_page ()
     }
 
     for (i = 0; __config_keyboards [i].key; ++ i) {
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (__widget_tooltips, __config_keyboards [i].entry,
-                              __config_keyboards [i].tooltip, NULL);
-#else
         gtk_widget_set_tooltip_text (__config_keyboards [i].entry,
                               __config_keyboards [i].tooltip);
-#endif
     }
 
     return table;
@@ -660,58 +628,38 @@ create_table_management_page ()
     GtkWidget *vbox;
     GtkWidget *label;
     GtkWidget *scrolledwindow;
-    GtkWidget *treeview;
     GtkWidget *hbox;
     GtkWidget *button;
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
     GtkTreeSelection  *selection;
 
-#ifdef SCIM_TABLES_USE_GTK_BOX
     page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-#else
-    page = gtk_vbox_new (FALSE, 0);
-#endif
-    gtk_widget_show (page);
 
     label = gtk_label_new (_("The installed tables:"));
-    gtk_widget_show (label);
-    gtk_box_pack_start (GTK_BOX (page), label, FALSE, FALSE, 2);
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
     gtk_widget_set_halign (label, GTK_ALIGN_START);
     gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-    gtk_widget_set_margin_start (label, 2);
-    gtk_widget_set_margin_end (label, 2);
-    gtk_widget_set_margin_top (label, 2);
+    gtk_widget_set_margin_start  (label, 2);
+    gtk_widget_set_margin_end    (label, 2);
+    gtk_widget_set_margin_top    (label, 2);
     gtk_widget_set_margin_bottom (label, 2);
-#else
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-    gtk_misc_set_padding (GTK_MISC (label), 2, 2);
-#endif
+    gtk_box_append (GTK_BOX (page), label);
 
-#ifdef SCIM_TABLES_USE_GTK_BOX
     hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-#else
-    hbox = gtk_hbox_new (FALSE, 0);
-#endif
-    gtk_widget_show (hbox);
-    gtk_box_pack_start (GTK_BOX (page), hbox, TRUE, TRUE, 0);
+    gtk_widget_set_vexpand (hbox, TRUE);
+    gtk_box_append (GTK_BOX (page), hbox);
 
-    scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
-    gtk_widget_show (scrolledwindow);
-    gtk_box_pack_start (GTK_BOX (hbox), scrolledwindow, TRUE, TRUE, 0);
+    scrolledwindow = gtk_scrolled_window_new ();
+    gtk_widget_set_hexpand (scrolledwindow, TRUE);
+    gtk_widget_set_vexpand (scrolledwindow, TRUE);
+    gtk_box_append (GTK_BOX (hbox), scrolledwindow);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_SHADOW_ETCHED_IN);
 
     // Create table list view
     __widget_table_list_model = create_table_list_model ();
     __widget_table_list_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (__widget_table_list_model));
-    gtk_widget_show (__widget_table_list_view);
     gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (__widget_table_list_view), TRUE);
-#ifdef SCIM_TABLES_USE_GTK_TREE_VIEW_SET_RULES_HINT
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (__widget_table_list_view), TRUE);
-#endif
-    gtk_container_add (GTK_CONTAINER (scrolledwindow), __widget_table_list_view);
+    gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (scrolledwindow), __widget_table_list_view);
 
     // Create name column
     column = gtk_tree_view_column_new ();
@@ -790,56 +738,45 @@ create_table_management_page ()
                       0);
 
     // Create buttons.
- 
-#ifdef SCIM_TABLES_USE_GTK_BOX
     vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-#else
-    vbox = gtk_vbox_new (FALSE, 0);
-#endif
-    gtk_widget_show (vbox);
-    gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, TRUE, 4);
+    gtk_widget_set_margin_start (vbox, 4);
+    gtk_box_append (GTK_BOX (hbox), vbox);
 
     button = gtk_button_new_with_mnemonic (_("_Install"));
-    gtk_widget_show (button);
-    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
-    gtk_container_set_border_width (GTK_CONTAINER (button), 2);
+    gtk_widget_set_margin_start  (button, 2);
+    gtk_widget_set_margin_end    (button, 2);
+    gtk_widget_set_margin_top    (button, 2);
+    gtk_widget_set_margin_bottom (button, 2);
+    gtk_box_append (GTK_BOX (vbox), button);
 
     const gchar *button_insert_tooltip = _("Install a new table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-    gtk_tooltips_set_tip (__widget_tooltips, button, button_insert_tooltip, NULL);
-#else
     gtk_widget_set_tooltip_text (button, button_insert_tooltip);
-#endif
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_table_install_clicked),
                       0);
     __widget_table_install_button = button;
 
     button = gtk_button_new_with_mnemonic (_("_Delete"));
-    gtk_widget_show (button);
-    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
-    gtk_container_set_border_width (GTK_CONTAINER (button), 2);
+    gtk_widget_set_margin_start  (button, 2);
+    gtk_widget_set_margin_end    (button, 2);
+    gtk_widget_set_margin_top    (button, 2);
+    gtk_widget_set_margin_bottom (button, 2);
+    gtk_box_append (GTK_BOX (vbox), button);
     const gchar *button_delete_tooltip = _("Delete the selected table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-    gtk_tooltips_set_tip (__widget_tooltips, button, button_delete_tooltip, NULL);
-#else
     gtk_widget_set_tooltip_text (button, button_delete_tooltip);
-#endif
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_table_delete_clicked),
                       0);
     __widget_table_delete_button = button;
 
     button = gtk_button_new_with_mnemonic (_("_Properties"));
-    gtk_widget_show (button);
-    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
-    gtk_container_set_border_width (GTK_CONTAINER (button), 2);
+    gtk_widget_set_margin_start  (button, 2);
+    gtk_widget_set_margin_end    (button, 2);
+    gtk_widget_set_margin_top    (button, 2);
+    gtk_widget_set_margin_bottom (button, 2);
+    gtk_box_append (GTK_BOX (vbox), button);
     const gchar *button_edit_tooltip = _("Edit the properties of the selected table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-    gtk_tooltips_set_tip (__widget_tooltips, button, button_edit_tooltip, NULL);
-#else
     gtk_widget_set_tooltip_text (button, button_edit_tooltip);
-#endif
     g_signal_connect (G_OBJECT (button), "clicked",
                       G_CALLBACK (on_table_properties_clicked),
                       0);
@@ -858,41 +795,22 @@ create_setup_window ()
         GtkWidget *label;
         GtkWidget *page;
 
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        __widget_tooltips = gtk_tooltips_new ();
-#endif
-
         // Create the Notebook.
         notebook = gtk_notebook_new ();
-        gtk_widget_show (notebook);
 
         // Create the first page.
         page = create_generic_page ();
-        gtk_container_add (GTK_CONTAINER (notebook), page);
-
-        // Create the label for this note page.
         label = gtk_label_new (_("Generic"));
-        gtk_widget_show (label);
-        gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 0), label);
+        gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
         // Create the second page.
         page = create_keyboard_page ();
-
-        // Create the label for this note page.
         label = gtk_label_new (_("Keyboard"));
-        gtk_widget_show (label);
-
-        // Append this page.
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
         // Create the third page.
         page = create_table_management_page ();
-
-        // Create the label for this note page.
         label = gtk_label_new (_("Table Management"));
-        gtk_widget_show (label);
-
-        // Append this page.
         gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
 
         window = notebook;
@@ -907,39 +825,39 @@ void
 setup_widget_value ()
 {
     if (__widget_show_prompt) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_show_prompt),
+        gtk_check_button_set_active (
+            GTK_CHECK_BUTTON (__widget_show_prompt),
             __config_show_prompt);
     }
 
     if (__widget_show_key_hint) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_show_key_hint),
+        gtk_check_button_set_active (
+            GTK_CHECK_BUTTON (__widget_show_key_hint),
             __config_show_key_hint);
     }
 
     if (__widget_user_table_binary) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_user_table_binary),
+        gtk_check_button_set_active (
+            GTK_CHECK_BUTTON (__widget_user_table_binary),
             __config_user_table_binary);
     }
 
     if (__widget_user_phrase_first) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_user_phrase_first),
+        gtk_check_button_set_active (
+            GTK_CHECK_BUTTON (__widget_user_phrase_first),
             __config_user_phrase_first);
     }
 
     if (__widget_long_phrase_first) {
-        gtk_toggle_button_set_active (
-            GTK_TOGGLE_BUTTON (__widget_long_phrase_first),
+        gtk_check_button_set_active (
+            GTK_CHECK_BUTTON (__widget_long_phrase_first),
             __config_long_phrase_first);
     }
 
     for (int i = 0; __config_keyboards [i].key; ++ i) {
         if (__config_keyboards [i].entry) {
-            gtk_entry_set_text (
-                GTK_ENTRY (__config_keyboards [i].entry),
+            gtk_editable_set_text (
+                GTK_EDITABLE (__config_keyboards [i].entry),
                 __config_keyboards [i].data.c_str ());
         }
     }
@@ -1037,21 +955,45 @@ on_default_editable_changed (GtkEditable *editable,
     String *str = static_cast <String *> (user_data);
 
     if (str) {
-        *str = String (gtk_entry_get_text (GTK_ENTRY (editable)));
+        *str = String (gtk_editable_get_text (GTK_EDITABLE (editable)));
         __have_changed = true;
     }
 }
 
 static void
-on_default_toggle_button_toggled (GtkToggleButton *togglebutton,
-                                  gpointer         user_data)
+on_default_toggle_button_toggled (GtkCheckButton *checkbutton,
+                                  gpointer        user_data)
 {
     bool *toggle = static_cast<bool*> (user_data);
 
     if (toggle) {
-        *toggle = gtk_toggle_button_get_active (togglebutton);
+        *toggle = gtk_check_button_get_active (checkbutton);
         __have_changed = true;
     }
+}
+
+// Payload for the asynchronous key-selection dialog.
+struct KeySelectionDialogData {
+    GtkWidget *entry;
+};
+
+static void
+key_selection_dialog_response_cb (GtkDialog *dialog, gint response, gpointer user_data)
+{
+    KeySelectionDialogData *d = static_cast<KeySelectionDialogData *> (user_data);
+
+    if (response == GTK_RESPONSE_OK) {
+        const gchar *keys = scim_key_selection_dialog_get_keys (
+                        SCIM_KEY_SELECTION_DIALOG (dialog));
+
+        if (!keys) keys = "";
+
+        if (strcmp (keys, gtk_editable_get_text (GTK_EDITABLE (d->entry))) != 0)
+            gtk_editable_set_text (GTK_EDITABLE (d->entry), keys);
+    }
+
+    delete d;
+    gtk_window_destroy (GTK_WINDOW (dialog));
 }
 
 static void
@@ -1062,25 +1004,41 @@ on_default_key_selection_clicked (GtkButton *button,
 
     if (data) {
         GtkWidget *dialog = scim_key_selection_dialog_new (_(data->title));
-        gint result;
 
         scim_key_selection_dialog_set_keys (
             SCIM_KEY_SELECTION_DIALOG (dialog),
-            gtk_entry_get_text (GTK_ENTRY (data->entry)));
+            gtk_editable_get_text (GTK_EDITABLE (data->entry)));
 
-        result = gtk_dialog_run (GTK_DIALOG (dialog));
+        GtkRoot *root = gtk_widget_get_root (GTK_WIDGET (button));
+        if (root && GTK_IS_WINDOW (root))
+            gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (root));
+        gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
-        if (result == GTK_RESPONSE_OK) {
-            const gchar *keys = scim_key_selection_dialog_get_keys (
-                            SCIM_KEY_SELECTION_DIALOG (dialog));
+        KeySelectionDialogData *d = new KeySelectionDialogData;
+        d->entry = data->entry;
 
-            if (!keys) keys = "";
+        g_signal_connect (dialog, "response",
+                          G_CALLBACK (key_selection_dialog_response_cb), d);
 
-            if (strcmp (keys, gtk_entry_get_text (GTK_ENTRY (data->entry))) != 0)
-                gtk_entry_set_text (GTK_ENTRY (data->entry), keys);
+        gtk_window_present (GTK_WINDOW (dialog));
+    }
+}
+
+static void
+icon_file_dialog_finish_cb (GObject *source, GAsyncResult *result, gpointer user_data)
+{
+    GtkFileDialog *dialog = GTK_FILE_DIALOG (source);
+    GtkEntry      *entry  = static_cast <GtkEntry*> (user_data);
+
+    GFile *file = gtk_file_dialog_open_finish (dialog, result, NULL);
+
+    if (file) {
+        char *path = g_file_get_path (file);
+        if (path) {
+            gtk_editable_set_text (GTK_EDITABLE (entry), path);
+            g_free (path);
         }
-
-        gtk_widget_destroy (dialog);
+        g_object_unref (file);
     }
 }
 
@@ -1091,43 +1049,21 @@ on_icon_file_selection_clicked (GtkButton *button,
     GtkEntry *entry = static_cast <GtkEntry*> (user_data);
 
     if (entry) {
-#ifdef SCIM_TABLES_USE_GTK_FILE_CHOOSER
-        GtkWidget *file_selection = gtk_file_chooser_dialog_new (
-                                    _("Select an icon file"),
-                                    NULL,
-                                    GTK_FILE_CHOOSER_ACTION_OPEN,
-#ifdef SCIM_TABLES_USE_GTK_STOCK
-                                    GTK_STOCK_CANCEL,
-#else
-                                    _("_Cancel"),
-#endif
-                                    GTK_RESPONSE_CANCEL,
-#ifdef SCIM_TABLES_USE_GTK_STOCK
-                                    GTK_STOCK_OPEN,
-#else
-                                    _("_Open"),
-#endif
-                                    GTK_RESPONSE_OK,
-                                    NULL);
-#else
-        GtkWidget *file_selection = gtk_file_selection_new (_("Select an icon file"));
-        gtk_file_selection_set_filename (GTK_FILE_SELECTION (file_selection),
-                                         gtk_entry_get_text (entry));
-        gtk_file_selection_hide_fileop_buttons (GTK_FILE_SELECTION (file_selection));
-#endif
+        GtkFileDialog *dialog = gtk_file_dialog_new ();
+        gtk_file_dialog_set_title (dialog, _("Select an icon file"));
 
-        gint result = gtk_dialog_run (GTK_DIALOG (file_selection));
+        const char *cur = gtk_editable_get_text (GTK_EDITABLE (entry));
+        if (cur && *cur) {
+            GFile *f = g_file_new_for_path (cur);
+            gtk_file_dialog_set_initial_file (dialog, f);
+            g_object_unref (f);
+        }
 
-        if (result == GTK_RESPONSE_OK)
-            gtk_entry_set_text (entry,
-#ifdef SCIM_TABLES_USE_GTK_FILE_CHOOSER
-                 gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection))
-#else
-                 gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selection))
-#endif
-                 );
+        GtkRoot   *root   = gtk_widget_get_root (GTK_WIDGET (button));
+        GtkWindow *parent = (root && GTK_IS_WINDOW (root)) ? GTK_WINDOW (root) : NULL;
 
-        gtk_widget_destroy (file_selection);
+        gtk_file_dialog_open (dialog, parent, NULL, icon_file_dialog_finish_cb, entry);
+        g_object_unref (dialog);
     }
 }
 
@@ -1175,7 +1111,7 @@ get_table_list (std::vector<String> &table_list, const String &path)
 
             file = readdir (dir);
         }
-        closedir (dir);        
+        closedir (dir);
     }
 }
 
@@ -1389,62 +1325,168 @@ static bool find_table_in_list_by_library (GenericTableLibrary *library, GtkTree
     return false;
 }
 
-static void
-on_table_install_clicked (GtkButton *button,
-                          gpointer   user_data)
-{
-    GtkWidget *file_selection;
-    GtkWidget *msg;
-    GtkTreeIter iter;
-    String file;
-    String new_file;
-    String path;
-    gint result;
+// Asynchronous "install table" flow.
+//
+// The original synchronous flow was: pick a file, then possibly show a
+// sequence of confirmation dialogs before actually saving the table.  Since
+// GTK4 removed gtk_dialog_run, the flow is broken into a chain of callbacks
+// that carry state through this context structure.
+struct InstallContext {
     GenericTableLibrary *library;
-    String::size_type pos;
-    bool user_table = true;
+    String               new_file;
+    String               path;
+    bool                 user_table;
+    String               sys_dir;
+    String               usr_dir;
+};
 
-    String sys_dir (SCIM_TABLE_SYSTEM_TABLE_DIR);
-    String usr_dir (scim_get_user_data_dir () + SCIM_TABLE_USER_TABLE_DIR);
+static void install_check_uuid (InstallContext *ctx);
+static void install_check_file (InstallContext *ctx);
+static void install_do_save    (InstallContext *ctx);
 
-    // Select the table file.
-#ifdef SCIM_TABLES_USE_GTK_FILE_CHOOSER
-    file_selection = gtk_file_chooser_dialog_new (
-                                _("Please select the table file to be installed."),
-                                NULL,
-                                GTK_FILE_CHOOSER_ACTION_OPEN,
-#ifdef SCIM_TABLES_USE_GTK_STOCK
-                                GTK_STOCK_CANCEL,
-#else
-                                _("_Cancel"),
-#endif
-                                GTK_RESPONSE_CANCEL,
-#ifdef SCIM_TABLES_USE_GTK_STOCK
-                                GTK_STOCK_OPEN,
-#else
-                                _("_Open"),
-#endif
-                                GTK_RESPONSE_OK,
-                                NULL);
-#else
-    file_selection = gtk_file_selection_new (_("Please select the table file to be installed."));
-    gtk_file_selection_hide_fileop_buttons (GTK_FILE_SELECTION (file_selection));
-#endif
+static void
+install_do_save (InstallContext *ctx)
+{
+    if (!scim_make_dir (ctx->path) ||
+        !ctx->library->save (ctx->new_file, "", "", __config_user_table_binary)) {
+        char buf [1024];
+        snprintf (buf, sizeof (buf),
+                  _("Failed to install the table to %s!"),
+                  ctx->new_file.c_str ());
+        show_message (buf);
 
-    result = gtk_dialog_run (GTK_DIALOG (file_selection));
-
-    if (result != GTK_RESPONSE_OK) {
-        gtk_widget_destroy (file_selection);
+        delete ctx->library;
+        delete ctx;
         return;
     }
 
-#ifdef SCIM_TABLES_USE_GTK_FILE_CHOOSER
-    file = String (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection)));
-#else
-    file = String (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selection)));
-#endif
+    add_table_to_list (ctx->library, ctx->path, ctx->new_file, ctx->user_table);
 
-    gtk_widget_destroy (file_selection);
+    // Ownership of the library was transferred to the list model.
+    delete ctx;
+}
+
+static void
+install_overwrite_confirm_cb (gpointer user_data, bool ok)
+{
+    InstallContext *ctx = static_cast<InstallContext *> (user_data);
+
+    if (!ok) {
+        delete ctx->library;
+        delete ctx;
+        return;
+    }
+
+    GtkTreeIter iter;
+    if (find_table_in_list_by_file (ctx->new_file, &iter))
+        delete_table_from_list (GTK_TREE_MODEL (__widget_table_list_model), &iter);
+
+    install_do_save (ctx);
+}
+
+static void
+install_check_file (InstallContext *ctx)
+{
+    GtkTreeIter iter;
+
+    // Find if the file is already existed.
+    if (find_table_in_list_by_file (ctx->new_file, &iter)) {
+        if (!test_file_modify (ctx->new_file)) {
+            show_message (_("Failed to install the table! "
+                            "A table with the same file name was already installed."));
+            delete ctx->library;
+            delete ctx;
+            return;
+        }
+
+        show_confirm (_("A table with the same file name was already installed. "
+                        "Do you want to overwrite it?"),
+                      install_overwrite_confirm_cb, ctx);
+        return;
+    }
+
+    install_do_save (ctx);
+}
+
+static void
+install_replace_confirm_cb (gpointer user_data, bool ok)
+{
+    InstallContext *ctx = static_cast<InstallContext *> (user_data);
+
+    if (!ok) {
+        delete ctx->library;
+        delete ctx;
+        return;
+    }
+
+    GtkTreeIter iter;
+    if (find_table_in_list_by_library (ctx->library, &iter))
+        delete_table_from_list (GTK_TREE_MODEL (__widget_table_list_model), &iter);
+
+    String::size_type pos = ctx->new_file.rfind (SCIM_PATH_DELIM);
+    if (pos != String::npos && pos != 0) ctx->path = ctx->new_file.substr (0, pos);
+    else ctx->path = SCIM_PATH_DELIM_STRING;
+
+    if (ctx->path == ctx->sys_dir) ctx->user_table = false;
+
+    install_check_file (ctx);
+}
+
+static void
+install_check_uuid (InstallContext *ctx)
+{
+    GtkTreeIter iter;
+
+    // Find if there is a table with same uuid was already installed.
+    if (find_table_in_list_by_library (ctx->library, &iter)) {
+        gchar *fn;
+
+        gtk_tree_model_get (GTK_TREE_MODEL (__widget_table_list_model), &iter,
+                            TABLE_COLUMN_FILE, &fn, -1);
+        ctx->new_file = String (fn);
+        g_free (fn);
+
+        if (!test_file_modify (ctx->new_file)) {
+            show_message (_("Failed to install the table! "
+                            "Another version of this table was already installed."));
+            delete ctx->library;
+            delete ctx;
+            return;
+        }
+
+        show_confirm (_("Another version of this table was already installed. "
+                        "Do you want to replace it with the new one?"),
+                      install_replace_confirm_cb, ctx);
+        return;
+    }
+
+    install_check_file (ctx);
+}
+
+static void
+install_file_dialog_finish_cb (GObject *source, GAsyncResult *result, gpointer user_data)
+{
+    GtkFileDialog *dialog = GTK_FILE_DIALOG (source);
+
+    GFile *gf = gtk_file_dialog_open_finish (dialog, result, NULL);
+    if (!gf)
+        return;
+
+    char *fp = g_file_get_path (gf);
+    String file = fp ? String (fp) : String ();
+    if (fp) g_free (fp);
+    g_object_unref (gf);
+
+    if (!file.length ())
+        return;
+
+    String new_file;
+    String path;
+    String::size_type pos;
+    GenericTableLibrary *library;
+
+    String sys_dir (SCIM_TABLE_SYSTEM_TABLE_DIR);
+    String usr_dir (scim_get_user_data_dir () + SCIM_TABLE_USER_TABLE_DIR);
 
     pos = file.rfind (SCIM_PATH_DELIM);
 
@@ -1456,14 +1498,8 @@ on_table_install_clicked (GtkButton *button,
         if (!path.length ()) path = SCIM_PATH_DELIM_STRING;
 
         if (path == sys_dir || path == usr_dir) {
-            msg = gtk_message_dialog_new (0,
-                                          GTK_DIALOG_MODAL,
-                                          GTK_MESSAGE_ERROR,
-                                          GTK_BUTTONS_CLOSE,
-                                          _("Failed to install the table! "
-                                            "It's already in table file directory."));
-            gtk_dialog_run (GTK_DIALOG (msg));
-            gtk_widget_destroy (msg);
+            show_message (_("Failed to install the table! "
+                            "It's already in table file directory."));
             return;
         }
         new_file += file.substr (pos + 1);
@@ -1475,113 +1511,55 @@ on_table_install_clicked (GtkButton *button,
 
     // Load the table into memory.
     if ((library = load_table_file (file)) == 0) {
-        msg = gtk_message_dialog_new (0,
-                                      GTK_DIALOG_MODAL,
-                                      GTK_MESSAGE_ERROR,
-                                      GTK_BUTTONS_CLOSE,
-                                      _("Failed to load the table file!"));
-        gtk_dialog_run (GTK_DIALOG (msg));
-        gtk_widget_destroy (msg);
+        show_message (_("Failed to load the table file!"));
         return;
     }
 
-    // Find if there is a table with same uuid was already installed.
-    if (find_table_in_list_by_library (library, &iter)) {
-        gchar *fn;
+    InstallContext *ctx = new InstallContext;
+    ctx->library    = library;
+    ctx->new_file   = new_file;
+    ctx->path       = path;
+    ctx->user_table = true;
+    ctx->sys_dir    = sys_dir;
+    ctx->usr_dir    = usr_dir;
 
-        gtk_tree_model_get (GTK_TREE_MODEL (__widget_table_list_model), &iter,
-                            TABLE_COLUMN_FILE, &fn, -1);
-        new_file = String (fn);
-        g_free (fn);
+    install_check_uuid (ctx);
+}
 
-        if (!test_file_modify (new_file)) {
-            msg = gtk_message_dialog_new (0,
-                                          GTK_DIALOG_MODAL,
-                                          GTK_MESSAGE_ERROR,
-                                          GTK_BUTTONS_CLOSE,
-                                          _("Failed to install the table! "
-                                            "Another version of this table was already installed."));
+static void
+on_table_install_clicked (GtkButton *button,
+                          gpointer   user_data)
+{
+    // Select the table file.
+    GtkFileDialog *dialog = gtk_file_dialog_new ();
+    gtk_file_dialog_set_title (dialog, _("Please select the table file to be installed."));
 
-            gtk_dialog_run (GTK_DIALOG (msg));
-            gtk_widget_destroy (msg);
+    gtk_file_dialog_open (dialog, get_setup_window (), NULL,
+                          install_file_dialog_finish_cb, NULL);
+    g_object_unref (dialog);
+}
 
-            delete library;
-            return;
+// Asynchronous "delete table" flow.
+struct DeleteContext {
+    GtkTreeModel *model;
+    GtkTreeIter   iter;
+    String        file;
+};
+
+static void
+delete_confirm_cb (gpointer user_data, bool ok)
+{
+    DeleteContext *ctx = static_cast<DeleteContext *> (user_data);
+
+    if (ok) {
+        if (unlink (ctx->file.c_str ()) != 0) {
+            show_message (_("Failed to delete the table file!"));
+        } else {
+            delete_table_from_list (ctx->model, &ctx->iter);
         }
-
-        msg = gtk_message_dialog_new (0,
-                                      GTK_DIALOG_MODAL,
-                                      GTK_MESSAGE_QUESTION,
-                                      GTK_BUTTONS_OK_CANCEL,
-                                      _("Another version of this table was already installed. "
-                                        "Do you want to replace it with the new one?"));
-        result = gtk_dialog_run (GTK_DIALOG (msg));
-        gtk_widget_destroy (msg);
-
-        if (result != GTK_RESPONSE_OK) {
-            delete library;
-            return;
-        }
-
-        delete_table_from_list (GTK_TREE_MODEL (__widget_table_list_model), &iter);
-
-        pos = new_file.rfind (SCIM_PATH_DELIM);
-        if (pos != String::npos && pos != 0) path = new_file.substr (0, pos);
-        else path = SCIM_PATH_DELIM_STRING;
-
-        if (path == sys_dir) user_table = false;
     }
 
-    // Find if the file is already existed.
-    if (find_table_in_list_by_file (new_file, &iter)) {
-        if (!test_file_modify (new_file)) {
-            msg = gtk_message_dialog_new (0,
-                                          GTK_DIALOG_MODAL,
-                                          GTK_MESSAGE_ERROR,
-                                          GTK_BUTTONS_CLOSE,
-                                          _("Failed to install the table! "
-                                            "A table with the same file name was already installed."));
-
-            gtk_dialog_run (GTK_DIALOG (msg));
-            gtk_widget_destroy (msg);
-
-            delete library;
-            return;
-        }
-
-        msg = gtk_message_dialog_new (0,
-                                      GTK_DIALOG_MODAL,
-                                      GTK_MESSAGE_QUESTION,
-                                      GTK_BUTTONS_OK_CANCEL,
-                                      _("A table with the same file name was already installed. "
-                                        "Do you want to overwrite it?"));
-        result = gtk_dialog_run (GTK_DIALOG (msg));
-        gtk_widget_destroy (msg);
-
-        if (result != GTK_RESPONSE_OK) {
-            delete library;
-            return;
-        }
-
-        delete_table_from_list (GTK_TREE_MODEL (__widget_table_list_model), &iter);
-    }
-
-    if (!scim_make_dir (path) ||
-        !library->save (new_file, "", "", __config_user_table_binary)) {
-        msg = gtk_message_dialog_new (0,
-                                      GTK_DIALOG_MODAL,
-                                      GTK_MESSAGE_ERROR,
-                                      GTK_BUTTONS_CLOSE,
-                                      _("Failed to install the table to %s!"),
-                                      new_file.c_str ());
-        gtk_dialog_run (GTK_DIALOG (msg));
-        gtk_widget_destroy (msg);
-
-        delete library;
-        return;
-    }
-
-    add_table_to_list (library, path, new_file, user_table);
+    delete ctx;
 }
 
 static void
@@ -1591,7 +1569,6 @@ on_table_delete_clicked (GtkButton *button,
     GtkTreeIter  iter;
     GtkTreeModel *model;
     GtkTreeSelection *selection;
-    GtkWidget *msg;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (__widget_table_list_view));
 
@@ -1605,41 +1582,21 @@ on_table_delete_clicked (GtkButton *button,
         g_free (fn);
 
         if (!test_file_unlink (file)) {
-            msg = gtk_message_dialog_new (0,
-                                          GTK_DIALOG_MODAL,
-                                          GTK_MESSAGE_ERROR,
-                                          GTK_BUTTONS_CLOSE,
-                                          _("Can not delete the file %s!"),
-                                          file.c_str ());
-            gtk_dialog_run (GTK_DIALOG (msg));
-            gtk_widget_destroy (msg);
+            char buf [1024];
+            snprintf (buf, sizeof (buf),
+                      _("Can not delete the file %s!"),
+                      file.c_str ());
+            show_message (buf);
             return;
         }
 
-        msg = gtk_message_dialog_new (0,
-                                      GTK_DIALOG_MODAL,
-                                      GTK_MESSAGE_QUESTION,
-                                      GTK_BUTTONS_OK_CANCEL,
-                                      _("Are you sure to delete this table file?"));
+        DeleteContext *ctx = new DeleteContext;
+        ctx->model = model;
+        ctx->iter  = iter;
+        ctx->file  = file;
 
-        gint result = gtk_dialog_run (GTK_DIALOG (msg));
-        gtk_widget_destroy (msg);
-
-        if (result != GTK_RESPONSE_OK)
-            return;
-
-        if (unlink (file.c_str ()) != 0) {
-            msg = gtk_message_dialog_new (0,
-                                          GTK_DIALOG_MODAL,
-                                          GTK_MESSAGE_ERROR,
-                                          GTK_BUTTONS_CLOSE,
-                                          _("Failed to delete the table file!"));
-            gtk_dialog_run (GTK_DIALOG (msg));
-            gtk_widget_destroy (msg);
-            return;
-        }
-
-        delete_table_from_list (model, &iter);
+        show_confirm (_("Are you sure to delete this table file?"),
+                      delete_confirm_cb, ctx);
     }
 }
 
@@ -1653,18 +1610,16 @@ on_toggle_button_toggled (GtkToggleButton *button,
         gtk_button_set_label (GTK_BUTTON (button), _("False"));
 }
 
+// Context carried through the asynchronous table properties dialog.
+struct TablePropertiesDialogData {
+    GtkWidget           *dialog;
+    GenericTableLibrary *lib;
+    GtkTreeModel        *model;
+    GtkTreeIter          iter;
+    TablePropertiesData  data;
+    TablePropertiesData  olddata;
+    bool                 editable;
 
-static gint
-run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data, bool editable)
-{
-    GtkWidget *dialog;
-    GtkWidget *dialog_vbox;
-    GtkWidget *dialog_action_area;
-    GtkWidget *scrolledwindow;
-    GtkWidget *viewport;
-    GtkWidget *table;
-    GtkWidget *label;
-    GtkWidget *hbox;
     GtkWidget *entry_name;
     GtkWidget *entry_author;
     GtkWidget *entry_uuid;
@@ -1688,1259 +1643,617 @@ run_table_properties_dialog (GenericTableLibrary *lib, TablePropertiesData &data
     GtkWidget *toggle_discard_invalid_key;
     GtkWidget *toggle_def_full_width_punct;
     GtkWidget *toggle_def_full_width_letter;
-    GtkWidget *cancelbutton;
-    GtkWidget *okbutton;
 
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-    GtkTooltips *tooltips;
-#endif
+    KeyboardConfigData split_keys;
+    KeyboardConfigData commit_keys;
+    KeyboardConfigData forward_keys;
+    KeyboardConfigData select_keys;
+    KeyboardConfigData page_up_keys;
+    KeyboardConfigData page_down_keys;
+};
 
-    KeyboardConfigData split_keys  = {NULL,
-                                      _("Split Keys:"),
-                                      _("Split Keys:"),
-                                      _("The key strokes to split inputted string."),
-                                      NULL,
-                                      NULL,
-                                      ""};
+static GtkWidget *
+prop_dialog_add_label (GtkWidget *grid, const char *text, int row)
+{
+    GtkWidget *label = gtk_label_new (text);
+    gtk_widget_set_halign (label, GTK_ALIGN_END);
+    gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+    gtk_grid_attach (GTK_GRID (grid), label, 0, row, 1, 1);
+    return label;
+}
 
-    KeyboardConfigData commit_keys = {NULL,
-                                      _("Commit Keys:"),
-                                      _("Commit Keys:"),
-                                      _("The key strokes to commit converted result to client."),
-                                      NULL,
-                                      NULL,
-                                      ""};
+// Apply the (validated) properties back to the library.
+static void
+apply_table_properties (TablePropertiesDialogData *pd)
+{
+    GenericTableLibrary *lib     = pd->lib;
+    GtkTreeModel        *model   = pd->model;
+    GtkTreeIter          iter    = pd->iter;
+    TablePropertiesData &data    = pd->data;
+    TablePropertiesData &olddata = pd->olddata;
 
-    KeyboardConfigData forward_keys= {NULL,
-                                      _("Forward Keys:"),
-                                      _("Forward Keys:"),
-                                      _("The key strokes to forward inputted string to client."),
-                                      NULL,
-                                      NULL,
-                                      ""};
+    std::vector <KeyEvent> keyevents;
 
-    KeyboardConfigData select_keys = {NULL,
-                                      _("Select Keys:"),
-                                      _("Select Keys:"),
-                                      _("The key strokes to select candidate phrases in lookup table."),
-                                      NULL,
-                                      NULL,
-                                      ""};
+    if (data.icon != olddata.icon) {
+        GdkPixbuf * pixbuf = gdk_pixbuf_new_from_file (data.icon.c_str (), NULL);
+        scale_pixbuf (&pixbuf, LIST_ICON_SIZE, LIST_ICON_SIZE);
 
-    KeyboardConfigData page_up_keys = {NULL,
-                                      _("Page Up Keys:"),
-                                      _("Page Up Keys:"),
-                                      _("The lookup table page up keys"),
-                                      NULL,
-                                      NULL,
-                                      ""};
+        gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+                            TABLE_COLUMN_ICON, pixbuf,
+                            -1);
 
-    KeyboardConfigData page_down_keys = {NULL,
-                                      _("Page Down Keys:"),
-                                      _("Page Down Keys:"),
-                                      _("The lookup table page down keys"),
-                                      NULL,
-                                      NULL,
-                                      ""};
+        if (pixbuf)
+            g_object_unref (pixbuf);
+
+        lib->set_icon_file (data.icon);
+    }
+
+    if (data.languages != olddata.languages)
+        lib->set_languages (data.languages);
+
+    if (data.status_prompt != olddata.status_prompt)
+        lib->set_status_prompt (utf8_mbstowcs (data.status_prompt));
+
+    if (data.single_wildcard_chars != olddata.single_wildcard_chars)
+        lib->set_single_wildcard_chars (data.single_wildcard_chars);
+
+    if (data.multi_wildcard_chars != olddata.multi_wildcard_chars)
+        lib->set_multi_wildcard_chars (data.multi_wildcard_chars);
+
+    if (data.max_key_length != olddata.max_key_length)
+        lib->set_max_key_length (data.max_key_length);
+
+    if (data.show_key_prompt != olddata.show_key_prompt)
+        lib->set_show_key_prompt (data.show_key_prompt);
+
+    if (data.auto_select != olddata.auto_select)
+        lib->set_auto_select (data.auto_select);
+
+    if (data.auto_fill != olddata.auto_fill)
+        lib->set_auto_fill (data.auto_fill);
+
+    if (data.auto_wildcard != olddata.auto_wildcard)
+        lib->set_auto_wildcard (data.auto_wildcard);
+
+    if (data.auto_commit != olddata.auto_commit)
+        lib->set_auto_commit (data.auto_commit);
+
+    if (data.auto_split != olddata.auto_split)
+        lib->set_auto_split (data.auto_split);
+
+    if (data.discard_invalid_key != olddata.discard_invalid_key)
+        lib->set_discard_invalid_key (data.discard_invalid_key);
+
+    if (data.dynamic_adjust != olddata.dynamic_adjust)
+        lib->set_dynamic_adjust (data.dynamic_adjust);
+
+    if (data.always_show_lookup != olddata.always_show_lookup)
+        lib->set_always_show_lookup (data.always_show_lookup);
+
+    if (data.def_full_width_punct != olddata.def_full_width_punct)
+        lib->set_def_full_width_punct (data.def_full_width_punct);
+
+    if (data.def_full_width_letter != olddata.def_full_width_letter)
+        lib->set_def_full_width_letter (data.def_full_width_letter);
+
+    if (data.split_keys != olddata.split_keys &&
+        scim_string_to_key_list (keyevents, data.split_keys))
+        lib->set_split_keys (keyevents);
+
+    if (data.commit_keys != olddata.commit_keys &&
+        scim_string_to_key_list (keyevents, data.commit_keys))
+        lib->set_commit_keys (keyevents);
+
+    if (data.forward_keys != olddata.forward_keys &&
+        scim_string_to_key_list (keyevents, data.forward_keys))
+        lib->set_forward_keys (keyevents);
+
+    if (data.select_keys != olddata.select_keys &&
+        scim_string_to_key_list (keyevents, data.select_keys))
+        lib->set_select_keys (keyevents);
+
+    if (data.page_up_keys != olddata.page_up_keys &&
+        scim_string_to_key_list (keyevents, data.page_up_keys))
+        lib->set_page_up_keys (keyevents);
+
+    if (data.page_down_keys != olddata.page_down_keys &&
+        scim_string_to_key_list (keyevents, data.page_down_keys))
+        lib->set_page_down_keys (keyevents);
+}
+
+static void
+table_properties_dialog_response_cb (GtkDialog *dialog, gint response, gpointer user_data)
+{
+    TablePropertiesDialogData *pd = static_cast<TablePropertiesDialogData *> (user_data);
+
+    if (response != GTK_RESPONSE_OK) {
+        gtk_window_destroy (GTK_WINDOW (dialog));
+        delete pd;
+        return;
+    }
+
+    TablePropertiesData &data = pd->data;
+
+    data.icon = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_icon)));
+    data.languages = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_languages)));
+    data.status_prompt = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_status_prompt)));
+    data.multi_wildcard_chars  = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_multi_wildcard_chars)));
+    data.single_wildcard_chars = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_single_wildcard_chars)));
+    data.split_keys = String (gtk_editable_get_text (GTK_EDITABLE (pd->split_keys.entry)));
+    data.commit_keys = String (gtk_editable_get_text (GTK_EDITABLE (pd->commit_keys.entry)));
+    data.forward_keys = String (gtk_editable_get_text (GTK_EDITABLE (pd->forward_keys.entry)));
+    data.select_keys = String (gtk_editable_get_text (GTK_EDITABLE (pd->select_keys.entry)));
+    data.page_up_keys = String (gtk_editable_get_text (GTK_EDITABLE (pd->page_up_keys.entry)));
+    data.page_down_keys = String (gtk_editable_get_text (GTK_EDITABLE (pd->page_down_keys.entry)));
+
+    data.max_key_length = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (pd->spin_max_key_length));
+    data.show_key_prompt = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_show_key_prompt));
+    data.auto_select = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_select));
+    data.auto_fill = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_fill));
+    data.auto_wildcard = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_wildcard));
+    data.auto_commit = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_commit));
+    data.auto_split = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_split));
+    data.discard_invalid_key = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_discard_invalid_key));
+    data.dynamic_adjust = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_dynamic_adjust));
+    data.always_show_lookup = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_always_show_lookup));
+    data.def_full_width_punct = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_def_full_width_punct));
+    data.def_full_width_letter = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pd->toggle_def_full_width_letter));
+
+    // If the data is invalid, keep the dialog open so the user can correct it
+    // (validate_table_properties_data shows the error message itself).
+    if (!validate_table_properties_data (pd->lib, data))
+        return;
+
+    apply_table_properties (pd);
+
+    gtk_window_destroy (GTK_WINDOW (dialog));
+    delete pd;
+}
+
+static void
+run_table_properties_dialog (GenericTableLibrary *lib,
+                             GtkTreeModel        *model,
+                             GtkTreeIter         *iter,
+                             const TablePropertiesData &data,
+                             bool                 editable)
+{
+    GtkWidget *dialog;
+    GtkWidget *dialog_vbox;
+    GtkWidget *scrolledwindow;
+    GtkWidget *table;
+    GtkWidget *hbox;
+
+    TablePropertiesDialogData *pd = new TablePropertiesDialogData;
+    pd->lib      = lib;
+    pd->model    = model;
+    pd->iter     = *iter;
+    pd->data     = data;
+    pd->olddata  = data;
+    pd->editable = editable;
+
+    pd->split_keys     = {NULL, _("Split Keys:"), _("Split Keys:"),
+                          _("The key strokes to split inputted string."),
+                          NULL, NULL, ""};
+    pd->commit_keys    = {NULL, _("Commit Keys:"), _("Commit Keys:"),
+                          _("The key strokes to commit converted result to client."),
+                          NULL, NULL, ""};
+    pd->forward_keys   = {NULL, _("Forward Keys:"), _("Forward Keys:"),
+                          _("The key strokes to forward inputted string to client."),
+                          NULL, NULL, ""};
+    pd->select_keys    = {NULL, _("Select Keys:"), _("Select Keys:"),
+                          _("The key strokes to select candidate phrases in lookup table."),
+                          NULL, NULL, ""};
+    pd->page_up_keys   = {NULL, _("Page Up Keys:"), _("Page Up Keys:"),
+                          _("The lookup table page up keys"),
+                          NULL, NULL, ""};
+    pd->page_down_keys = {NULL, _("Page Down Keys:"), _("Page Down Keys:"),
+                          _("The lookup table page down keys"),
+                          NULL, NULL, ""};
 
     KeyboardConfigData *all_keys [] = {
-                                       &split_keys,
-                                       &commit_keys,
-                                       &forward_keys,
-                                       &select_keys,
-                                       &page_up_keys,
-                                       &page_down_keys,
-                                       NULL
-                                      };
+        &pd->split_keys,
+        &pd->commit_keys,
+        &pd->forward_keys,
+        &pd->select_keys,
+        &pd->page_up_keys,
+        &pd->page_down_keys,
+        NULL
+    };
 
-    gint row = 0;
-    gint result = GTK_RESPONSE_CANCEL;
+    int row = 0;
 
-    {// Create dialog.
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        tooltips = gtk_tooltips_new ();
-#endif
+    // Create dialog.
+    dialog = gtk_dialog_new_with_buttons (_("Table Properties"),
+                                          get_setup_window (),
+                                          GTK_DIALOG_MODAL,
+                                          _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                          _("_OK"), GTK_RESPONSE_OK,
+                                          NULL);
+    pd->dialog = dialog;
 
-        dialog = gtk_dialog_new ();
-        gtk_container_set_border_width (GTK_CONTAINER (dialog), 2);
-        gtk_window_set_title (GTK_WINDOW (dialog), _("Table Properties"));
-        gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
-        gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-#ifdef SCIM_TABLES_USE_GTK_DIALOG_SEPARATOR
-        gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-#endif
-  
-#ifdef SCIM_TABLES_USE_GTK_DIALOG_GET_CONTENT_AREA
-        dialog_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-#else
-        dialog_vbox = GTK_DIALOG (dialog)->vbox;
-#endif
-        gtk_widget_show (dialog_vbox);
-  
-        scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
-        gtk_widget_show (scrolledwindow);
-        gtk_box_pack_start (GTK_BOX (dialog_vbox), scrolledwindow, TRUE, TRUE, 0);
-        gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  
-        viewport = gtk_viewport_new (NULL, NULL);
-        gtk_widget_show (viewport);
-        gtk_container_add (GTK_CONTAINER (scrolledwindow), viewport);
-  
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        table = gtk_grid_new ();
-#else   
-        table = gtk_table_new (24, 2, FALSE);
-#endif
-        gtk_widget_show (table);
-        gtk_container_add (GTK_CONTAINER (viewport), table);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_grid_set_row_spacing (GTK_GRID (table), 2);
-        gtk_grid_set_column_spacing (GTK_GRID (table), 2);
-#else
-        gtk_table_set_row_spacings (GTK_TABLE (table), 2);
-        gtk_table_set_col_spacings (GTK_TABLE (table), 2);
-#endif
-  
-        // Name
-        label = gtk_label_new (_("Name:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        entry_name = gtk_entry_new ();
-        gtk_widget_show (entry_name);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (entry_name, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), entry_name, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), entry_name, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
- 
-        const gchar *name_tooltip = _("The name of this table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_name, tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_name, name_tooltip);
-#endif
+    dialog_vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-        ++ row;
+    scrolledwindow = gtk_scrolled_window_new ();
+    gtk_widget_set_vexpand (scrolledwindow, TRUE);
+    gtk_box_append (GTK_BOX (dialog_vbox), scrolledwindow);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 
-        // Author
-        label = gtk_label_new (_("Author:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        entry_author = gtk_entry_new ();
-        gtk_widget_show (entry_author);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (entry_author, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), entry_author, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), entry_author, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-  
-        const gchar *author_tooltip = _("The author of this table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_author, author_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_author, author_tooltip);
-#endif
+    table = gtk_grid_new ();
+    gtk_grid_set_row_spacing (GTK_GRID (table), 2);
+    gtk_grid_set_column_spacing (GTK_GRID (table), 2);
+    gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (scrolledwindow), table);
 
-        ++ row;
+    // Name
+    prop_dialog_add_label (table, _("Name:"), row);
+    pd->entry_name = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_name, TRUE);
+    gtk_widget_set_halign (pd->entry_name, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_name, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_name, _("The name of this table."));
+    ++ row;
 
-        // UUID
-        label = gtk_label_new (_("UUID:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        entry_uuid = gtk_entry_new ();
-        gtk_widget_show (entry_uuid);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (entry_uuid, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), entry_uuid, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), entry_uuid, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-  
-        const gchar *uuid_tooltip = _("The unique ID of this table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_uuid, uuid_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_uuid, uuid_tooltip);
-#endif
+    // Author
+    prop_dialog_add_label (table, _("Author:"), row);
+    pd->entry_author = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_author, TRUE);
+    gtk_widget_set_halign (pd->entry_author, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_author, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_author, _("The author of this table."));
+    ++ row;
 
-        ++ row;
+    // UUID
+    prop_dialog_add_label (table, _("UUID:"), row);
+    pd->entry_uuid = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_uuid, TRUE);
+    gtk_widget_set_halign (pd->entry_uuid, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_uuid, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_uuid, _("The unique ID of this table."));
+    ++ row;
 
-        // Serial Number
-        label = gtk_label_new (_("Serial Number:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        entry_serial = gtk_entry_new ();
-        gtk_widget_show (entry_serial);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (entry_serial, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), entry_serial, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), entry_serial, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-  
-        const gchar *serial_tooltip = _("The serial number of this table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_serial, serial_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_serial, serial_tooltip);
-#endif
+    // Serial Number
+    prop_dialog_add_label (table, _("Serial Number:"), row);
+    pd->entry_serial = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_serial, TRUE);
+    gtk_widget_set_halign (pd->entry_serial, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_serial, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_serial, _("The serial number of this table."));
+    ++ row;
 
-        ++ row;
+    // Icon file
+    prop_dialog_add_label (table, _("Icon File:"), row);
+    hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_hexpand (hbox, TRUE);
+    gtk_widget_set_halign (hbox, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), hbox, 1, row, 1, 1);
 
-        // Icon file
-        label = gtk_label_new (_("Icon File:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-#ifdef SCIM_TABLES_USE_GTK_BOX
+    pd->entry_icon = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_icon, TRUE);
+    gtk_box_append (GTK_BOX (hbox), pd->entry_icon);
+
+    pd->button_icon = gtk_button_new_with_mnemonic (_("Browse"));
+    gtk_box_append (GTK_BOX (hbox), pd->button_icon);
+
+    g_signal_connect (G_OBJECT (pd->button_icon), "clicked",
+                      G_CALLBACK (on_icon_file_selection_clicked),
+                      pd->entry_icon);
+
+    gtk_widget_set_tooltip_text (pd->entry_icon, _("The icon file of this table."));
+    ++ row;
+
+    // Supported Languages
+    prop_dialog_add_label (table, _("Supported Languages:"), row);
+    pd->entry_languages = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_languages, TRUE);
+    gtk_widget_set_halign (pd->entry_languages, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_languages, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_languages, _("The languages supported by this table."));
+    ++ row;
+
+    // Status Prompts
+    prop_dialog_add_label (table, _("Status Prompt:"), row);
+    pd->entry_status_prompt = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_status_prompt, TRUE);
+    gtk_widget_set_halign (pd->entry_status_prompt, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_status_prompt, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_status_prompt, _("A prompt string to be shown in status area."));
+    ++ row;
+
+    // Valid Input Chars
+    prop_dialog_add_label (table, _("Valid Input Chars:"), row);
+    pd->entry_valid_input_chars = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_valid_input_chars, TRUE);
+    gtk_widget_set_halign (pd->entry_valid_input_chars, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_valid_input_chars, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_valid_input_chars, _("The valid input chars of this table."));
+    ++ row;
+
+    // Mulit Wildcard Char
+    prop_dialog_add_label (table, _("Multi Wildcard Char:"), row);
+    pd->entry_multi_wildcard_chars = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_multi_wildcard_chars, TRUE);
+    gtk_widget_set_halign (pd->entry_multi_wildcard_chars, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_multi_wildcard_chars, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_multi_wildcard_chars,
+        _("The multi wildcard chars of this table. "
+          "These chars can be used to match one or more arbitrary chars."));
+    ++ row;
+
+    // Single Wildcard Char
+    prop_dialog_add_label (table, _("Single Wildcard Char:"), row);
+    pd->entry_single_wildcard_chars = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_single_wildcard_chars, TRUE);
+    gtk_widget_set_halign (pd->entry_single_wildcard_chars, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_single_wildcard_chars, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_single_wildcard_chars,
+        _("The single wildcard chars of this table."
+          "These chars can be used to match one arbitrary char."));
+    ++ row;
+
+    // All keyboard settings
+    for (int i = 0; all_keys [i]; ++i) {
+        prop_dialog_add_label (table, all_keys [i]->label, row);
+
         hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-#else
-        hbox = gtk_hbox_new (FALSE, 0);
-#endif
-        gtk_widget_show (hbox);
-#ifdef SCIM_TABLES_USE_GTK_GRID
+        gtk_widget_set_hexpand (hbox, TRUE);
         gtk_widget_set_halign (hbox, GTK_ALIGN_FILL);
-        gtk_widget_set_valign (hbox, GTK_ALIGN_FILL);
         gtk_grid_attach (GTK_GRID (table), hbox, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), hbox, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (GTK_FILL), 0, 0);
-#endif
-  
-        entry_icon = gtk_entry_new ();
-        gtk_widget_show (entry_icon);
-        gtk_box_pack_start (GTK_BOX (hbox), entry_icon, TRUE, TRUE, 0);
-  
-        button_icon = gtk_button_new_with_mnemonic (_("Browse"));
-        gtk_widget_show (button_icon);
-        gtk_box_pack_start (GTK_BOX (hbox), button_icon, FALSE, FALSE, 0);
- 
-        g_signal_connect (G_OBJECT (button_icon), "clicked",
-                          G_CALLBACK (on_icon_file_selection_clicked),
-                          entry_icon);
 
-        const gchar *icon_tooltip = _("The icon file of this table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_icon, icon_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_icon, icon_tooltip);
-#endif
-  
-        ++ row;
+        all_keys [i]->entry = gtk_entry_new ();
+        gtk_widget_set_hexpand (all_keys [i]->entry, TRUE);
+        gtk_box_append (GTK_BOX (hbox), all_keys [i]->entry);
 
-        // Supported Languages
-        label = gtk_label_new (_("Supported Languages:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        entry_languages = gtk_entry_new ();
-        gtk_widget_show (entry_languages);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (entry_languages, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), entry_languages, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), entry_languages, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
+        all_keys [i]->button = gtk_button_new_with_label (_("..."));
+        gtk_box_append (GTK_BOX (hbox), all_keys [i]->button);
 
-        const gchar *languages_tooltip = _("The languages supported by this table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_languages, languages_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_languages, languages_tooltip);
-#endif
+        g_signal_connect ((gpointer) all_keys [i]->button, "clicked",
+                          G_CALLBACK (on_default_key_selection_clicked),
+                          all_keys [i]);
+
+        gtk_widget_set_tooltip_text (all_keys [i]->entry, all_keys [i]->tooltip);
 
         ++ row;
+    }
 
-        // Status Prompts
-        label = gtk_label_new (_("Status Prompt:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        entry_status_prompt = gtk_entry_new ();
-        gtk_widget_show (entry_status_prompt);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (entry_status_prompt, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), entry_status_prompt, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), entry_status_prompt, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
- 
-        const gchar *status_prompt_tooltip = _("A prompt string to be shown in status area.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_status_prompt, status_prompt_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_status_prompt, status_prompt_tooltip);
-#endif
+    // Max key length
+    prop_dialog_add_label (table, _("Max Key Length:"), row);
+    pd->spin_max_key_length = gtk_spin_button_new_with_range (1, SCIM_GT_MAX_KEY_LENGTH, 1);
+    gtk_spin_button_set_digits (GTK_SPIN_BUTTON (pd->spin_max_key_length), 0);
+    gtk_widget_set_hexpand (pd->spin_max_key_length, TRUE);
+    gtk_widget_set_halign (pd->spin_max_key_length, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->spin_max_key_length, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->spin_max_key_length, _("The maxmium length of key strings."));
+    ++ row;
 
-        ++ row;
+    // Show key prompt.
+    prop_dialog_add_label (table, _("Show Key Prompt:"), row);
+    pd->toggle_show_key_prompt = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_show_key_prompt, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_show_key_prompt, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_show_key_prompt), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_show_key_prompt), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_show_key_prompt,
+        _("If true then the key prompts will be shown "
+          "instead of the raw keys."));
+    ++ row;
 
-        // Valid Input Chars
-        label = gtk_label_new (_("Valid Input Chars:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        entry_valid_input_chars = gtk_entry_new ();
-        gtk_widget_show (entry_valid_input_chars);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (entry_valid_input_chars, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), entry_valid_input_chars, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), entry_valid_input_chars, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-  
-        const gchar *valid_input_chars_tooltip = _("The valid input chars of this table.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_valid_input_chars, valid_input_chars_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_valid_input_chars, valid_input_chars_tooltip);
-#endif
+    // Auto Select
+    prop_dialog_add_label (table, _("Auto Select:"), row);
+    pd->toggle_auto_select = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_auto_select, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_auto_select, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_select), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_auto_select), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_auto_select,
+        _("If true then the first candidate phrase will be "
+          "selected automatically when inputing the next key."));
+    ++ row;
 
-        ++ row;
+    // Auto Wildcard
+    prop_dialog_add_label (table, _("Auto Wildcard:"), row);
+    pd->toggle_auto_wildcard = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_auto_wildcard, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_auto_wildcard, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_wildcard), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_auto_wildcard), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_auto_wildcard,
+        _("If true then a multi wildcard char will be appended to "
+          "the end of the inputted key string when searching phrases."));
+    ++ row;
 
-        // Mulit Wildcard Char
-        label = gtk_label_new (_("Multi Wildcard Char:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        entry_multi_wildcard_chars = gtk_entry_new ();
-        gtk_widget_show (entry_multi_wildcard_chars);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (entry_multi_wildcard_chars, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), entry_multi_wildcard_chars, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), entry_multi_wildcard_chars, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
+    // Auto Commit
+    prop_dialog_add_label (table, _("Auto Commit:"), row);
+    pd->toggle_auto_commit = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_auto_commit, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_auto_commit, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_commit), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_auto_commit), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_auto_commit,
+        _("If true then the converted result string will "
+          "be committed to client automatically."));
+    ++ row;
 
-        const gchar *multi_wildcard_chars_tooltip = 
-            _("The multi wildcard chars of this table. "
-              "These chars can be used to match one or more arbitrary chars.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_multi_wildcard_chars, multi_wildcard_chars_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_multi_wildcard_chars, multi_wildcard_chars_tooltip);
-#endif
- 
-        ++ row;
+    // Auto Split
+    prop_dialog_add_label (table, _("Auto Split:"), row);
+    pd->toggle_auto_split = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_auto_split, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_auto_split, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_split), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_auto_split), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_auto_split,
+        _("If true then the inputted key string will be "
+          "split automatically when necessary."));
+    ++ row;
 
-        // Single Wildcard Char
-        label = gtk_label_new (_("Single Wildcard Char:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        entry_single_wildcard_chars = gtk_entry_new ();
-        gtk_widget_show (entry_single_wildcard_chars);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (entry_single_wildcard_chars, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), entry_single_wildcard_chars, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), entry_single_wildcard_chars, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
- 
-        const gchar *single_wildcard_chars_tooltip =
-            _("The single wildcard chars of this table."
-              "These chars can be used to match one arbitrary char.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, entry_single_wildcard_chars, single_wildcard_chars_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (entry_single_wildcard_chars, single_wildcard_chars_tooltip);
-#endif
+    // Discard Invalid Key
+    prop_dialog_add_label (table, _("Discard Invalid Key:"), row);
+    pd->toggle_discard_invalid_key = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_discard_invalid_key, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_discard_invalid_key, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_discard_invalid_key), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_discard_invalid_key), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_discard_invalid_key,
+        _("If true then the invalid key will be discarded automatically."
+          "This option is only valid when Auto Select and Auto Commit is true."));
+    ++ row;
 
-        ++ row;
+    // Dynamic Adjust
+    prop_dialog_add_label (table, _("Dynamic Adjust:"), row);
+    pd->toggle_dynamic_adjust = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_dynamic_adjust, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_dynamic_adjust, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_dynamic_adjust), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_dynamic_adjust), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_dynamic_adjust,
+        _("If true then the phrases' frequencies "
+          "will be adjusted dynamically."));
+    ++ row;
 
-        // All keyboard settings
-        for (int i = 0; all_keys [i]; ++i) {
-            label = gtk_label_new (all_keys [i]->label);
-            gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-            gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-            gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-            gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                              (GtkAttachOptions) (GTK_FILL),
-                              (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-            gtk_widget_set_halign (label, GTK_ALIGN_END);
-            gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-            gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
+    // Auto Fill Preedit String
+    prop_dialog_add_label (table, _("Auto Fill Preedit Area:"), row);
+    pd->toggle_auto_fill = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_auto_fill, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_auto_fill, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_fill), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_auto_fill), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_auto_fill,
+        _("If true then the preedit string will be filled up with the "
+          "current candiate phrase automatically."
+          "This option is only valid when Auto Select is TRUE."));
+    ++ row;
 
-#ifdef SCIM_TABLES_USE_GTK_BOX
-            hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-#else
-            hbox = gtk_hbox_new (FALSE, 0);
-#endif
-            gtk_widget_show (hbox);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-            gtk_widget_set_halign (hbox, GTK_ALIGN_FILL);
-            gtk_widget_set_valign (hbox, GTK_ALIGN_FILL);
-            gtk_grid_attach (GTK_GRID (table), hbox, 1, row, 1, 1);
-#else
-            gtk_table_attach (GTK_TABLE (table), hbox, 1, 2, row, row+1,
-                              (GtkAttachOptions) (GTK_FILL),
-                              (GtkAttachOptions) (GTK_FILL), 0, 0);
-#endif
+    // Always Show Lookup
+    prop_dialog_add_label (table, _("Always Show Lookup Table:"), row);
+    pd->toggle_always_show_lookup = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_always_show_lookup, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_always_show_lookup, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_always_show_lookup), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_always_show_lookup), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_always_show_lookup,
+        _("If true then the lookup table will always be shown "
+          "when any candidate phrase is available. Otherwise "
+          "the lookup table will only be shown when necessary.\n"
+          "If Auto Fill is false, then this option will be no effect, "
+          "and always be true."));
+    ++ row;
 
-            all_keys [i]->entry = gtk_entry_new ();
-            gtk_widget_show (all_keys [i]->entry);
-            gtk_box_pack_start (GTK_BOX (hbox), all_keys [i]->entry, TRUE, TRUE, 0);
+    // Default full width punctuation
+    prop_dialog_add_label (table, _("Default Full Width Punct:"), row);
+    pd->toggle_def_full_width_punct = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_def_full_width_punct, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_def_full_width_punct, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_def_full_width_punct), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_def_full_width_punct), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_def_full_width_punct,
+        _("If true then full width punctuations will be inputted by default."));
+    ++ row;
 
-            all_keys [i]->button = gtk_button_new_with_label (_("..."));
-            gtk_widget_show (all_keys [i]->button);
-            gtk_box_pack_start (GTK_BOX (hbox), all_keys [i]->button, FALSE, FALSE, 0);
- 
-            g_signal_connect ((gpointer) all_keys [i]->button, "clicked",
-                              G_CALLBACK (on_default_key_selection_clicked),
-                              all_keys [i]);
-
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-            gtk_tooltips_set_tip (tooltips, all_keys [i]->entry, all_keys [i]->tooltip, NULL);
-#else
-            gtk_widget_set_tooltip_text (all_keys [i]->entry, all_keys [i]->tooltip);
-#endif
-
-            ++ row;
-        }
-
-        // Max key length
-        label = gtk_label_new (_("Max Key Length:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        spin_max_key_length = gtk_spin_button_new_with_range (1, SCIM_GT_MAX_KEY_LENGTH, 1);
-        gtk_spin_button_set_digits (GTK_SPIN_BUTTON (spin_max_key_length), 0);
-        gtk_widget_show (spin_max_key_length);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (spin_max_key_length, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), spin_max_key_length, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), spin_max_key_length, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-  
-        const gchar *max_key_length_tooltip = _("The maxmium length of key strings.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, spin_max_key_length, max_key_length_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (spin_max_key_length, max_key_length_tooltip);
-#endif
-
-        ++ row;
-
-        // Show key prompt. 
-        label = gtk_label_new (_("Show Key Prompt:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        toggle_show_key_prompt = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_show_key_prompt);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_show_key_prompt, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_show_key_prompt, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_show_key_prompt, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_show_key_prompt), TRUE);
-        g_signal_connect (G_OBJECT (toggle_show_key_prompt), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
-  
-        const gchar *show_key_prompt_tooltip = 
-            _("If true then the key prompts will be shown "
-              "instead of the raw keys.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_show_key_prompt, show_key_hint_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_show_key_prompt, show_key_prompt_tooltip);
-#endif
-
-        ++ row;
-        // Auto Select
-        label = gtk_label_new (_("Auto Select:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        toggle_auto_select = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_auto_select);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_auto_select, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_auto_select, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_auto_select, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_select), TRUE);
-        g_signal_connect (G_OBJECT (toggle_auto_select), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
-  
-        const gchar *auto_select_tooltip = 
-            _("If true then the first candidate phrase will be "
-              "selected automatically when inputing the next key.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_auto_select, auto_select_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_auto_select, auto_select_tooltip);
-#endif
-
-        ++ row;
-
-        // Auto Wildcard
-        label = gtk_label_new (_("Auto Wildcard:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        toggle_auto_wildcard = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_auto_wildcard);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_auto_wildcard, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_auto_wildcard, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_auto_wildcard, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_wildcard), TRUE);
-        g_signal_connect (G_OBJECT (toggle_auto_wildcard), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
- 
-        const gchar *auto_wildcard_tooltip =
-            _("If true then a multi wildcard char will be appended to "
-              "the end of the inputted key string when searching phrases.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_auto_wildcard, auto_wildcard_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_auto_wildcard, auto_wildcard_tooltip);
-#endif
-
-        ++ row;
-
-        // Auto Commit
-        label = gtk_label_new (_("Auto Commit:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        toggle_auto_commit = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_auto_commit);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_auto_commit, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_auto_commit, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_auto_commit, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_commit), TRUE);
-        g_signal_connect (G_OBJECT (toggle_auto_commit), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
- 
-        const gchar *auto_commit_tooltip =
-            _("If true then the converted result string will "
-              "be committed to client automatically.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_auto_commit, auto_commit_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_auto_commit, auto_commit_tooltip);
-#endif
-
-        ++ row;
-
-        // Auto Split
-        label = gtk_label_new (_("Auto Split:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        toggle_auto_split = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_auto_split);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_auto_split, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_auto_split, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_auto_split, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_split), TRUE);
-        g_signal_connect (G_OBJECT (toggle_auto_split), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
- 
-        const gchar *auto_split_tooltip =
-            _("If true then the inputted key string will be "
-              "split automatically when necessary.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_auto_split, auto_split_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_auto_split, auto_split_tooltip);
-#endif
-
-        ++ row;
-
-        // Discard Invalid Key
-        label = gtk_label_new (_("Discard Invalid Key:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        toggle_discard_invalid_key = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_discard_invalid_key);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_discard_invalid_key, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_discard_invalid_key, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_discard_invalid_key, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_discard_invalid_key), TRUE);
-        g_signal_connect (G_OBJECT (toggle_discard_invalid_key), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
- 
-        const gchar *discard_invalid_key_tooltip =
-            _("If true then the invalid key will be discarded automatically."
-              "This option is only valid when Auto Select and Auto Commit is true.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_discard_invalid_key, discard_invalid_key_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_discard_invalid_key, discard_invalid_key_tooltip);
-#endif
-
-        ++ row;
-
-        // Dynamic Adjust
-        label = gtk_label_new (_("Dynamic Adjust:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
- 
-        toggle_dynamic_adjust = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_dynamic_adjust);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_dynamic_adjust, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_dynamic_adjust, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_dynamic_adjust, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_dynamic_adjust), TRUE);
-        g_signal_connect (G_OBJECT (toggle_dynamic_adjust), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
-  
-        const gchar *dynamic_adjust_tooltip =
-            _("If true then the phrases' frequencies "
-              "will be adjusted dynamically.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_dynamic_adjust, dynamic_adjust_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_dynamic_adjust, dynamic_adjust_tooltip);
-#endif
-
-        ++ row;
-
-        // Auto Fill Preedit String
-        label = gtk_label_new (_("Auto Fill Preedit Area:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
-  
-        toggle_auto_fill = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_auto_fill);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_auto_fill, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_auto_fill, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_auto_fill, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_fill), TRUE);
-        g_signal_connect (G_OBJECT (toggle_auto_fill), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
-  
-        const gchar *auto_fill_tooltip =
-            _("If true then the preedit string will be filled up with the "
-              "current candiate phrase automatically."
-              "This option is only valid when Auto Select is TRUE.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_auto_fill, auto_fill_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_auto_fill, auto_fill_tooltip);
-#endif
-
-        ++ row;
-
-        // Always Show Lookup
-        label = gtk_label_new (_("Always Show Lookup Table:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
- 
-        toggle_always_show_lookup = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_always_show_lookup);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_always_show_lookup, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_always_show_lookup, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_always_show_lookup, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_always_show_lookup), TRUE);
-        g_signal_connect (G_OBJECT (toggle_always_show_lookup), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
-  
-        const gchar *always_show_lookup_tooltip =
-            _("If true then the lookup table will always be shown "
-              "when any candidate phrase is available. Otherwise "
-              "the lookup table will only be shown when necessary.\n"
-              "If Auto Fill is false, then this option will be no effect, "
-              "and always be true.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_always_show_lookup, always_show_lookup_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_always_show_lookup, always_show_lookup_tooltip);
-#endif
-
-        ++ row;
-
-        // Default full width punctuation
-        label = gtk_label_new (_("Default Full Width Punct:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
- 
-        toggle_def_full_width_punct = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_def_full_width_punct);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_def_full_width_punct, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_def_full_width_punct, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_def_full_width_punct, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_def_full_width_punct), TRUE);
-        g_signal_connect (G_OBJECT (toggle_def_full_width_punct), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
-  
-        const gchar *def_full_width_punct_tooltip = _("If true then full width punctuations will be inputted by default.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_def_full_width_punct, def_full_width_punct_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_def_full_width_punct, def_full_width_punct_tooltip);
-#endif
-
-        ++ row;
-
-        // Default full width letter 
-        label = gtk_label_new (_("Default Full Width Letter:"));
-        gtk_widget_show (label);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (label, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), label, 0, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_SET_ALIGN_MARGIN
-        gtk_widget_set_halign (label, GTK_ALIGN_END);
-        gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
-#else
-        gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-#endif
- 
-        toggle_def_full_width_letter = gtk_toggle_button_new_with_label (_("True"));
-        gtk_widget_show (toggle_def_full_width_letter);
-#ifdef SCIM_TABLES_USE_GTK_GRID
-        gtk_widget_set_halign (toggle_def_full_width_letter, GTK_ALIGN_FILL);
-        gtk_grid_attach (GTK_GRID (table), toggle_def_full_width_letter, 1, row, 1, 1);
-#else
-        gtk_table_attach (GTK_TABLE (table), toggle_def_full_width_letter, 1, 2, row, row+1,
-                          (GtkAttachOptions) (GTK_FILL),
-                          (GtkAttachOptions) (0), 0, 0);
-#endif
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_def_full_width_letter), TRUE);
-        g_signal_connect (G_OBJECT (toggle_def_full_width_letter), "toggled", 
-                          G_CALLBACK (on_toggle_button_toggled),
-                          0);
-  
-        const gchar *def_full_width_letter_tooltip = _("If true then full width letters will be inputted by default.");
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_tooltips_set_tip (tooltips, toggle_def_full_width_letter, def_full_width_letter_tooltip, NULL);
-#else
-        gtk_widget_set_tooltip_text (toggle_def_full_width_letter, def_full_width_letter_tooltip);
-#endif
-
-        // action buttons
-#ifdef SCIM_TABLES_USE_GTK_DIALOG_GET_ACTION_AREA
-        G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-        dialog_action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
-        G_GNUC_END_IGNORE_DEPRECATIONS
-#else
-        dialog_action_area = GTK_DIALOG (dialog)->action_area;
-#endif
-        gtk_widget_show (dialog_action_area);
-        gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
-  
-#ifdef SCIM_TABLES_USE_GTK_BUTTON_NEW_FROM_ICON_NAME
-        cancelbutton = gtk_button_new_from_icon_name ("gtk-cancel", GTK_ICON_SIZE_BUTTON);
-#else
-        cancelbutton = gtk_button_new_from_stock ("gtk-cancel");
-#endif
-        gtk_widget_show (cancelbutton);
-        gtk_dialog_add_action_widget (GTK_DIALOG (dialog), cancelbutton, GTK_RESPONSE_CANCEL);
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_GET_CAN_DEFAULT
-        gtk_widget_set_can_default (cancelbutton, TRUE);
-#else
-        GTK_WIDGET_SET_FLAGS (cancelbutton, GTK_CAN_DEFAULT);
-#endif
-
-  
-#ifdef SCIM_TABLES_USE_GTK_BUTTON_NEW_FROM_ICON_NAME
-        okbutton = gtk_button_new_from_icon_name ("gtk-ok", GTK_ICON_SIZE_BUTTON);
-#else
-        okbutton = gtk_button_new_from_stock ("gtk-ok");
-#endif
-        gtk_widget_show (okbutton);
-        gtk_dialog_add_action_widget (GTK_DIALOG (dialog), okbutton, GTK_RESPONSE_OK);
-#ifdef SCIM_TABLES_USE_GTK_WIDGET_GET_CAN_DEFAULT
-        gtk_widget_set_can_default (okbutton, TRUE);
-#else
-        GTK_WIDGET_SET_FLAGS (okbutton, GTK_CAN_DEFAULT);
-#endif
-    } 
+    // Default full width letter
+    prop_dialog_add_label (table, _("Default Full Width Letter:"), row);
+    pd->toggle_def_full_width_letter = gtk_toggle_button_new_with_label (_("True"));
+    gtk_widget_set_halign (pd->toggle_def_full_width_letter, GTK_ALIGN_FILL);
+    gtk_grid_attach (GTK_GRID (table), pd->toggle_def_full_width_letter, 1, row, 1, 1);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_def_full_width_letter), TRUE);
+    g_signal_connect (G_OBJECT (pd->toggle_def_full_width_letter), "toggled",
+                      G_CALLBACK (on_toggle_button_toggled), 0);
+    gtk_widget_set_tooltip_text (pd->toggle_def_full_width_letter,
+        _("If true then full width letters will be inputted by default."));
 
     {// Set initial data and the widgets status.
-        gtk_editable_set_editable (GTK_EDITABLE (entry_name), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (entry_author), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (entry_uuid), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (entry_serial), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (entry_icon), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (entry_valid_input_chars), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (split_keys.entry), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (commit_keys.entry), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (forward_keys.entry), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (select_keys.entry), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (page_up_keys.entry), FALSE);
-        gtk_editable_set_editable (GTK_EDITABLE (page_down_keys.entry), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->entry_name), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->entry_author), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->entry_uuid), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->entry_serial), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->entry_icon), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->entry_valid_input_chars), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->split_keys.entry), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->commit_keys.entry), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->forward_keys.entry), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->select_keys.entry), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->page_up_keys.entry), FALSE);
+        gtk_editable_set_editable (GTK_EDITABLE (pd->page_down_keys.entry), FALSE);
 
         if (!editable) {
-            gtk_editable_set_editable (GTK_EDITABLE (entry_status_prompt), FALSE);
-            gtk_editable_set_editable (GTK_EDITABLE (entry_languages), FALSE);
-            gtk_editable_set_editable (GTK_EDITABLE (entry_multi_wildcard_chars), FALSE);
-            gtk_editable_set_editable (GTK_EDITABLE (entry_single_wildcard_chars), FALSE);
+            gtk_editable_set_editable (GTK_EDITABLE (pd->entry_status_prompt), FALSE);
+            gtk_editable_set_editable (GTK_EDITABLE (pd->entry_languages), FALSE);
+            gtk_editable_set_editable (GTK_EDITABLE (pd->entry_multi_wildcard_chars), FALSE);
+            gtk_editable_set_editable (GTK_EDITABLE (pd->entry_single_wildcard_chars), FALSE);
 
-            gtk_widget_set_sensitive (spin_max_key_length, FALSE);
-            gtk_widget_set_sensitive (toggle_show_key_prompt, FALSE);
-            gtk_widget_set_sensitive (toggle_auto_select, FALSE);
-            gtk_widget_set_sensitive (toggle_auto_fill, FALSE);
-            gtk_widget_set_sensitive (toggle_auto_wildcard, FALSE);
-            gtk_widget_set_sensitive (toggle_auto_commit, FALSE);
-            gtk_widget_set_sensitive (toggle_auto_split, FALSE);
-            gtk_widget_set_sensitive (toggle_discard_invalid_key, FALSE);
-            gtk_widget_set_sensitive (toggle_dynamic_adjust, FALSE);
-            gtk_widget_set_sensitive (toggle_always_show_lookup, FALSE);
-            gtk_widget_set_sensitive (toggle_def_full_width_punct, FALSE);
-            gtk_widget_set_sensitive (toggle_def_full_width_letter, FALSE);
-            gtk_widget_set_sensitive (button_icon, FALSE);
-            gtk_widget_set_sensitive (split_keys.button, FALSE);
-            gtk_widget_set_sensitive (commit_keys.button, FALSE);
-            gtk_widget_set_sensitive (forward_keys.button, FALSE);
-            gtk_widget_set_sensitive (select_keys.button, FALSE);
-            gtk_widget_set_sensitive (page_up_keys.button, FALSE);
-            gtk_widget_set_sensitive (page_down_keys.button, FALSE);
+            gtk_widget_set_sensitive (pd->spin_max_key_length, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_show_key_prompt, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_auto_select, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_auto_fill, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_auto_wildcard, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_auto_commit, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_auto_split, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_discard_invalid_key, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_dynamic_adjust, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_always_show_lookup, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_def_full_width_punct, FALSE);
+            gtk_widget_set_sensitive (pd->toggle_def_full_width_letter, FALSE);
+            gtk_widget_set_sensitive (pd->button_icon, FALSE);
+            gtk_widget_set_sensitive (pd->split_keys.button, FALSE);
+            gtk_widget_set_sensitive (pd->commit_keys.button, FALSE);
+            gtk_widget_set_sensitive (pd->forward_keys.button, FALSE);
+            gtk_widget_set_sensitive (pd->select_keys.button, FALSE);
+            gtk_widget_set_sensitive (pd->page_up_keys.button, FALSE);
+            gtk_widget_set_sensitive (pd->page_down_keys.button, FALSE);
         }
 
-        gtk_entry_set_text     (GTK_ENTRY (entry_name), data.name.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (entry_author), data.author.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (entry_uuid), data.uuid.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (entry_serial), data.serial.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (entry_icon), data.icon.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (entry_languages), data.languages.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (entry_status_prompt), data.status_prompt.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (entry_valid_input_chars), data.valid_input_chars.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (entry_multi_wildcard_chars), data.multi_wildcard_chars.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (entry_single_wildcard_chars), data.single_wildcard_chars.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_name), pd->data.name.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_author), pd->data.author.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_uuid), pd->data.uuid.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_serial), pd->data.serial.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_icon), pd->data.icon.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_languages), pd->data.languages.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_status_prompt), pd->data.status_prompt.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_valid_input_chars), pd->data.valid_input_chars.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_multi_wildcard_chars), pd->data.multi_wildcard_chars.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_single_wildcard_chars), pd->data.single_wildcard_chars.c_str ());
 
-        split_keys.data = data.split_keys;
-        commit_keys.data = data.commit_keys;
-        forward_keys.data = data.forward_keys;
-        select_keys.data = data.select_keys;
-        page_up_keys.data = data.page_up_keys;
-        page_down_keys.data = data.page_down_keys;
+        pd->split_keys.data = pd->data.split_keys;
+        pd->commit_keys.data = pd->data.commit_keys;
+        pd->forward_keys.data = pd->data.forward_keys;
+        pd->select_keys.data = pd->data.select_keys;
+        pd->page_up_keys.data = pd->data.page_up_keys;
+        pd->page_down_keys.data = pd->data.page_down_keys;
 
-        gtk_entry_set_text     (GTK_ENTRY (split_keys.entry), data.split_keys.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (commit_keys.entry), data.commit_keys.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (forward_keys.entry), data.forward_keys.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (select_keys.entry), data.select_keys.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (page_up_keys.entry), data.page_up_keys.c_str ());
-        gtk_entry_set_text     (GTK_ENTRY (page_down_keys.entry), data.page_down_keys.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->split_keys.entry), pd->data.split_keys.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->commit_keys.entry), pd->data.commit_keys.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->forward_keys.entry), pd->data.forward_keys.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->select_keys.entry), pd->data.select_keys.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->page_up_keys.entry), pd->data.page_up_keys.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->page_down_keys.entry), pd->data.page_down_keys.c_str ());
 
-        gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin_max_key_length), data.max_key_length, SCIM_GT_MAX_KEY_LENGTH);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_show_key_prompt), data.show_key_prompt);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_select), data.auto_select);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_fill), data.auto_fill);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_wildcard), data.auto_wildcard);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_commit), data.auto_commit);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_auto_split), data.auto_split);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_discard_invalid_key), data.discard_invalid_key);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_dynamic_adjust), data.dynamic_adjust);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_always_show_lookup), data.always_show_lookup);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_def_full_width_punct), data.def_full_width_punct);
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle_def_full_width_letter), data.def_full_width_letter);
+        gtk_spin_button_set_range (GTK_SPIN_BUTTON (pd->spin_max_key_length), pd->data.max_key_length, SCIM_GT_MAX_KEY_LENGTH);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_show_key_prompt), pd->data.show_key_prompt);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_select), pd->data.auto_select);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_fill), pd->data.auto_fill);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_wildcard), pd->data.auto_wildcard);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_commit), pd->data.auto_commit);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_auto_split), pd->data.auto_split);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_discard_invalid_key), pd->data.discard_invalid_key);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_dynamic_adjust), pd->data.dynamic_adjust);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_always_show_lookup), pd->data.always_show_lookup);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_def_full_width_punct), pd->data.def_full_width_punct);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pd->toggle_def_full_width_letter), pd->data.def_full_width_letter);
     }
 
-    {// Run the dialog and return the result;
-        gtk_window_set_default_size (GTK_WINDOW (dialog), 560, 400);
+    gtk_window_set_default_size (GTK_WINDOW (dialog), 560, 400);
 
-        while (1) {
-            result = gtk_dialog_run (GTK_DIALOG (dialog));
+    g_signal_connect (dialog, "response",
+                      G_CALLBACK (table_properties_dialog_response_cb), pd);
 
-            if (result != GTK_RESPONSE_OK) break;
-
-            data.icon = String (gtk_entry_get_text (GTK_ENTRY (entry_icon)));
-            data.languages = String (gtk_entry_get_text (GTK_ENTRY (entry_languages)));
-            data.status_prompt = String (gtk_entry_get_text (GTK_ENTRY (entry_status_prompt)));
-            data.multi_wildcard_chars  = String (gtk_entry_get_text (GTK_ENTRY (entry_multi_wildcard_chars)));
-            data.single_wildcard_chars = String (gtk_entry_get_text (GTK_ENTRY (entry_single_wildcard_chars)));
-            data.split_keys = String (gtk_entry_get_text (GTK_ENTRY (split_keys.entry)));
-            data.commit_keys = String (gtk_entry_get_text (GTK_ENTRY (commit_keys.entry)));
-            data.forward_keys = String (gtk_entry_get_text (GTK_ENTRY (forward_keys.entry)));
-            data.select_keys = String (gtk_entry_get_text (GTK_ENTRY (select_keys.entry)));
-            data.page_up_keys = String (gtk_entry_get_text (GTK_ENTRY (page_up_keys.entry)));
-            data.page_down_keys = String (gtk_entry_get_text (GTK_ENTRY (page_down_keys.entry)));
-
-            data.max_key_length = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin_max_key_length));
-            data.show_key_prompt = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_show_key_prompt));
-            data.auto_select = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_auto_select));
-            data.auto_fill = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_auto_fill));
-            data.auto_wildcard = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_auto_wildcard));
-            data.auto_commit = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_auto_commit));
-            data.auto_split = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_auto_split));
-            data.discard_invalid_key = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_discard_invalid_key));
-            data.dynamic_adjust = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_dynamic_adjust));
-            data.always_show_lookup = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_always_show_lookup));
-            data.def_full_width_punct = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_def_full_width_punct));
-            data.def_full_width_letter = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_def_full_width_letter));
-
-            if (validate_table_properties_data (lib, data))
-                break;
-        }
-
-        gtk_widget_destroy (dialog);
-#ifdef SCIM_TABLES_USE_GTK_TOOLTIPS
-        gtk_object_destroy (GTK_OBJECT (tooltips));
-#endif
-    }
-
-    return result;
+    gtk_window_present (GTK_WINDOW (dialog));
 }
 
 static bool
@@ -3007,21 +2320,14 @@ validate_table_properties_data (const GenericTableLibrary *lib, const TablePrope
         err = _("Invalid page down keys.");
     }
 
-    if (ok && (data.max_key_length < lib->get_max_key_length () ||
+    if (ok && (data.max_key_length < (int) lib->get_max_key_length () ||
                data.max_key_length > SCIM_GT_MAX_KEY_LENGTH)) {
         ok = false;
         err = _("Invalid max key length.");
     }
 
     if (!ok) {
-        GtkWidget *msg = gtk_message_dialog_new (0,
-                                          GTK_DIALOG_MODAL,
-                                          GTK_MESSAGE_ERROR,
-                                          GTK_BUTTONS_CLOSE,
-                                          "%s",
-                                          err.c_str ());
-        gtk_dialog_run (GTK_DIALOG (msg));
-        gtk_widget_destroy (msg);
+        show_message (err.c_str ());
     }
 
     return ok;
@@ -3034,7 +2340,6 @@ on_table_properties_clicked (GtkButton *button,
     GtkTreeIter  iter;
     GtkTreeModel *model;
     GtkTreeSelection *selection;
-    GtkWidget *msg;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (__widget_table_list_view));
 
@@ -3052,8 +2357,7 @@ on_table_properties_clicked (GtkButton *button,
             return;
         }
 
-        TablePropertiesData data, olddata;
-        gint result;
+        TablePropertiesData data;
 
         data.name                  = utf8_wcstombs (lib->get_name (scim_get_current_locale ()));
         data.author                = utf8_wcstombs (lib->get_author ());
@@ -3086,102 +2390,13 @@ on_table_properties_clicked (GtkButton *button,
         scim_key_list_to_string (data.page_up_keys, lib->get_page_up_keys ());
         scim_key_list_to_string (data.page_down_keys, lib->get_page_down_keys ());
 
-        olddata = data;
-
-        result = run_table_properties_dialog (lib, data, test_file_modify (file));
+        bool file_editable = test_file_modify (file);
 
         g_free (file);
 
-        // Save the changes.
-        if (result == GTK_RESPONSE_OK) {
-            std::vector <KeyEvent> keyevents;
-
-            if (data.icon != olddata.icon) {
-                GdkPixbuf * pixbuf = gdk_pixbuf_new_from_file (data.icon.c_str (), NULL);
-                scale_pixbuf (&pixbuf, LIST_ICON_SIZE, LIST_ICON_SIZE);
-
-                gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-                                    TABLE_COLUMN_ICON, pixbuf,
-                                    -1);
-
-                if (pixbuf)
-                    g_object_unref (pixbuf);
-
-                lib->set_icon_file (data.icon);
-            }
-
-            if (data.languages != olddata.languages)
-                lib->set_languages (data.languages);
-
-            if (data.status_prompt != olddata.status_prompt)
-                lib->set_status_prompt (utf8_mbstowcs (data.status_prompt));
-
-            if (data.single_wildcard_chars != olddata.single_wildcard_chars)
-                lib->set_single_wildcard_chars (data.single_wildcard_chars);
-
-            if (data.multi_wildcard_chars != olddata.multi_wildcard_chars)
-                lib->set_multi_wildcard_chars (data.multi_wildcard_chars);
-
-            if (data.max_key_length != olddata.max_key_length)
-                lib->set_max_key_length (data.max_key_length);
-
-            if (data.show_key_prompt != olddata.show_key_prompt)
-                lib->set_show_key_prompt (data.show_key_prompt);
-
-            if (data.auto_select != olddata.auto_select)
-                lib->set_auto_select (data.auto_select);
-
-            if (data.auto_fill != olddata.auto_fill)
-                lib->set_auto_fill (data.auto_fill);
-
-            if (data.auto_wildcard != olddata.auto_wildcard)
-                lib->set_auto_wildcard (data.auto_wildcard);
-
-            if (data.auto_commit != olddata.auto_commit)
-                lib->set_auto_commit (data.auto_commit);
-
-            if (data.auto_split != olddata.auto_split)
-                lib->set_auto_split (data.auto_split);
-
-            if (data.discard_invalid_key != olddata.discard_invalid_key)
-                lib->set_discard_invalid_key (data.discard_invalid_key);
-
-            if (data.dynamic_adjust != olddata.dynamic_adjust)
-                lib->set_dynamic_adjust (data.dynamic_adjust);
-
-            if (data.always_show_lookup != olddata.always_show_lookup)
-                lib->set_always_show_lookup (data.always_show_lookup);
-
-            if (data.def_full_width_punct != olddata.def_full_width_punct)
-                lib->set_def_full_width_punct (data.def_full_width_punct);
-
-            if (data.def_full_width_letter != olddata.def_full_width_letter)
-                lib->set_def_full_width_letter (data.def_full_width_letter);
-
-            if (data.split_keys != olddata.split_keys &&
-                scim_string_to_key_list (keyevents, data.split_keys))
-                lib->set_split_keys (keyevents);
-
-            if (data.commit_keys != olddata.commit_keys &&
-                scim_string_to_key_list (keyevents, data.commit_keys))
-                lib->set_commit_keys (keyevents);
-
-            if (data.forward_keys != olddata.forward_keys &&
-                scim_string_to_key_list (keyevents, data.forward_keys))
-                lib->set_forward_keys (keyevents);
-
-            if (data.select_keys != olddata.select_keys &&
-                scim_string_to_key_list (keyevents, data.select_keys))
-                lib->set_select_keys (keyevents);
-
-            if (data.page_up_keys != olddata.page_up_keys &&
-                scim_string_to_key_list (keyevents, data.page_up_keys))
-                lib->set_page_up_keys (keyevents);
-
-            if (data.page_down_keys != olddata.page_down_keys &&
-                scim_string_to_key_list (keyevents, data.page_down_keys))
-                lib->set_page_down_keys (keyevents);
-        }
+        // The dialog runs asynchronously; the changes are written back to the
+        // library in the dialog's "response" handler.
+        run_table_properties_dialog (lib, model, &iter, data, file_editable);
     }
 }
 
@@ -3206,14 +2421,11 @@ save_all_tables ()
                                 -1);
             if (lib->updated () && file) {
                 if (!lib->save (file, "", "", is_user ? __config_user_table_binary : true)) {
-                    GtkWidget *msg = gtk_message_dialog_new (0,
-                                                  GTK_DIALOG_MODAL,
-                                                  GTK_MESSAGE_ERROR,
-                                                  GTK_BUTTONS_CLOSE,
-                                                  _("Failed to save table %s!"),
-                                                  name);
-                    gtk_dialog_run (GTK_DIALOG (msg));
-                    gtk_widget_destroy (msg);
+                    char buf [1024];
+                    snprintf (buf, sizeof (buf),
+                              _("Failed to save table %s!"),
+                              name);
+                    show_message (buf);
                 }
             }
             g_free (file);
