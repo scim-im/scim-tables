@@ -22,7 +22,7 @@ INST_ICONS		= table.png	\
 			  Arabic.png    \
 			  Array30.png   \
 			  Balinese.png \
-			  Batak.png \	
+			  Batak.png \
 			  Bengali-inscript.png	\
 			  Bengali-probhat.png	\
 			  Buginese.png \
