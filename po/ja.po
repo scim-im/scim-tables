@@ -886,3 +886,15 @@ msgstr "最大キー数が無効です。"
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "テーブル%sの保存に失敗!"
+
+msgid "Full Letter"
+msgstr "全角文字"
+
+msgid "Half Letter"
+msgstr "半角文字"
+
+msgid "Full Punct"
+msgstr "全角句読点"
+
+msgid "Half Punct"
+msgstr "半角句読点"

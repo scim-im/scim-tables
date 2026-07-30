@@ -863,3 +863,15 @@ msgstr "不正確的最大鍵值長度"
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "無法儲存對照表 %s ！"
+
+msgid "Full Letter"
+msgstr "全形字母"
+
+msgid "Half Letter"
+msgstr "半形字母"
+
+msgid "Full Punct"
+msgstr "全形標點"
+
+msgid "Half Punct"
+msgstr "半形標點"

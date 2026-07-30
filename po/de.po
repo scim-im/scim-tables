@@ -932,3 +932,15 @@ msgstr "Ungültige maximale Schlüssellänge."
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "Tabelle %s konnte nicht gespeichert werden!"
+
+msgid "Full Letter"
+msgstr "Buchstaben in voller Breite"
+
+msgid "Half Letter"
+msgstr "Buchstaben in halber Breite"
+
+msgid "Full Punct"
+msgstr "Satzzeichen in voller Breite"
+
+msgid "Half Punct"
+msgstr "Satzzeichen in halber Breite"

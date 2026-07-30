@@ -936,3 +936,15 @@ msgstr "Longueur maximale séquences de touches non valide."
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "Echec sauvegarde table %s !"
+
+msgid "Full Letter"
+msgstr "Lettres Entières"
+
+msgid "Half Letter"
+msgstr "Lettres Partielles"
+
+msgid "Full Punct"
+msgstr "Ponctuation Entière"
+
+msgid "Half Punct"
+msgstr "Ponctuation Partielle"

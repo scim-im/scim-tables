@@ -816,3 +816,15 @@ msgstr "ਗਲਤ ਵੱਧੋ-ਵੱਧ ਸਵਿੱਚ ਲੰਬਾਈ ਹੈ�
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "ਸਾਰਣੀ %s ਨੂੰ ਸੰਭਾਲਣ ਵਿੱਚ ਅਸਫ਼ਲ ਹੈ!"
+
+msgid "Full Letter"
+msgstr "ਪੂਰਾ ਅੱਖਰ"
+
+msgid "Half Letter"
+msgstr "ਅੱਧੇ ਅੱਖਰ"
+
+msgid "Full Punct"
+msgstr ""
+
+msgid "Half Punct"
+msgstr ""

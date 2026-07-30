@@ -897,3 +897,15 @@ msgstr "잘못된 최대화 키 길이."
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "%s 테이블을 저장하는데 실패했습니다."
+
+msgid "Full Letter"
+msgstr "전각 문자"
+
+msgid "Half Letter"
+msgstr "반각 문자"
+
+msgid "Full Punct"
+msgstr "전각 구두점"
+
+msgid "Half Punct"
+msgstr "반각 구두점"

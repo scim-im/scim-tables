@@ -186,8 +186,11 @@ TableFactory::TableFactory (const ConfigPointer &config)
       m_table_mtime ((time_t)0),
       m_last_reload_check ((time_t)0),
       m_status_property (SCIM_PROP_STATUS, ""),
-      m_letter_property (SCIM_PROP_LETTER, _("Full/Half Letter")),
-      m_punct_property (SCIM_PROP_PUNCT, _("Full/Half Punct"))
+      // Labels report the current mode and are corrected by
+      // refresh_letter_property () / refresh_punct_property () as soon as an
+      // instance is focused; half width is the usual starting state.
+      m_letter_property (SCIM_PROP_LETTER, _("Half Letter")),
+      m_punct_property (SCIM_PROP_PUNCT, _("Half Punct"))
 {
     init (m_config);
 
@@ -906,12 +909,20 @@ TableInstance::refresh_status_property ()
     }
 }
 
+// The label states the mode we are IN, not the toggle it performs, so a
+// label-only UI can show it. scim-panel-gtk distinguishes the two modes by the
+// icon, but ibus panels (gnome-shell's input-source menu, ibus-ui-gtk3) render
+// the label, and a fixed "Full/Half Letter" left the user unable to tell which
+// mode was active. The status property already worked this way -- it shows the
+// current mode as "En" or the table's status prompt.
 void
 TableInstance::refresh_letter_property ()
 {
     if (m_focused && m_factory->m_table.is_use_full_width_letter ()) {
+        bool full = m_full_width_letter [m_forward?1:0];
+        m_factory->m_letter_property.set_label (full ? _("Full Letter") : _("Half Letter"));
         m_factory->m_letter_property.set_icon (
-            m_full_width_letter [m_forward?1:0] ? SCIM_FULL_LETTER_ICON : SCIM_HALF_LETTER_ICON);
+            full ? SCIM_FULL_LETTER_ICON : SCIM_HALF_LETTER_ICON);
         update_property (m_factory->m_letter_property);
     }
 }
@@ -920,8 +931,10 @@ void
 TableInstance::refresh_punct_property ()
 {
     if (m_focused && m_factory->m_table.is_use_full_width_punct ()) {
+        bool full = m_full_width_punct [m_forward?1:0];
+        m_factory->m_punct_property.set_label (full ? _("Full Punct") : _("Half Punct"));
         m_factory->m_punct_property.set_icon (
-            m_full_width_punct [m_forward?1:0] ? SCIM_FULL_PUNCT_ICON : SCIM_HALF_PUNCT_ICON);
+            full ? SCIM_FULL_PUNCT_ICON : SCIM_HALF_PUNCT_ICON);
         update_property (m_factory->m_punct_property);
     }
 }

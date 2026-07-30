@@ -1755,3 +1755,15 @@ msgstr "Salvataggio della tabella %s non riuscito!"
 
 #~ msgid "The orientation of the tray."
 #~ msgstr "L'orientazione del vassoio."
+
+msgid "Full Letter"
+msgstr "Lettera piena"
+
+msgid "Half Letter"
+msgstr "Lettera mezza"
+
+msgid "Full Punct"
+msgstr "Punteggiatura piena"
+
+msgid "Half Punct"
+msgstr "Punteggiatura mezza"

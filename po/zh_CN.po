@@ -850,3 +850,15 @@ msgstr "无效的最大键长度."
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "保存码表 %s 失败!"
+
+msgid "Full Letter"
+msgstr "全角字符"
+
+msgid "Half Letter"
+msgstr "半角字符"
+
+msgid "Full Punct"
+msgstr "全角标点"
+
+msgid "Half Punct"
+msgstr "半角标点"

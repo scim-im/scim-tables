@@ -932,3 +932,15 @@ msgstr "Ongeldige maximale tekenreeks-lengte."
 #, c-format
 msgid "Failed to save table %s!"
 msgstr "Tabel %s kon niet opgeslagen worden!"
+
+msgid "Full Letter"
+msgstr "Letters in volle breedte"
+
+msgid "Half Letter"
+msgstr "Letters in halve breedte"
+
+msgid "Full Punct"
+msgstr "Leesteken in volle breedte"
+
+msgid "Half Punct"
+msgstr "Leesteken in halve breedte"
