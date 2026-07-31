@@ -9,6 +9,7 @@ NAME = PolytonicGreek
 LANGUAGES = el
 AUTHOR = Michael Jay <jaymichael@hotmail.com>
 STATUS_PROMPT = β
+SYMBOL = α
 VALID_INPUT_CHARS = &/;<=>?ABCDEFGHIKLMNOPQRSTUVWXYZ\abcdefghiklmnopqrstuvwxyz|
 ### SINGLE_WILDCARD_CHAR =
 ### MULTI_WILDCARD_CHAR =

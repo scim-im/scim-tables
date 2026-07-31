@@ -9,6 +9,7 @@ NAME = pointedheb
 LANGUAGES = he
 AUTHOR = Michael Jay <jaymichael@hotmail.com>
 STATUS_PROMPT = ש
+SYMBOL = א
 VALID_INPUT_CHARS = "'*-.;<>ACEKMNOPU[]^_abcdeghijklmnopqrstuvwxyz|
 ### SINGLE_WILDCARD_CHAR =
 ### MULTI_WILDCARD_CHAR =

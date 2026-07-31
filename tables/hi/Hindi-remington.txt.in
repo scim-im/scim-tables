@@ -32,6 +32,7 @@ AUTHOR = Mohammad Umar -NRCFOSS(BOSS Team),C-DAC <omarm@cdac.in>
 
 ### Prompt string to be displayed in the status area.
 STATUS_PROMPT = Hi
+SYMBOL = हिं
 
 ### If true then the first candidate phrase
 ### will be selected automatically during inputing.

@@ -35,6 +35,7 @@ AUTHOR = Matthew Fischer <futhark@users.sourceforge.net>
 
 ### Prompt string to be displayed in the status area.
 STATUS_PROMPT = 日
+SYMBOL = 日
 
 ### If true then the first candidate phrase
 ### will be selected automatically during inputing.

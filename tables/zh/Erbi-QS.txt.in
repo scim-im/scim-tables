@@ -36,6 +36,7 @@ AUTHOR = npwjm <npwjm@163.com>
 
 ### Prompt string to be displayed in the status area.
 STATUS_PROMPT = 中
+SYMBOL = 青
 
 ### The Keyboard Layout used by this table. Unset or set to "Unknown" to accept any kind of layouts.
 KEYBOARD_LAYOUT = US_Default

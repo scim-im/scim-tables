@@ -33,6 +33,7 @@ LANGUAGES = zh_CN,zh_SG,zh_TW,zh_HK
 
 ### Prompt string to be displayed in the status area.
 STATUS_PROMPT = 中
+SYMBOL = 貳
 
 ### The Keyboard Layout used by this table. Unset or set to "Unknown" to accept any kind of layouts.
 KEYBOARD_LAYOUT = US_Default

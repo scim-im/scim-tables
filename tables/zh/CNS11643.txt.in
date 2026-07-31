@@ -31,6 +31,7 @@ LANGUAGES = zh_TW,zh_HK,zh_CN,zh_SG
 
 ### Prompt string to be displayed in the status area.
 STATUS_PROMPT = 中
+SYMBOL = CNS
 
 ### The Keyboard Layout used by this table. Unset or set to "Unknown" to accept any kind of layouts.
 KEYBOARD_LAYOUT = US_Default

@@ -75,6 +75,7 @@ AUTHOR = Albert Wang <albyu35@ms57.hinet.net>
 
 ### Prompt string to be displayed in the status area.
 STATUS_PROMPT = 中
+SYMBOL = 行
 
 ### The Keyboard Layout used by this table. Unset or set to "Unknown" to accept any kind of layouts.
 KEYBOARD_LAYOUT = US_Default

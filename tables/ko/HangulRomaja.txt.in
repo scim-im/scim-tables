@@ -30,6 +30,7 @@ LANGUAGES = ko_KR
 
 ### Prompt string to be displayed in the status area.
 STATUS_PROMPT = kr
+SYMBOL = 한
 
 ### Whether to show key prompt instead the raw key.
 ### SHOW_KEY_PROMPT = TRUE

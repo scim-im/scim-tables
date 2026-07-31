@@ -32,6 +32,7 @@ AUTHOR = Yuri Victorovich <yuri@rawbw.com>
 
 ### Prompt string to be displayed in the status area.
 STATUS_PROMPT = Р
+SYMBOL = Ая
 
 ### The Keyboard Layout used by this table. Unset or set to "Unknown" to accept any kind of layouts.
 KEYBOARD_LAYOUT = US_Default

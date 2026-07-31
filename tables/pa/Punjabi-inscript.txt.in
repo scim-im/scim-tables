@@ -33,6 +33,7 @@ AUTHOR = Amanpreet Singh Brar <apbrar@gmail.com>
 
 ### Prompt string to be displayed in the status area.
 STATUS_PROMPT = Pa
+SYMBOL = ਪੰ
 
 ### If true then the first candidate phrase
 ### will be selected automatically during inputing.
