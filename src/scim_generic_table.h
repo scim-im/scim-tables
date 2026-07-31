@@ -62,6 +62,7 @@ class GenericTableHeader
 
     String                 m_languages;
     String                 m_status_prompt;
+    String                 m_symbol;
 
     String                 m_valid_input_chars;
     String                 m_key_end_chars;
@@ -115,6 +116,11 @@ public:
 
     String     get_languages         () const { return m_languages; }
     WideString get_status_prompt     () const { return utf8_mbstowcs (m_status_prompt); }
+    /** A few characters identifying this table, drawn as text by a panel where
+     *  an icon could not follow the theme's colours. Distinct from the status
+     *  prompt, which reports input mode and is commonly the same for every
+     *  table. */
+    String     get_symbol            () const { return m_symbol; }
 
     String     get_valid_input_chars () const { return m_valid_input_chars; }
     String     get_key_end_chars     () const { return m_key_end_chars; }
@@ -238,6 +244,11 @@ public:
     void set_status_prompt  (const WideString & prompt) {
         m_updated = true;
         m_status_prompt = utf8_wcstombs (prompt);
+    }
+
+    void set_symbol         (const String & symbol) {
+        m_updated = true;
+        m_symbol = symbol;
     }
 
     void set_single_wildcard_chars (const String & single) {
@@ -867,6 +878,10 @@ public:
         return m_header.get_status_prompt ();
     }
 
+    String get_symbol () const {
+        return m_header.get_symbol ();
+    }
+
     String get_language () const {
         String langs = m_header.get_languages ();
         return scim_validate_language (langs.substr (0, langs.find (',')));
@@ -1069,6 +1084,10 @@ public:
 
     void set_languages (const String & languages) {
         m_header.set_languages (languages);
+    }
+
+    void set_symbol (const String & symbol) {
+        m_header.set_symbol (symbol);
     }
 
     void set_status_prompt (const WideString & prompt) {

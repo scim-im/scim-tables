@@ -163,6 +163,7 @@ GenericTableHeader::clear ()
     m_author = String ();
     m_languages = String ();
     m_status_prompt = String ();
+    m_symbol = String ();
     m_valid_input_chars = String ();
     m_key_end_chars = String ();
     m_single_wildcard_chars = String ();
@@ -283,6 +284,8 @@ GenericTableHeader::load (FILE *fp)
             m_keyboard_layout = scim_string_to_keyboard_layout (valuestr);
         } else if (paramstr == "STATUS_PROMPT") {
             m_status_prompt = valuestr;
+        } else if (paramstr == "SYMBOL") {
+            m_symbol = valuestr;
         } else if (paramstr == "SHOW_KEY_PROMPT") { //Get show_key_prompt value.
             if (valuestr == "TRUE" || valuestr == "true" || valuestr == "True")
                 m_show_key_prompt = true;
@@ -487,6 +490,11 @@ GenericTableHeader::save (FILE *fp)
         fprintf (fp, "STATUS_PROMPT = %s\n", m_status_prompt.c_str ());
     else
         fprintf (fp, "### STATUS_PROMPT =\n");
+
+    if (m_symbol.length ())
+        fprintf (fp, "SYMBOL = %s\n", m_symbol.c_str ());
+    else
+        fprintf (fp, "### SYMBOL =\n");
 
     fprintf (fp, "KEYBOARD_LAYOUT = %s\n", scim_keyboard_layout_to_string (m_keyboard_layout).c_str ());
     fprintf (fp, "VALID_INPUT_CHARS = %s\n", m_valid_input_chars.c_str ());

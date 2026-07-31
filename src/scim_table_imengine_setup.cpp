@@ -158,6 +158,7 @@ struct TablePropertiesData
     String icon;
     String languages;
     String status_prompt;
+    String symbol;
     String valid_input_chars;
     String multi_wildcard_chars;
     String single_wildcard_chars;
@@ -1717,6 +1718,7 @@ struct TablePropertiesDialogData {
     GtkWidget *button_icon;
     GtkWidget *entry_languages;
     GtkWidget *entry_status_prompt;
+    GtkWidget *entry_symbol;
     GtkWidget *entry_valid_input_chars;
     GtkWidget *entry_multi_wildcard_chars;
     GtkWidget *entry_single_wildcard_chars;
@@ -1782,6 +1784,9 @@ apply_table_properties (TablePropertiesDialogData *pd)
 
     if (data.status_prompt != olddata.status_prompt)
         lib->set_status_prompt (utf8_mbstowcs (data.status_prompt));
+
+    if (data.symbol != olddata.symbol)
+        lib->set_symbol (data.symbol);
 
     if (data.single_wildcard_chars != olddata.single_wildcard_chars)
         lib->set_single_wildcard_chars (data.single_wildcard_chars);
@@ -1866,6 +1871,7 @@ table_properties_dialog_response_cb (GtkDialog *dialog, gint response, gpointer 
     data.icon = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_icon)));
     data.languages = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_languages)));
     data.status_prompt = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_status_prompt)));
+    data.symbol = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_symbol)));
     data.multi_wildcard_chars  = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_multi_wildcard_chars)));
     data.single_wildcard_chars = String (gtk_editable_get_text (GTK_EDITABLE (pd->entry_single_wildcard_chars)));
     data.split_keys = String (gtk_editable_get_text (GTK_EDITABLE (pd->split_keys.entry)));
@@ -2045,6 +2051,19 @@ run_table_properties_dialog (GenericTableLibrary *lib,
     gtk_widget_set_halign (pd->entry_status_prompt, GTK_ALIGN_FILL);
     gtk_grid_attach (GTK_GRID (table), pd->entry_status_prompt, 1, row, 1, 1);
     gtk_widget_set_tooltip_text (pd->entry_status_prompt, _("A prompt string to be shown in status area."));
+    ++ row;
+
+    // Symbol
+    prop_dialog_add_label (table, _("Symbol:"), row);
+    pd->entry_symbol = gtk_entry_new ();
+    gtk_widget_set_hexpand (pd->entry_symbol, TRUE);
+    gtk_widget_set_halign (pd->entry_symbol, GTK_ALIGN_FILL);
+    gtk_entry_set_max_length (GTK_ENTRY (pd->entry_symbol), 16);
+    gtk_grid_attach (GTK_GRID (table), pd->entry_symbol, 1, row, 1, 1);
+    gtk_widget_set_tooltip_text (pd->entry_symbol,
+        _("A few characters identifying this table, drawn as text where an "
+          "icon cannot follow the theme's colours, such as a tray item. "
+          "Defaults to the first character of the name."));
     ++ row;
 
     // Valid Input Chars
@@ -2273,6 +2292,7 @@ run_table_properties_dialog (GenericTableLibrary *lib,
 
         if (!editable) {
             gtk_editable_set_editable (GTK_EDITABLE (pd->entry_status_prompt), FALSE);
+            gtk_editable_set_editable (GTK_EDITABLE (pd->entry_symbol), FALSE);
             gtk_editable_set_editable (GTK_EDITABLE (pd->entry_languages), FALSE);
             gtk_editable_set_editable (GTK_EDITABLE (pd->entry_multi_wildcard_chars), FALSE);
             gtk_editable_set_editable (GTK_EDITABLE (pd->entry_single_wildcard_chars), FALSE);
@@ -2305,6 +2325,7 @@ run_table_properties_dialog (GenericTableLibrary *lib,
         gtk_editable_set_text  (GTK_EDITABLE (pd->entry_icon), pd->data.icon.c_str ());
         gtk_editable_set_text  (GTK_EDITABLE (pd->entry_languages), pd->data.languages.c_str ());
         gtk_editable_set_text  (GTK_EDITABLE (pd->entry_status_prompt), pd->data.status_prompt.c_str ());
+        gtk_editable_set_text  (GTK_EDITABLE (pd->entry_symbol), pd->data.symbol.c_str ());
         gtk_editable_set_text  (GTK_EDITABLE (pd->entry_valid_input_chars), pd->data.valid_input_chars.c_str ());
         gtk_editable_set_text  (GTK_EDITABLE (pd->entry_multi_wildcard_chars), pd->data.multi_wildcard_chars.c_str ());
         gtk_editable_set_text  (GTK_EDITABLE (pd->entry_single_wildcard_chars), pd->data.single_wildcard_chars.c_str ());
@@ -2364,6 +2385,17 @@ validate_table_properties_data (const GenericTableLibrary *lib, const TablePrope
     if (ok && !data.status_prompt.length ()) {
         ok = false;
         err = _("Invalid status prompt.");
+    }
+
+    // An empty symbol is fine -- the engine then falls back to the first
+    // character of the name. An over-long one is not, since it would be
+    // silently truncated on the way to a tray item.
+    if (ok && data.symbol.length ()) {
+        if (!g_utf8_validate (data.symbol.c_str (), -1, 0) ||
+            g_utf8_strlen (data.symbol.c_str (), -1) > 4) {
+            ok = false;
+            err = _("Invalid symbol. At most 4 characters.");
+        }
     }
 
     if (ok && data.multi_wildcard_chars.length ()) {
@@ -2455,6 +2487,7 @@ on_table_properties_clicked (GtkButton *button,
         data.languages             = lib->get_languages ();
         data.icon                  = lib->get_icon_file ();
         data.status_prompt         = utf8_wcstombs (lib->get_status_prompt ());
+        data.symbol                = lib->get_symbol ();
         data.valid_input_chars     = lib->get_valid_input_chars ();
         data.multi_wildcard_chars  = lib->get_multi_wildcard_chars ();
         data.single_wildcard_chars = lib->get_single_wildcard_chars ();

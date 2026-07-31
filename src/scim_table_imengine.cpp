@@ -385,6 +385,7 @@ TableFactory::load_table (const String &table_file, bool user_table)
     }
 
     set_languages (m_table.get_languages ());
+    set_symbol (m_table.get_symbol ());
 
     m_table_mtime = get_file_mtime (m_table_filename);
     m_last_reload_check = time (NULL);
@@ -426,6 +427,7 @@ TableFactory::reload_table ()
     m_table.swap (fresh);
     m_table_mtime = mtime;
     set_languages (m_table.get_languages ());
+    set_symbol (m_table.get_symbol ());
     return true;
 }
 
