@@ -4,11 +4,12 @@ VERSION_1_0
 BEGIN_DEFINITION
 UUID = dce30d02-f1fd-4655-bb71-a12f577f716b
 SERIAL_NUMBER = 20090820
-ICON = /usr/share/scim/icons/Balinese.png
+ICON = @SCIM_ICONDIR@/Balinese.png
 NAME = Bali
 LANGUAGES = id_ID
 AUTHOR = Putu Wiramaswara Widya <initrunlevel0@gmail.com>
 STATUS_PROMPT = Bali
+SYMBOL = ᬩ
 KEYBOARD_LAYOUT = US
 VALID_INPUT_CHARS = -,.0123456789ABCDEGHIJKLMNOPRSTUWXYZabcdefghijklmnoprstuwxyz)+/*\<>
 ### KEY_END_CHARS =

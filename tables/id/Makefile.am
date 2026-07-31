@@ -23,12 +23,12 @@ scim_tables_source	= Bali.txt.in\
 			Lontara.txt.in \
 			Rejang.txt.in \
 			Sundanese.txt.in
-scim_tables		= Bali.txt.in\
-			Batak.txt.in\
-			Javanese.txt.in\
-			Lontara.txt.in \
-			Rejang.txt.in \
-			Sundanese.txt.in
+scim_tables		= Bali.txt\
+			Batak.txt\
+			Javanese.txt\
+			Lontara.txt \
+			Rejang.txt \
+			Sundanese.txt
 
 scim_tables_bindir = $(SCIM_TABLEDIR)
 scim_tables_bin_DATA	= Bali.bin\

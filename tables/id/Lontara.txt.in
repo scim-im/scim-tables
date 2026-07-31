@@ -4,11 +4,12 @@ VERSION_1_0
 BEGIN_DEFINITION
 UUID = ae5862ea-3fce-421c-8101-eff93c187b57
 SERIAL_NUMBER = 20080101
-ICON = /usr/share/scim/icons/Buginese.png
+ICON = @SCIM_ICONDIR@/Buginese.png
 NAME = Buginese
 LANGUAGES = id_ID
 AUTHOR = Mohammad DAMT <mdamt@mnots.eu>
 STATUS_PROMPT = Bug
+SYMBOL = ᨕ
 KEYBOARD_LAYOUT = US
 VALID_INPUT_CHARS = -.0123456789ABCDEGHIJKLMNOPRSTUWXYabcdeghijklmnoprstuwxy
 ### KEY_END_CHARS =

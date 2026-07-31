@@ -4,11 +4,12 @@ VERSION_1_0
 BEGIN_DEFINITION
 UUID = 8619f6f5-be50-4504-a7fc-bc5d0b45a7df
 SERIAL_NUMBER = 20100504
-ICON = /usr/share/scim/icons/su-phonetic.png
+ICON = @SCIM_ICONDIR@/Sundanese.png
 NAME = Sundanese
 LANGUAGES = id_ID
 AUTHOR = Yulian Firdaus Hendriyana 
 STATUS_PROMPT = SU
+SYMBOL = ᮞᮥ
 KEYBOARD_LAYOUT = US
 VALID_INPUT_CHARS = -,.0123456789ABCDEGHIJKLMNOPRSTUWXYZabcdefghijklmnoprstuwxyz)+/*\<>
 ### KEY_END_CHARS =

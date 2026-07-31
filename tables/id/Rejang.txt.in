@@ -4,11 +4,12 @@ VERSION_1_0
 BEGIN_DEFINITION
 UUID = beae4879-2ffe-4859-a899-40f6feed2423
 SERIAL_NUMBER = 20110130
-ICON = /usr/share/scim/icons/Rejang.png
+ICON = @SCIM_ICONDIR@/Rejang.png
 NAME = Rejang
 LANGUAGES = id_ID
 AUTHOR = Ari Effendi <zerosix06@gmail.com>
 STATUS_PROMPT = Rejang
+SYMBOL = ꤺꥅ
 KEYBOARD_LAYOUT = US
 VALID_INPUT_CHARS = -,.0123456789ABCDEGHIJKLMNOPRSTUWXYZabcdefghijklmnoprstuwxyz)+/*\<>
 ### KEY_END_CHARS =

@@ -153,6 +153,13 @@ AC_CONFIG_FILES([Makefile
 		 tables/hi/Hindi-phonetic.txt
 		 tables/hi/Hindi-remington.txt
 		 tables/hi/Makefile
+		 tables/id/Bali.txt
+		 tables/id/Batak.txt
+		 tables/id/Javanese.txt
+		 tables/id/Lontara.txt
+		 tables/id/Makefile
+		 tables/id/Rejang.txt
+		 tables/id/Sundanese.txt
 		 tables/ja/HIRAGANA.txt
 		 tables/ja/KATAKANA.txt
 		 tables/ja/Makefile

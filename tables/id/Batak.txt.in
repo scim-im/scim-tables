@@ -4,11 +4,12 @@ VERSION_1_0
 BEGIN_DEFINITION
 UUID = 08114754-a6f2-4f5d-bf3f-7c5b06094adc
 SERIAL_NUMBER = 20090510
-ICON = /usr/share/scim/icons/BatakToba.png
+ICON = @SCIM_ICONDIR@/Batak.png
 NAME = Batak Toba
 LANGUAGES = id_ID
 AUTHOR = Mohammad DAMT <mdamt@mnots.eu>
 STATUS_PROMPT = Btk
+SYMBOL = ᯒ
 KEYBOARD_LAYOUT = US
 VALID_INPUT_CHARS = -.0123456789ABCDEGHIJKLMNOPRSTUWXYZabcdeghijklmnoprstuwxyz)+/*=
 ### KEY_END_CHARS =
